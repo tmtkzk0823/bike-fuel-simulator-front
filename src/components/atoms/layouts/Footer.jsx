@@ -13,7 +13,7 @@ export const Footer = () => {
 }
 
 const SFooter = styled('div')`
-  background-color: #00CC33;
+  background-color: #FFFFDD;
   color: #444444;
   padding: 4px 0;
   position: fixed;
