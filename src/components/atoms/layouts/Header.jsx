@@ -37,6 +37,6 @@ export const Header =() => {
 
   const SToolBar = styled(Toolbar)`
     padding: 16px;
-    background-color: #00CC33;
+    background-color: #FFFFDD;
     color: #444444
   `;
