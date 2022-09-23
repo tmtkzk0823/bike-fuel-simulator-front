@@ -16,7 +16,6 @@ const SFooter = styled('div')`
   background-color: #FFFFDD;
   color: #444444;
   padding: 4px 0;
-  position: fixed;
   bottom: 0;
   width: 100%;
   display: flex;
