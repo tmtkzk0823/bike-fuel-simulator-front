@@ -1,11 +1,11 @@
 // @react-google-map/api
-import { GoogleMap, LoadScript, Marker, Autocomplete, DirectionsRenderer, useJsApiLoader } from '@react-google-maps/api';
+import { GoogleMap, Marker, Autocomplete, DirectionsRenderer, useJsApiLoader } from '@react-google-maps/api';
 
 //react
 import { useRef, useState } from 'react';
 
 // MUI
-import { Skeleton, Box, Stack, ButtonGroup, Button, IconButton, Icon, Typography, Input  } from '@mui/material';
+import { Skeleton, Box, Stack, ButtonGroup, Button, IconButton, Typography, Input  } from '@mui/material';
 import { Alarm } from '@mui/icons-material';
 
 const center = {
@@ -26,7 +26,7 @@ export const GoogleMapDisplay = () => {
     libraries: ['places'],
   });
 
-  const [map, setMap] = useState(/**@type google.maps.Map */(null));
+  const [map, setMap] = useState(/** @type google.maps.Map */ (null));
   const [directionsResponse, setDirectionsResponse ] = useState(null);
   const [distance, setDistance] = useState('');  // 出発地点のstate
   const [duration, setDuration] = useState('');  // 到着地点のstate
@@ -53,17 +53,17 @@ export const GoogleMapDisplay = () => {
       return // 出発地点か到着地点が空文字だったら return する
     }
     // eslint-disable-next-line no-undef
-    const directionService = new google.maps.DirectionService();
+    const directionsService = new google.maps.DirectionsService();
     
-    const results = await directionService.route({
+    const results = await directionsService.route({
       origin: originRef.current.value, // 出発地点に入力された値を取ってくる
       destination: destinationRef.current.value, // 到着地点に入力された値を取ってくる
       travelMode: google.maps.TravelMode.DRIVING,
     });
     
     setDirectionsResponse(results);
-    setDistance(results.route[0].legs[0].distance.text);
-    setDuration(results.route[0].legs[0].duration.text);
+    setDistance(results.routes[0].legs[0].distance.text);
+    setDuration(results.routes[0].legs[0].duration.text);
   }
 
   // stateを初期化する処理
@@ -105,46 +105,52 @@ export const GoogleMapDisplay = () => {
         }}
         onLoad = { map => setMap(map) } 
         >
+
           <Marker position={center}/>
           {directionsResponse && (
             <DirectionsRenderer directions={directionsResponse} />
           )}
         </GoogleMap>
       </Box>
+      
       <Box sx={{
+        boxShadow: 1,
         p: 4,
         borderRadius: 'lg',
         // m: 4,
-        bgColor: 'white',
-        shadow: 'base',
-        // minWidth: 'container.md',
+        bgcolor: 'text.primary',
+        width: '50%',
         zIndex: 1,
       }}
       >
-      <Stack
-        direction="row"
-        spacing={2}
-        justifyContent='space-between'
-        >
-          <Box sx={{ flexGrow: 1 }}>
-            <Autocomplete>
-              <Input type='text' placeholder='出発地点' ref={originRef} />
-            </Autocomplete>
-          </Box>
+        <Stack
+          direction="row"
+          spacing={2}
+          justifyContent='space-between'
+          >
+            <Box sx={{ flexGrow: 1 }}>
+              <Autocomplete>
+                <Input type='text' placeholder='出発地点' inputRef={originRef} />
+              </Autocomplete>
+            </Box>
 
-          <Box sx={{ flexGrow: 1 }}>
-            <Autocomplete>
-              <Input type='text' placeholder='目的地' ref={destinationRef} />
-            </Autocomplete>
-          </Box>
-          <ButtonGroup>
-            <Button color="primary" type='submit' onClick={calculateRoute}>
-              ルート検索
-            </Button>
-            <IconButton aria-label='center back' onClick={ clearRoute }>
-              <Alarm />
-            </IconButton>
-          </ButtonGroup>
+            <Box sx={{ flexGrow: 1 }}>
+              <Autocomplete>
+                <Input type='text' placeholder='目的地' inputRef={destinationRef} />
+              </Autocomplete>
+            </Box>
+
+            <Box>
+              <ButtonGroup>
+                <Button color='primary' type='submit' onClick={calculateRoute}>
+                  ルート検索
+                </Button>
+                <br />
+                <IconButton aria-label='center back' onClick={ clearRoute }>
+                  <Alarm />
+                </IconButton>
+              </ButtonGroup>
+            </Box>
         </Stack>
         
         <Stack 
@@ -159,15 +165,6 @@ export const GoogleMapDisplay = () => {
       
       </Box>
       </Box>
-
-    // <LoadScript googleMapsApiKey={ apiKey }>
-    //   <GoogleMap
-    //   
-    //   center={center}
-    //   zoom={14}
-    //   >
-    //   </GoogleMap>
-    // </LoadScript>
   )
 }
 
