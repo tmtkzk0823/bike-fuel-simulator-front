@@ -6,7 +6,7 @@ import { useRef, useState } from 'react';
 
 // MUI
 import { Skeleton, Box, Stack, ButtonGroup, Button, IconButton, Typography, Input  } from '@mui/material';
-import { Alarm } from '@mui/icons-material';
+import { Alarm, AccountBox } from '@mui/icons-material';
 
 const center = {
   lat: 36.3515406,
@@ -75,6 +75,35 @@ export const GoogleMapDisplay = () => {
     destinationRef.current.value = ''
   }
 
+  const getCurrentLocation = () => {
+
+    const infoWindow = new google.maps.InfoWindow();
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+          map.setCenter(pos);
+          new google.maps.Marker({
+            position: pos,
+            title: '現在地',
+            map: map //　表示するmapを指定しなければならない
+          })
+          
+        },
+        () => {
+          handleLocationError(true, infoWindow, map.getCenter());
+        }
+      );
+    } else {
+      // Browser doesn't support Geolocation
+      handleLocationError(false, infoWindow, map.getCenter());
+    }
+  }
+
 
   return(
 
@@ -95,7 +124,7 @@ export const GoogleMapDisplay = () => {
         {/* Google Map Box */}
         <GoogleMap
         center = {center}
-        zoom = {15}
+        zoom = {6}
         mapContainerStyle = {containerStyle}
         options={{
           zoomControl: false,
@@ -106,7 +135,6 @@ export const GoogleMapDisplay = () => {
         onLoad = { map => setMap(map) } 
         >
 
-          <Marker position={center}/>
           {directionsResponse && (
             <DirectionsRenderer directions={directionsResponse} />
           )}
@@ -148,6 +176,9 @@ export const GoogleMapDisplay = () => {
                 <br />
                 <IconButton aria-label='center back' onClick={ clearRoute }>
                   <Alarm />
+                </IconButton>
+                <IconButton onClick={ getCurrentLocation }>
+                  <AccountBox/>
                 </IconButton>
               </ButtonGroup>
             </Box>
