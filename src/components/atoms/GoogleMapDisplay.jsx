@@ -1,5 +1,5 @@
 // @react-google-map/api
-import { GoogleMap, Marker, Autocomplete, DirectionsRenderer, useJsApiLoader } from '@react-google-maps/api';
+import { GoogleMap, Marker, Autocomplete, DirectionsRenderer, useJsApiLoader, Circle } from '@react-google-maps/api';
 
 //react
 import { useRef, useState } from 'react';
@@ -30,6 +30,7 @@ export const GoogleMapDisplay = () => {
   const [directionsResponse, setDirectionsResponse ] = useState(null);
   const [distance, setDistance] = useState('');  // 出発地点のstate
   const [duration, setDuration] = useState('');  // 到着地点のstate
+  const [currentLocation, setCurrentLocation] = useState(false)
 
   /**@type React.MutableRefObject<HTMLInputElement> */
   const originRef = useRef(); //出発地点
@@ -86,12 +87,14 @@ export const GoogleMapDisplay = () => {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           };
+          window.pos = pos
           map.setCenter(pos);
           new google.maps.Marker({
             position: pos,
             title: '現在地',
             map: map //　表示するmapを指定しなければならない
           })
+          setCurrentLocation(true);
           
         },
         () => {
@@ -134,6 +137,10 @@ export const GoogleMapDisplay = () => {
         }}
         onLoad = { map => setMap(map) } 
         >
+          {
+          currentLocation &&
+          <Circle center={pos} radius={400000}/> 
+          }
 
           {directionsResponse && (
             <DirectionsRenderer directions={directionsResponse} />
@@ -177,7 +184,7 @@ export const GoogleMapDisplay = () => {
                 <IconButton aria-label='center back' onClick={ clearRoute }>
                   <Alarm />
                 </IconButton>
-                <IconButton onClick={ getCurrentLocation }>
+                <IconButton onClick={getCurrentLocation}>
                   <AccountBox/>
                 </IconButton>
               </ButtonGroup>
