@@ -6,7 +6,8 @@ import { useRef, useState } from 'react';
 
 // MUI
 import { Skeleton, Box, Stack, ButtonGroup, Button, IconButton, Typography, Input  } from '@mui/material';
-import { Alarm, AccountBox } from '@mui/icons-material';
+import { Alarm, AccountBox, Mp, } from '@mui/icons-material';
+import { styled } from '@mui/material/styles'
 
 const center = {
   lat: 36.3515406,
@@ -134,12 +135,16 @@ export const GoogleMapDisplay = () => {
           streetViewControl: false,
           mapTypeControl: false,
           fullscreenControl: false,
+          draggableCursor: 'pointer',
         }}
         onLoad = { map => setMap(map) } 
+        onClick = { () => setCurrentLocation(false) }
         >
+          
           {
+            // 現在地のメソッドが呼ばれたらサークルを作る
           currentLocation &&
-          <Circle center={pos} radius={400000}/> 
+          <Circle center={pos} radius={200000}/> 
           }
 
           {directionsResponse && (
