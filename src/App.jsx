@@ -1,13 +1,5 @@
-import { Header } from './components/atoms/layouts/Header'
-import { Footer } from './components/atoms/layouts/Footer'
-import { GoogleMapDisplay } from './components/atoms/GoogleMapDisplay'
+import { Router } from '@/router/Router'
 
 export const App = () => {
-  return (
-    <>
-      <Header/>
-      <GoogleMapDisplay/>
-      <Footer/>
-    </>
-  )
+  return <Router />
 }
