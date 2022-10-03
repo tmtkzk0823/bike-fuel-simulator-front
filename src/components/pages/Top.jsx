@@ -1,5 +1,3 @@
-// @react-google-map/api
-import { Autocomplete } from '@react-google-maps/api'
 import { GoogleMap } from '@/components/elements/google'
 // MUI
 import {
@@ -9,12 +7,12 @@ import {
   ButtonGroup,
   IconButton,
   Typography,
-  Input,
 } from '@mui/material'
 import { Alarm, AccountBox } from '@mui/icons-material'
 // components
 import { useGoogleMap } from '@/hooks/useGoogleMap'
 import { RouteSearchButton } from '@/components/elements/Buttons'
+import { RouteSearchInput } from '@/components/elements/Inputs'
 
 export const Top = () => {
   const {
@@ -82,19 +80,19 @@ export const Top = () => {
       >
         <Stack direction="row" spacing={2} justifyContent="space-between">
           <Box sx={{ flexGrow: 1 }}>
-            <Autocomplete>
-              <Input type="text" placeholder="出発地点" inputRef={originRef} />
-            </Autocomplete>
+            <RouteSearchInput
+              type={'text'}
+              placeholder={'出発地点'}
+              inputRef={originRef}
+            />
           </Box>
 
           <Box sx={{ flexGrow: 1 }}>
-            <Autocomplete>
-              <Input
-                type="text"
-                placeholder="目的地"
-                inputRef={destinationRef}
-              />
-            </Autocomplete>
+            <RouteSearchInput
+              type={'text'}
+              placeholder={'目的地'}
+              inputRef={destinationRef}
+            />
           </Box>
 
           <Box>
