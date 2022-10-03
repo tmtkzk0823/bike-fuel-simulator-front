@@ -18,7 +18,6 @@ import { useGoogleMap } from '@/hooks/useGoogleMap'
 export const Top = () => {
   const {
     isLoaded,
-    setMap,
     setCurrentLocation,
     currentLocation,
     directionsResponse,
@@ -29,6 +28,7 @@ export const Top = () => {
     getCurrentLocation,
     duration,
     distance,
+    onLoadSetMap,
   } = useGoogleMap()
 
   if (!isLoaded) {
@@ -62,7 +62,7 @@ export const Top = () => {
       >
         <GoogleMap
           pos={window.pos}
-          setMap={setMap}
+          onLoadSetMap={onLoadSetMap}
           onClick={() => setCurrentLocation(false)}
           currentLocation={currentLocation}
           directionsResponse={directionsResponse}

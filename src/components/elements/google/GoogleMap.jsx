@@ -15,7 +15,8 @@ const containerStyle = {
 }
 
 export const GoogleMap = (props) => {
-  const { pos, setMap, onClick, currentLocation, directionsResponse } = props
+  const { pos, onLoadSetMap, onClick, currentLocation, directionsResponse } =
+    props
 
   return (
     <BaseGoogleMap
@@ -29,7 +30,7 @@ export const GoogleMap = (props) => {
         fullscreenControl: false,
         draggableCursor: 'pointer',
       }}
-      onLoad={(map) => setMap(map)}
+      onLoad={(map) => onLoadSetMap(map)}
       onClick={onClick}
     >
       {

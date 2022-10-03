@@ -44,6 +44,8 @@ export const useGoogleMap = () => {
     destinationRef.current.value = ''
   }, [])
 
+  const onLoadSetMap = useCallback((data) => setMap(data), [])
+
   const getCurrentLocation = useCallback(() => {
     const infoWindow = new google.maps.InfoWindow()
 
@@ -54,12 +56,13 @@ export const useGoogleMap = () => {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           }
+
           window.pos = pos
           map.setCenter(pos)
           new google.maps.Marker({
             position: pos,
             title: '現在地',
-            map: map, //　表示するmapを指定しなければならない
+            map: map, // 表示するmapを指定しなければならない
           })
 
           setCurrentLocation(true)
@@ -77,11 +80,10 @@ export const useGoogleMap = () => {
       // Browser doesn't support Geolocation
       // handleLocationError(false, infoWindow, map.getCenter())
     }
-  }, [])
+  }, [map, navigator])
 
   return {
     isLoaded,
-    setMap,
     setCurrentLocation,
     currentLocation,
     directionsResponse,
@@ -92,5 +94,6 @@ export const useGoogleMap = () => {
     getCurrentLocation,
     duration,
     distance,
+    onLoadSetMap,
   }
 }
