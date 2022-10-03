@@ -7,13 +7,14 @@ import {
   Box,
   Stack,
   ButtonGroup,
-  Button,
   IconButton,
   Typography,
   Input,
 } from '@mui/material'
 import { Alarm, AccountBox } from '@mui/icons-material'
+// components
 import { useGoogleMap } from '@/hooks/useGoogleMap'
+import { RouteSearchButton } from '@/components/elements/Buttons'
 
 export const Top = () => {
   const {
@@ -98,9 +99,12 @@ export const Top = () => {
 
           <Box>
             <ButtonGroup>
-              <Button color="primary" type="submit" onClick={calculateRoute}>
-                ルート検索
-              </Button>
+              <RouteSearchButton
+                color={'primary'}
+                type={'submit'}
+                onClick={calculateRoute}
+                buttonName={'ルート検索'}
+              />
               <br />
               <IconButton aria-label="center back" onClick={clearRoute}>
                 <Alarm />
