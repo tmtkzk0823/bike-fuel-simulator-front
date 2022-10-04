@@ -1,3 +1,4 @@
+import { useGoogleMap } from '@/hooks/useGoogleMap'
 import {
   GoogleMap as BaseGoogleMap,
   Circle,
@@ -18,6 +19,8 @@ export const GoogleMap = (props) => {
   const { pos, onLoadSetMap, onClick, currentLocation, directionsResponse } =
     props
 
+  const { decideDestinationCircleCenter } = useGoogleMap()
+
   return (
     <BaseGoogleMap
       center={center}
@@ -35,7 +38,13 @@ export const GoogleMap = (props) => {
     >
       {
         // 現在地のメソッドが呼ばれたらサークルを作る
-        currentLocation && <Circle center={pos} radius={200000} />
+        currentLocation && (
+          <Circle
+            center={pos}
+            radius={200000}
+            onClick={decideDestinationCircleCenter}
+          />
+        )
       }
 
       {directionsResponse && (

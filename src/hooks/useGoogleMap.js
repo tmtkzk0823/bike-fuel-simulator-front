@@ -46,6 +46,14 @@ export const useGoogleMap = () => {
 
   const onLoadSetMap = useCallback((data) => setMap(data), [])
 
+  const decideDestinationCircleCenter = (event) => {
+    //クリックした位置の座標を取得
+    var click_latlng = event.latLng
+    // consoleに出力
+    console.log(click_latlng.lat())
+    console.log(click_latlng.lng())
+  }
+
   const getCurrentLocation = useCallback(() => {
     const infoWindow = new google.maps.InfoWindow()
 
@@ -95,5 +103,6 @@ export const useGoogleMap = () => {
     duration,
     distance,
     onLoadSetMap,
+    decideDestinationCircleCenter,
   }
 }
