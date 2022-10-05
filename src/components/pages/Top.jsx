@@ -28,6 +28,8 @@ export const Top = () => {
     duration,
     distance,
     onLoadSetMap,
+    decideDestinationCircleCenter,
+    marker,
   } = useGoogleMap()
 
   if (!isLoaded) {
@@ -65,6 +67,9 @@ export const Top = () => {
           onClick={() => setCurrentLocation(false)}
           currentLocation={currentLocation}
           directionsResponse={directionsResponse}
+          onClickCircle={decideDestinationCircleCenter}
+          marker={marker}
+          // setCurrentLocation={setCurrentLocation}
         />
       </Box>
 

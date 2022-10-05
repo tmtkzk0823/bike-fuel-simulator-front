@@ -7,6 +7,7 @@ export const useGoogleMap = () => {
   const [directionsResponse, setDirectionsResponse] = useState(null)
   const [distance, setDistance] = useState('') // 出発地点のstate
   const [duration, setDuration] = useState('') // 到着地点のstate
+  const [marker, setMarker] = useState({})
   const originRef = useRef() //出発地点
   const destinationRef = useRef() // 行き先
 
@@ -48,14 +49,18 @@ export const useGoogleMap = () => {
 
   const decideDestinationCircleCenter = (event) => {
     //クリックした位置の座標を取得
-    var click_latlng = event.latLng
-    // consoleに出力
-    console.log(click_latlng.lat())
-    console.log(click_latlng.lng())
+    setMarker({
+      position: {
+        lat: event.latLng.lat(),
+        lng: event.latLng.lng(),
+      },
+      icon: 'https://maps.google.com/mapfiles/ms/icons/green-dot.png',
+    })
+    setCurrentLocation(false)
   }
 
   const getCurrentLocation = useCallback(() => {
-    const infoWindow = new google.maps.InfoWindow()
+    // const infoWindow = new google.maps.InfoWindow()
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -64,15 +69,14 @@ export const useGoogleMap = () => {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           }
-
+          setMarker({
+            position: {
+              lat: pos.lat,
+              lng: pos.lng,
+            },
+          })
           window.pos = pos
           map.setCenter(pos)
-          new google.maps.Marker({
-            position: pos,
-            title: '現在地',
-            map: map, // 表示するmapを指定しなければならない
-          })
-
           setCurrentLocation(true)
         }
 
@@ -104,5 +108,6 @@ export const useGoogleMap = () => {
     distance,
     onLoadSetMap,
     decideDestinationCircleCenter,
+    marker,
   }
 }

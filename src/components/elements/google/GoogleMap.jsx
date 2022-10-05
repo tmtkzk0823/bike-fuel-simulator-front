@@ -3,6 +3,7 @@ import {
   GoogleMap as BaseGoogleMap,
   Circle,
   DirectionsRenderer,
+  Marker,
 } from '@react-google-maps/api'
 
 const center = {
@@ -16,10 +17,16 @@ const containerStyle = {
 }
 
 export const GoogleMap = (props) => {
-  const { pos, onLoadSetMap, onClick, currentLocation, directionsResponse } =
-    props
-
-  const { decideDestinationCircleCenter } = useGoogleMap()
+  const {
+    pos,
+    onLoadSetMap,
+    onClick,
+    currentLocation,
+    directionsResponse,
+    onClickCircle,
+    setCurrentLocation,
+    marker,
+  } = props
 
   return (
     <BaseGoogleMap
@@ -39,17 +46,14 @@ export const GoogleMap = (props) => {
       {
         // 現在地のメソッドが呼ばれたらサークルを作る
         currentLocation && (
-          <Circle
-            center={pos}
-            radius={200000}
-            onClick={decideDestinationCircleCenter}
-          />
+          <Circle center={pos} radius={200000} onClick={onClickCircle} />
         )
       }
-
       {directionsResponse && (
         <DirectionsRenderer directions={directionsResponse} />
       )}
+
+      <Marker position={marker.position} icon={marker.icon} />
     </BaseGoogleMap>
   )
 }
