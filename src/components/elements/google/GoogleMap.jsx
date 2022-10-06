@@ -24,8 +24,10 @@ export const GoogleMap = (props) => {
     currentLocation,
     directionsResponse,
     onClickCircle,
-    setCurrentLocation,
-    marker,
+    originMarker,
+    destinationsCenterMarker,
+    destinationSearch,
+    placeInfo,
   } = props
 
   return (
@@ -53,7 +55,17 @@ export const GoogleMap = (props) => {
         <DirectionsRenderer directions={directionsResponse} />
       )}
 
-      <Marker position={marker.position} icon={marker.icon} />
+      <Marker position={originMarker.position} />
+      <Marker
+        position={destinationsCenterMarker.position}
+        icon={destinationsCenterMarker.icon}
+        onClick={destinationSearch}
+      />
+      {placeInfo.length
+        ? placeInfo.map((marker) => (
+            <Marker key={marker.formattedAddress} position={marker.position} />
+          ))
+        : null}
     </BaseGoogleMap>
   )
 }
