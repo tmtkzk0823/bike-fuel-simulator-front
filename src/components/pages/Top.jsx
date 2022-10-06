@@ -29,7 +29,10 @@ export const Top = () => {
     distance,
     onLoadSetMap,
     decideDestinationCircleCenter,
-    marker,
+    originMarker,
+    destinationsCenterMarker,
+    destinationSearch,
+    placeInfo,
   } = useGoogleMap()
 
   if (!isLoaded) {
@@ -68,8 +71,10 @@ export const Top = () => {
           currentLocation={currentLocation}
           directionsResponse={directionsResponse}
           onClickCircle={decideDestinationCircleCenter}
-          marker={marker}
-          // setCurrentLocation={setCurrentLocation}
+          originMarker={originMarker}
+          destinationsCenterMarker={destinationsCenterMarker}
+          destinationSearch={destinationSearch}
+          placeInfo={placeInfo}
         />
       </Box>
 

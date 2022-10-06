@@ -7,7 +7,9 @@ export const useGoogleMap = () => {
   const [directionsResponse, setDirectionsResponse] = useState(null)
   const [distance, setDistance] = useState('') // 出発地点のstate
   const [duration, setDuration] = useState('') // 到着地点のstate
-  const [marker, setMarker] = useState({})
+  const [originMarker, setOriginMarker] = useState({})
+  const [destinationsCenterMarker, setDestinationsCenterMarker] = useState({})
+  const [placeInfo, setPlaceInfo] = useState([])
   const originRef = useRef() //出発地点
   const destinationRef = useRef() // 行き先
 
@@ -47,18 +49,6 @@ export const useGoogleMap = () => {
 
   const onLoadSetMap = useCallback((data) => setMap(data), [])
 
-  const decideDestinationCircleCenter = (event) => {
-    //クリックした位置の座標を取得
-    setMarker({
-      position: {
-        lat: event.latLng.lat(),
-        lng: event.latLng.lng(),
-      },
-      icon: 'https://maps.google.com/mapfiles/ms/icons/green-dot.png',
-    })
-    setCurrentLocation(false)
-  }
-
   const getCurrentLocation = useCallback(() => {
     // const infoWindow = new google.maps.InfoWindow()
 
@@ -69,7 +59,7 @@ export const useGoogleMap = () => {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           }
-          setMarker({
+          setOriginMarker({
             position: {
               lat: pos.lat,
               lng: pos.lng,
@@ -94,6 +84,51 @@ export const useGoogleMap = () => {
     }
   }, [map, navigator])
 
+  const decideDestinationCircleCenter = (event) => {
+    //クリックした位置の座標を取得
+    setDestinationsCenterMarker({
+      position: {
+        lat: event.latLng.lat(),
+        lng: event.latLng.lng(),
+      },
+      icon: 'https://maps.google.com/mapfiles/ms/icons/green-dot.png',
+    })
+    setCurrentLocation(false)
+  }
+
+  const destinationSearch = () => {
+    const searchCenter = destinationsCenterMarker.position
+    const request = {
+      location: searchCenter,
+      radius: '50000',
+      query: '観光地',
+    }
+
+    const service = new google.maps.places.PlacesService(map)
+    service.textSearch(request, callback)
+  }
+
+  const callback = (results, status) => {
+    let markerInfo = []
+    if (status == google.maps.places.PlacesServiceStatus.OK) {
+      for (let i = 0; i < results.length; i++) {
+        markerInfo.push({
+          formattedAddress: results[i].formatted_address,
+          position: {
+            lat: results[i].geometry.location.lat(),
+            lng: results[i].geometry.location.lng(),
+          },
+          name: results[i].name,
+
+          // photo: results[i].photos[0].getUrl(),
+        })
+      }
+      console.log(markerInfo)
+      console.log(results[0])
+    }
+    setPlaceInfo(markerInfo)
+  }
+
   return {
     isLoaded,
     setCurrentLocation,
@@ -108,6 +143,9 @@ export const useGoogleMap = () => {
     distance,
     onLoadSetMap,
     decideDestinationCircleCenter,
-    marker,
+    originMarker,
+    destinationsCenterMarker,
+    destinationSearch,
+    placeInfo,
   }
 }
