@@ -2,18 +2,21 @@ import { useRef, useState, useCallback } from 'react'
 import { useJsApiLoader } from '@react-google-maps/api'
 
 export const useGoogleMap = () => {
+  // hooks
   const [map, setMap] = useState(null)
   const [currentLocation, setCurrentLocation] = useState(false)
   const [directionsResponse, setDirectionsResponse] = useState(null)
   const [distance, setDistance] = useState('') // 出発地点のstate
   const [duration, setDuration] = useState('') // 到着地点のstate
   const [originMarker, setOriginMarker] = useState({})
-  const [destinationsCenterMarker, setDestinationsCenterMarker] = useState({})
+  const [destinationsCenterMarker, setDestinationsCenterMarker] = useState({}) //目的地を探す際の半径の中心となる緯度経度
   const [markedPlaceList, setMarkedPlaceList] = useState([])
+  const [zoom, setZoom] = useState(6) //mapのzoom
+  const [destinationsSearchAction, setDestinationsSearchAction] =
+    useState(false)
   const originRef = useRef() //出発地点
   const destinationRef = useRef() // 行き先
 
-  const [markerInfoWindow, setMarkerInfoWindow] = useState(false)
   // isLoadedにapiKey等オブジェクトを格納
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
@@ -67,7 +70,8 @@ export const useGoogleMap = () => {
             },
           })
           window.pos = pos
-          map.setCenter(pos)
+          setZoom(9)
+          !originMarker && map.setCenter(pos)
           setCurrentLocation(true)
         }
 
@@ -86,6 +90,7 @@ export const useGoogleMap = () => {
   }, [map, navigator])
 
   const decideDestinationCircleCenter = (event) => {
+    setDestinationsSearchAction(true)
     //クリックした位置の座標を取得
     setDestinationsCenterMarker({
       position: {
@@ -94,11 +99,19 @@ export const useGoogleMap = () => {
       },
       icon: 'https://maps.google.com/mapfiles/ms/icons/green-dot.png',
     })
+    let destinationsCenterMarkerLatLng = {
+      lat: event.latLng.lat(),
+      lng: event.latLng.lng(),
+    }
     setCurrentLocation(false)
+
+    map.panTo(destinationsCenterMarkerLatLng)
+    setZoom(10)
   }
 
   // クリックしたマーカーをクリックした時に半径50km以内のマーカー情報を取得するメソッド
   const destinationSearch = () => {
+    setDestinationsSearchAction(false)
     const searchCenter = destinationsCenterMarker.position
     const request = {
       location: searchCenter,
@@ -123,7 +136,6 @@ export const useGoogleMap = () => {
           name: result.name,
         }
       })
-
       setMarkedPlaceList(formatResult)
     })
   }
@@ -146,6 +158,9 @@ export const useGoogleMap = () => {
     destinationsCenterMarker,
     destinationSearch,
     markedPlaceList,
-    markerInfoWindow,
+    zoom,
+    destinationSearch,
+    setDestinationsCenterMarker,
+    destinationsSearchAction,
   }
 }
