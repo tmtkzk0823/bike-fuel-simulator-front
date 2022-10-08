@@ -68,7 +68,7 @@ export const Top = () => {
         <GoogleMap
           pos={window.pos}
           onLoadSetMap={onLoadSetMap}
-          onClick={() => setCurrentLocation(false)}
+          pearSetCurrentLocation={() => setCurrentLocation(false)}
           currentLocation={currentLocation}
           directionsResponse={directionsResponse}
           onClickCircle={decideDestinationCircleCenter}

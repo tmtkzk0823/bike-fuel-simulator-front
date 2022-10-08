@@ -24,7 +24,7 @@ export const GoogleMap = (props) => {
   const {
     pos,
     onLoadSetMap,
-    onClick,
+    pearSetCurrentLocation,
     currentLocation,
     directionsResponse,
     onClickCircle,
@@ -48,7 +48,7 @@ export const GoogleMap = (props) => {
           draggableCursor: 'pointer',
         }}
         onLoad={(map) => onLoadSetMap(map)}
-        onClick={onClick}
+        onClick={pearSetCurrentLocation}
       >
         {
           // 現在地のメソッドが呼ばれたらサークルを作る
