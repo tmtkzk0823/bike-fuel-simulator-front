@@ -33,7 +33,8 @@ export const Top = () => {
     destinationsCenterMarker,
     destinationSearch,
     markedPlaceList,
-    markerInfoWindow,
+    zoom,
+    destinationsSearchAction,
   } = useGoogleMap()
 
   if (!isLoaded) {
@@ -76,7 +77,8 @@ export const Top = () => {
           destinationsCenterMarker={destinationsCenterMarker}
           destinationSearch={destinationSearch}
           markedPlaceList={markedPlaceList}
-          markerInfoWindow={markerInfoWindow}
+          zoom={zoom}
+          destinationsSearchAction={destinationsSearchAction}
         />
       </Box>
 

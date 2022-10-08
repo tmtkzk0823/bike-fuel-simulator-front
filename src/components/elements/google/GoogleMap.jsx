@@ -1,4 +1,7 @@
 import { useState } from 'react'
+// MUI
+import { Button } from '@mui/material'
+// ライブラリ
 import {
   GoogleMap as BaseGoogleMap,
   Circle,
@@ -32,13 +35,15 @@ export const GoogleMap = (props) => {
     destinationsCenterMarker,
     destinationSearch,
     markedPlaceList,
+    zoom,
+    destinationsSearchAction,
   } = props
 
   return (
     <>
       <BaseGoogleMap
         center={center}
-        zoom={6}
+        zoom={zoom}
         mapContainerStyle={containerStyle}
         options={{
           zoomControl: false,
@@ -67,8 +72,15 @@ export const GoogleMap = (props) => {
         <Marker
           position={destinationsCenterMarker.position}
           icon={destinationsCenterMarker.icon}
-          onClick={destinationSearch}
-        />
+        >
+          {destinationsSearchAction && (
+            <InfoWindow>
+              <div>
+                <Button onClick={destinationSearch}>ここにする</Button>
+              </div>
+            </InfoWindow>
+          )}
+        </Marker>
 
         {/* 半径50km以内の観光地のマーカー情報 */}
         {markedPlaceList.length &&
