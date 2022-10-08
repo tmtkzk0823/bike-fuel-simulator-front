@@ -9,10 +9,11 @@ export const useGoogleMap = () => {
   const [duration, setDuration] = useState('') // 到着地点のstate
   const [originMarker, setOriginMarker] = useState({})
   const [destinationsCenterMarker, setDestinationsCenterMarker] = useState({})
-  const [placeInfo, setPlaceInfo] = useState([])
+  const [markedPlaceList, setMarkedPlaceList] = useState([])
   const originRef = useRef() //出発地点
   const destinationRef = useRef() // 行き先
 
+  const [markerInfoWindow, setMarkerInfoWindow] = useState(false)
   // isLoadedにapiKey等オブジェクトを格納
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
@@ -96,6 +97,7 @@ export const useGoogleMap = () => {
     setCurrentLocation(false)
   }
 
+  // クリックしたマーカーをクリックした時に半径50km以内のマーカー情報を取得するメソッド
   const destinationSearch = () => {
     const searchCenter = destinationsCenterMarker.position
     const request = {
@@ -105,28 +107,25 @@ export const useGoogleMap = () => {
     }
 
     const service = new google.maps.places.PlacesService(map)
-    service.textSearch(request, callback)
-  }
 
-  const callback = (results, status) => {
-    let markerInfo = []
-    if (status == google.maps.places.PlacesServiceStatus.OK) {
-      for (let i = 0; i < results.length; i++) {
-        markerInfo.push({
-          formattedAddress: results[i].formatted_address,
+    // 半径50km以内の観光地情報を取得し、コールバック関数に渡している
+    service.textSearch(request, (results, status) => {
+      if (status !== google.maps.places.PlacesServiceStatus.OK) return
+
+      const formatResult = results.map((result) => {
+        return {
+          placeId: result.place_id,
+          formattedAddress: result.formatted_address,
           position: {
-            lat: results[i].geometry.location.lat(),
-            lng: results[i].geometry.location.lng(),
+            lat: result.geometry.location.lat(),
+            lng: result.geometry.location.lng(),
           },
-          name: results[i].name,
+          name: result.name,
+        }
+      })
 
-          // photo: results[i].photos[0].getUrl(),
-        })
-      }
-      console.log(markerInfo)
-      console.log(results[0])
-    }
-    setPlaceInfo(markerInfo)
+      setMarkedPlaceList(formatResult)
+    })
   }
 
   return {
@@ -146,6 +145,7 @@ export const useGoogleMap = () => {
     originMarker,
     destinationsCenterMarker,
     destinationSearch,
-    placeInfo,
+    markedPlaceList,
+    markerInfoWindow,
   }
 }
