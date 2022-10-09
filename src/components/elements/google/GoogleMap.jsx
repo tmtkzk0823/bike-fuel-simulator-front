@@ -1,6 +1,6 @@
 import { useState } from 'react'
 // MUI
-import { Button } from '@mui/material'
+import { Button, Box } from '@mui/material'
 // ライブラリ
 import {
   GoogleMap as BaseGoogleMap,
@@ -76,7 +76,9 @@ export const GoogleMap = (props) => {
           {destinationsSearchAction && (
             <InfoWindow>
               <div>
-                <Button onClick={destinationSearch}>ここにする</Button>
+                <Button onClick={destinationSearch}>
+                  この地点をを中心に探す
+                </Button>
               </div>
             </InfoWindow>
           )}
@@ -94,7 +96,15 @@ export const GoogleMap = (props) => {
                 <InfoWindow
                   onCloseClick={() => setMouseOveredMarkerPlaceId(undefined)}
                 >
-                  <div>{marker.name}</div>
+                  <Box sx={{ textAlign: 'center' }}>
+                    <Box>
+                      {<img src={marker.photo} width={200} hight={300} />}
+                    </Box>
+                    <Box>{marker.name}</Box>
+                    <Button color="success" variant="outlined">
+                      目的地に設定
+                    </Button>
+                  </Box>
                 </InfoWindow>
               )}
             </Marker>
