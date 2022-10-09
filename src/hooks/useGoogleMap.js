@@ -116,7 +116,7 @@ export const useGoogleMap = () => {
     const request = {
       location: searchCenter,
       radius: '50000',
-      query: '観光地',
+      type: ['tourist_attraction'],
     }
 
     const service = new google.maps.places.PlacesService(map)
@@ -134,8 +134,10 @@ export const useGoogleMap = () => {
             lng: result.geometry.location.lng(),
           },
           name: result.name,
+          photo: result.photos[0].getUrl(),
         }
       })
+      console.log(results) // オブジェクト確認用（最後に消す）
       setMarkedPlaceList(formatResult)
     })
   }

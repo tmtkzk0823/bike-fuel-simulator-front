@@ -5,10 +5,10 @@ import {
   Box,
   Stack,
   ButtonGroup,
-  IconButton,
+  Button,
   Typography,
 } from '@mui/material'
-import { Alarm, AccountBox } from '@mui/icons-material'
+
 // components
 import { useGoogleMap } from '@/hooks/useGoogleMap'
 import { RouteSearchButton } from '@/components/elements/Buttons'
@@ -118,12 +118,10 @@ export const Top = () => {
                 buttonName={'ルート検索'}
               />
               <br />
-              <IconButton aria-label="center back" onClick={clearRoute}>
-                <Alarm />
-              </IconButton>
-              <IconButton onClick={getCurrentLocation}>
-                <AccountBox />
-              </IconButton>
+              <Button aria-label="center back" onClick={clearRoute}>
+                ルート削除
+              </Button>
+              <Button onClick={getCurrentLocation}>現在地を取得する</Button>
             </ButtonGroup>
           </Box>
         </Stack>
