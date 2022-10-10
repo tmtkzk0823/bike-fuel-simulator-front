@@ -35,6 +35,10 @@ export const Top = () => {
     markedPlaceList,
     zoom,
     destinationsSearchAction,
+    mouseOveredMarkerPlaceId,
+    setMouseOveredMarkerPlaceId,
+    setDestinationsLatLng,
+    destinationsLatLng,
   } = useGoogleMap()
 
   if (!isLoaded) {
@@ -79,6 +83,10 @@ export const Top = () => {
           markedPlaceList={markedPlaceList}
           zoom={zoom}
           destinationsSearchAction={destinationsSearchAction}
+          mouseOveredMarkerPlaceId={mouseOveredMarkerPlaceId}
+          setMouseOveredMarkerPlaceId={setMouseOveredMarkerPlaceId}
+          setDestinationsLatLng={setDestinationsLatLng}
+          calculateRoute={calculateRoute}
         />
       </Box>
 
@@ -93,31 +101,8 @@ export const Top = () => {
         }}
       >
         <Stack direction="row" spacing={2} justifyContent="space-between">
-          <Box sx={{ flexGrow: 1 }}>
-            <RouteSearchInput
-              type={'text'}
-              placeholder={'出発地点'}
-              inputRef={originRef}
-            />
-          </Box>
-
-          <Box sx={{ flexGrow: 1 }}>
-            <RouteSearchInput
-              type={'text'}
-              placeholder={'目的地'}
-              inputRef={destinationRef}
-            />
-          </Box>
-
           <Box>
             <ButtonGroup>
-              <RouteSearchButton
-                color={'primary'}
-                type={'submit'}
-                onClick={calculateRoute}
-                buttonName={'ルート検索'}
-              />
-              <br />
               <Button aria-label="center back" onClick={clearRoute}>
                 ルート削除
               </Button>

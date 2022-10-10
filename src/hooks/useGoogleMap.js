@@ -1,21 +1,22 @@
-import { useRef, useState, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import { useJsApiLoader } from '@react-google-maps/api'
 
 export const useGoogleMap = () => {
   // hooks
   const [map, setMap] = useState(null)
-  const [currentLocation, setCurrentLocation] = useState(false)
+  const [currentLocation, setCurrentLocation] = useState(false) // 現在地のマーカーが立っているか判断する
   const [directionsResponse, setDirectionsResponse] = useState(null)
   const [distance, setDistance] = useState('') // 出発地点のstate
   const [duration, setDuration] = useState('') // 到着地点のstate
-  const [originMarker, setOriginMarker] = useState({})
+  const [originMarker, setOriginMarker] = useState({}) // 現在地の緯度経度を保持するstate
   const [destinationsCenterMarker, setDestinationsCenterMarker] = useState({}) //目的地を探す際の半径の中心となる緯度経度
-  const [markedPlaceList, setMarkedPlaceList] = useState([])
+  const [markedPlaceList, setMarkedPlaceList] = useState([]) // APIのレスポンスで返ってきた値をカスタムして配列で保持する
+  const [destinationsLatLng, setDestinationsLatLng] = useState({}) // 目的地の緯度経度
   const [zoom, setZoom] = useState(6) //mapのzoom
+  const [mouseOveredMarkerPlaceId, setMouseOveredMarkerPlaceId] =
+    useState(undefined) // 目的地オブジェクトに格納してある一意のIDを保持
   const [destinationsSearchAction, setDestinationsSearchAction] =
     useState(false)
-  const originRef = useRef() //出発地点
-  const destinationRef = useRef() // 行き先
 
   // isLoadedにapiKey等オブジェクトを格納
   const { isLoaded } = useJsApiLoader({
@@ -25,22 +26,33 @@ export const useGoogleMap = () => {
 
   //ルート計算
   const calculateRoute = useCallback(async () => {
-    if (originRef.current.value === '' || destinationRef.current.value === '') {
-      return // 出発地点か到着地点が空文字だったら return する
-    }
+    // if (originRef.current.value === '' || destinationRef.current.value === '') {
+    //   return // 出発地点か到着地点が空文字だったら return する
+    // }
+
     // eslint-disable-next-line no-undef
     const directionsService = new google.maps.DirectionsService()
-
+    console.log(destinationsLatLng)
     const results = await directionsService.route({
-      origin: originRef.current.value, // 出発地点に入力された値を取ってくる
-      destination: destinationRef.current.value, // 到着地点に入力された値を取ってくる
+      origin: {
+        lat: originMarker.position.lat,
+        lng: originMarker.position.lng,
+      }, // 現在地のマーカーがある場所の緯度経度を取得
+      destination: {
+        lat: destinationsLatLng.lat,
+        lng: destinationsLatLng.lng,
+      }, // 到着地点に入力された値を取ってくる
       travelMode: google.maps.TravelMode.DRIVING,
     })
 
     setDirectionsResponse(results)
     setDistance(results.routes[0].legs[0].distance.text)
     setDuration(results.routes[0].legs[0].duration.text)
-  }, [originRef, destinationRef])
+    setMouseOveredMarkerPlaceId(undefined)
+    setOriginMarker({})
+    setDestinationsCenterMarker({})
+    setMarkedPlaceList([])
+  })
 
   // stateを初期化する処理
   const clearRoute = useCallback(() => {
@@ -104,7 +116,6 @@ export const useGoogleMap = () => {
       lng: event.latLng.lng(),
     }
     setCurrentLocation(false)
-
     map.panTo(destinationsCenterMarkerLatLng)
     setZoom(10)
   }
@@ -147,8 +158,6 @@ export const useGoogleMap = () => {
     setCurrentLocation,
     currentLocation,
     directionsResponse,
-    originRef,
-    destinationRef,
     calculateRoute,
     clearRoute,
     getCurrentLocation,
@@ -164,5 +173,8 @@ export const useGoogleMap = () => {
     destinationSearch,
     setDestinationsCenterMarker,
     destinationsSearchAction,
+    mouseOveredMarkerPlaceId,
+    setMouseOveredMarkerPlaceId,
+    setDestinationsLatLng,
   }
 }

@@ -1,4 +1,3 @@
-import { useState } from 'react'
 // MUI
 import { Button, Box } from '@mui/material'
 // ライブラリ
@@ -21,9 +20,6 @@ const containerStyle = {
 }
 
 export const GoogleMap = (props) => {
-  const [mouseOveredMarkerPlaceId, setMouseOveredMarkerPlaceId] =
-    useState(undefined)
-
   const {
     pos,
     onLoadSetMap,
@@ -37,6 +33,10 @@ export const GoogleMap = (props) => {
     markedPlaceList,
     zoom,
     destinationsSearchAction,
+    mouseOveredMarkerPlaceId,
+    setMouseOveredMarkerPlaceId,
+    setDestinationsLatLng,
+    calculateRoute,
   } = props
 
   return (
@@ -95,13 +95,23 @@ export const GoogleMap = (props) => {
               {mouseOveredMarkerPlaceId === marker.placeId && (
                 <InfoWindow
                   onCloseClick={() => setMouseOveredMarkerPlaceId(undefined)}
+                  onLoad={() =>
+                    setDestinationsLatLng({
+                      lat: marker.position.lat,
+                      lng: marker.position.lng,
+                    })
+                  }
                 >
                   <Box sx={{ textAlign: 'center' }}>
                     <Box>
                       {<img src={marker.photo} width={200} hight={300} />}
                     </Box>
                     <Box>{marker.name}</Box>
-                    <Button color="success" variant="outlined">
+                    <Button
+                      onClick={calculateRoute}
+                      color="success"
+                      variant="outlined"
+                    >
                       目的地に設定
                     </Button>
                   </Box>
