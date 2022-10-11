@@ -66,7 +66,10 @@ export const GoogleMap = (props) => {
         )}
 
         {/* 現在地のマーカー情報 */}
-        <Marker position={originMarker.position} />
+        <Marker
+          position={originMarker.position}
+          icon={'https://maps.google.com/mapfiles/ms/icons/yellow-dot.png'}
+        />
 
         {/* クリックした箇所のマーカー情報 */}
         <Marker
