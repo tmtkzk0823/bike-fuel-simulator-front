@@ -43,6 +43,7 @@ export const useGoogleMap = () => {
         lng: destinationsLatLng.lng,
       }, // 到着地点に入力された値を取ってくる
       travelMode: google.maps.TravelMode.DRIVING,
+      avoidHighways: true, //高速道路除外
     })
 
     setDirectionsResponse(results)
@@ -59,8 +60,6 @@ export const useGoogleMap = () => {
     setDirectionsResponse(null)
     setDistance('')
     setDuration('')
-    originRef.current.value = ''
-    destinationRef.current.value = ''
   }, [])
 
   const onLoadSetMap = useCallback((data) => setMap(data), [])
@@ -101,6 +100,7 @@ export const useGoogleMap = () => {
     }
   }, [map, navigator])
 
+  //目的地を探す半径の中心を決める処理
   const decideDestinationCircleCenter = (event) => {
     setDestinationsSearchAction(true)
     //クリックした位置の座標を取得
