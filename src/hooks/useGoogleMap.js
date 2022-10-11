@@ -26,9 +26,9 @@ export const useGoogleMap = () => {
 
   //ルート計算
   const calculateRoute = useCallback(async () => {
-    // if (originRef.current.value === '' || destinationRef.current.value === '') {
-    //   return // 出発地点か到着地点が空文字だったら return する
-    // }
+    if (originMarker.position === {} || destinationsLatLng === {}) {
+      return
+    }
 
     // eslint-disable-next-line no-undef
     const directionsService = new google.maps.DirectionsService()
