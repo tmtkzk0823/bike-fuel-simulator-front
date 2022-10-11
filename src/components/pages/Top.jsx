@@ -11,8 +11,6 @@ import {
 
 // components
 import { useGoogleMap } from '@/hooks/useGoogleMap'
-import { RouteSearchButton } from '@/components/elements/Buttons'
-import { RouteSearchInput } from '@/components/elements/Inputs'
 
 export const Top = () => {
   const {
@@ -20,8 +18,6 @@ export const Top = () => {
     setCurrentLocation,
     currentLocation,
     directionsResponse,
-    originRef,
-    destinationRef,
     calculateRoute,
     clearRoute,
     getCurrentLocation,
@@ -38,7 +34,6 @@ export const Top = () => {
     mouseOveredMarkerPlaceId,
     setMouseOveredMarkerPlaceId,
     setDestinationsLatLng,
-    destinationsLatLng,
   } = useGoogleMap()
 
   if (!isLoaded) {
@@ -108,18 +103,16 @@ export const Top = () => {
               </Button>
               <Button onClick={getCurrentLocation}>現在地を取得する</Button>
             </ButtonGroup>
+            <Typography> Distance: {distance} </Typography>;
+            <Typography> Duration: {duration} </Typography>;{/* </Stack> */}
           </Box>
         </Stack>
-
-        <Stack
+        {/* <Stack
           direction="row"
           spacing={4}
           mt={4}
           justifyContent="space-between"
-        >
-          <Typography> Distance: {distance} </Typography>;
-          <Typography> Duration: {duration} </Typography>;
-        </Stack>
+        > */}
       </Box>
     </Box>
   )
