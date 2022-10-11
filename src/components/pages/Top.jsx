@@ -87,15 +87,14 @@ export const Top = () => {
 
       <Box
         sx={{
-          boxShadow: 1,
+          bgcolor: 'success.main',
           p: 4,
           borderRadius: 'lg',
-          bgcolor: 'text.primary',
           width: '50%',
           zIndex: 1,
         }}
       >
-        <Stack direction="row" spacing={2} justifyContent="space-between">
+        <Stack direction="row" spacing={2}>
           <Box>
             <ButtonGroup>
               <Button aria-label="center back" onClick={clearRoute}>
@@ -103,8 +102,9 @@ export const Top = () => {
               </Button>
               <Button onClick={getCurrentLocation}>現在地を取得する</Button>
             </ButtonGroup>
-            <Typography> Distance: {distance} </Typography>;
-            <Typography> Duration: {duration} </Typography>;{/* </Stack> */}
+            <Typography> Distance: {distance} </Typography>
+            <Typography> Duration: {duration} </Typography>
+            {/* </Stack> */}
           </Box>
         </Stack>
         {/* <Stack
