@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { useJsApiLoader } from '@react-google-maps/api'
 
 export const useGoogleMap = () => {
@@ -17,7 +17,6 @@ export const useGoogleMap = () => {
     useState(undefined) // 目的地オブジェクトに格納してある一意のIDを保持
   const [destinationsSearchAction, setDestinationsSearchAction] =
     useState(false)
-
   // isLoadedにapiKey等オブジェクトを格納
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
@@ -25,34 +24,74 @@ export const useGoogleMap = () => {
   })
 
   //ルート計算
-  const calculateRoute = useCallback(async () => {
+  const calculateRoute = useCallback(() => {
     if (originMarker.position === {} || destinationsLatLng === {}) {
       return
     }
 
-    // eslint-disable-next-line no-undef
-    const directionsService = new google.maps.DirectionsService()
-    console.log(destinationsLatLng)
-    const results = await directionsService.route({
-      origin: {
-        lat: originMarker.position.lat,
-        lng: originMarker.position.lng,
-      }, // 現在地のマーカーがある場所の緯度経度を取得
-      destination: {
-        lat: destinationsLatLng.lat,
-        lng: destinationsLatLng.lng,
-      }, // 到着地点に入力された値を取ってくる
-      travelMode: google.maps.TravelMode.DRIVING,
-      avoidHighways: true, //高速道路除外
-    })
+    // 中間地点を計算するロジック
+    const searchWaypointsLatLng = {
+      lat: (originMarker.position.lat + destinationsLatLng.lat) / 2,
+      lng: (originMarker.position.lng + destinationsLatLng.lng) / 2,
+    }
 
-    setDirectionsResponse(results)
-    setDistance(results.routes[0].legs[0].distance.text)
-    setDuration(results.routes[0].legs[0].duration.text)
-    setMouseOveredMarkerPlaceId(undefined)
-    setOriginMarker({})
-    setDestinationsCenterMarker({})
-    setMarkedPlaceList([])
+    // 中間地点の半径3km以内のコンビニを取得するパラメータ
+    const waypointRequest = {
+      location: searchWaypointsLatLng,
+      radius: '30000',
+      type: ['convenience_store'],
+    }
+
+    // 中間地点の半径3km以内のコンビニを取得
+    const waypointService = new google.maps.places.PlacesService(map)
+
+    waypointService.nearbySearch(waypointRequest, async (results, status) => {
+      if (status !== google.maps.places.PlacesServiceStatus.OK) return
+
+      const waypointResults = results.map((result) => {
+        return {
+          placeId: result.place_id,
+          formattedAddress: result.formatted_address,
+          position: {
+            lat: result.geometry.location.lat(),
+            lng: result.geometry.location.lng(),
+          },
+          name: result.name,
+          photo: result.photos ? result.photos[0].getUrl() : '',
+        }
+      })
+
+      const randomWaypointPosition =
+        waypointResults[Math.floor(Math.random() * waypointResults.length)]
+          .position
+
+      const directionsService = new google.maps.DirectionsService()
+      const rootResults = await directionsService.route({
+        origin: {
+          lat: originMarker.position.lat,
+          lng: originMarker.position.lng,
+        }, // 現在地のマーカーがある場所の緯度経度を取得
+        destination: {
+          lat: destinationsLatLng.lat,
+          lng: destinationsLatLng.lng,
+        }, // 到着地点に入力された値を取ってくる
+        travelMode: google.maps.TravelMode.DRIVING,
+        avoidHighways: true, //高速道路除外
+        waypoints: [
+          {
+            location: randomWaypointPosition,
+          },
+        ],
+      })
+
+      setDirectionsResponse(rootResults)
+      setDistance(rootResults.routes[0].legs[0].distance.text)
+      setDuration(rootResults.routes[0].legs[0].duration.text)
+      setMouseOveredMarkerPlaceId(undefined)
+      setOriginMarker({})
+      setDestinationsCenterMarker({})
+      setMarkedPlaceList([])
+    })
   })
 
   // stateを初期化する処理
@@ -145,11 +184,43 @@ export const useGoogleMap = () => {
             lng: result.geometry.location.lng(),
           },
           name: result.name,
-          photo: result.photos[0].getUrl(),
+          photo: result.photos ? result.photos[0].getUrl() : '',
         }
       })
-      console.log(results) // オブジェクト確認用（最後に消す）
+      // console.log(results) // オブジェクト確認用（最後に消す）
       setMarkedPlaceList(formatResult)
+    })
+  }
+  //目的地と出発地点を直線で結んだ時の中間地点で情報を取得
+  const randomWaypoint = () => {
+    const searchWaypointsLatLng = {
+      lat: (originMarker.position.lat + destinationsLatLng.lat) / 2,
+      lng: (originMarker.position.lng + destinationsLatLng.lng) / 2,
+    }
+
+    const waypointRequest = {
+      location: searchWaypointsLatLng,
+      radius: '30000',
+      type: ['convenience_store'],
+    }
+
+    const waypointService = new google.maps.places.PlacesService(map)
+    waypointService.nearbySearch(waypointRequest, (results, status) => {
+      if (status !== google.maps.places.PlacesServiceStatus.OK) return
+
+      const waypointResults = results.map((result) => {
+        return {
+          placeId: result.place_id,
+          formattedAddress: result.formatted_address,
+          position: {
+            lat: result.geometry.location.lat(),
+            lng: result.geometry.location.lng(),
+          },
+          name: result.name,
+          photo: result.photos ? result.photos[0].getUrl() : '',
+        }
+      })
+      // console.log(waypointResults, 'waypoints') // オブジェクト確認用（最後に消す）
     })
   }
 
