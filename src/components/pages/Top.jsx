@@ -15,25 +15,24 @@ import { useGoogleMap } from '@/hooks/useGoogleMap'
 export const Top = () => {
   const {
     isLoaded,
-    setCurrentLocation,
-    currentLocation,
-    directionsResponse,
+    calculatedRoute,
     calculateRoute,
     clearRoute,
-    getCurrentLocation,
-    duration,
-    distance,
+    getOriginPoint,
     onLoadSetMap,
-    decideDestinationCircleCenter,
-    originMarker,
-    destinationsCenterMarker,
+    searchAroundDestinationPoint,
+    originPoint,
+    destinationCenterPosition,
     destinationSearch,
-    markedPlaceList,
+    aroundDestinationPointList,
     zoom,
-    destinationsSearchAction,
-    mouseOveredMarkerPlaceId,
-    setMouseOveredMarkerPlaceId,
-    setDestinationsLatLng,
+    isVisibleDestinationSearchButton,
+    mouseOveredDestinationPlaceId,
+    setMouseOveredDestinationPlaceId,
+    setDestinationPoint,
+    calculatedRouteDistance,
+    calculatedRouteDuration,
+    isVisibleAroundOriginPointCircle,
   } = useGoogleMap()
 
   if (!isLoaded) {
@@ -63,56 +62,47 @@ export const Top = () => {
           top: 0,
           height: '100vh',
           width: '100%',
+          zIndex: 0,
         }}
       >
         <GoogleMap
           pos={window.pos}
           onLoadSetMap={onLoadSetMap}
-          pearSetCurrentLocation={() => setCurrentLocation(false)}
-          currentLocation={currentLocation}
-          directionsResponse={directionsResponse}
-          onClickCircle={decideDestinationCircleCenter}
-          originMarker={originMarker}
-          destinationsCenterMarker={destinationsCenterMarker}
-          destinationSearch={destinationSearch}
-          markedPlaceList={markedPlaceList}
+          calculatedRoute={calculatedRoute}
+          onClickCircle={searchAroundDestinationPoint}
+          originPoint={originPoint}
+          destinationCenterPosition={destinationCenterPosition}
+          isVisibleAroundOriginPointCircle={isVisibleAroundOriginPointCircle}
+          aroundDestinationPointList={aroundDestinationPointList}
           zoom={zoom}
-          destinationsSearchAction={destinationsSearchAction}
-          mouseOveredMarkerPlaceId={mouseOveredMarkerPlaceId}
-          setMouseOveredMarkerPlaceId={setMouseOveredMarkerPlaceId}
-          setDestinationsLatLng={setDestinationsLatLng}
+          isVisibleDestinationSearchButton={isVisibleDestinationSearchButton}
+          mouseOveredDestinationPlaceId={mouseOveredDestinationPlaceId}
+          setMouseOveredDestinationPlaceId={setMouseOveredDestinationPlaceId}
+          setDestinationPoint={setDestinationPoint}
           calculateRoute={calculateRoute}
+          destinationSearch={destinationSearch}
         />
       </Box>
 
       <Box
         sx={{
-          bgcolor: 'success.main',
           p: 4,
           borderRadius: 'lg',
           width: '50%',
           zIndex: 1,
+          position: 'absolute',
         }}
       >
         <Stack direction="row" spacing={2}>
-          <Box>
-            <ButtonGroup>
-              <Button aria-label="center back" onClick={clearRoute}>
-                ルート削除
-              </Button>
-              <Button onClick={getCurrentLocation}>現在地を取得する</Button>
-            </ButtonGroup>
-            <Typography> Distance: {distance} </Typography>
-            <Typography> Duration: {duration} </Typography>
-            {/* </Stack> */}
-          </Box>
+          <ButtonGroup>
+            <Button aria-label="center back" onClick={clearRoute}>
+              ルート削除
+            </Button>
+            <Button onClick={getOriginPoint}>現在地を取得する</Button>
+          </ButtonGroup>
+          <Typography>Distance: {calculatedRouteDistance}</Typography>
+          <Typography> Duration: {calculatedRouteDuration} </Typography>
         </Stack>
-        {/* <Stack
-          direction="row"
-          spacing={4}
-          mt={4}
-          justifyContent="space-between"
-        > */}
       </Box>
     </Box>
   )

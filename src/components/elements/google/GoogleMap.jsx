@@ -23,106 +23,102 @@ export const GoogleMap = (props) => {
   const {
     pos,
     onLoadSetMap,
-    pearSetCurrentLocation,
-    currentLocation,
-    directionsResponse,
+    calculatedRoute,
     onClickCircle,
-    originMarker,
-    destinationsCenterMarker,
+    originPoint,
+    destinationCenterPosition,
     destinationSearch,
-    markedPlaceList,
+    aroundDestinationPointList,
     zoom,
-    destinationsSearchAction,
-    mouseOveredMarkerPlaceId,
-    setMouseOveredMarkerPlaceId,
-    setDestinationsLatLng,
+    isVisibleDestinationSearchButton,
+    mouseOveredDestinationPlaceId,
+    setMouseOveredDestinationPlaceId,
+    setDestinationPoint,
     calculateRoute,
+    isVisibleAroundOriginPointCircle,
   } = props
 
   return (
-    <>
-      <BaseGoogleMap
-        center={center}
-        zoom={zoom}
-        mapContainerStyle={containerStyle}
-        options={{
-          zoomControl: false,
-          streetViewControl: false,
-          mapTypeControl: false,
-          fullscreenControl: false,
-          draggableCursor: 'pointer',
-        }}
-        onLoad={(map) => onLoadSetMap(map)}
-        onClick={pearSetCurrentLocation}
-      >
-        {
-          // 現在地のメソッドが呼ばれたらサークルを作る
-          currentLocation && (
-            <Circle center={pos} radius={200000} onClick={onClickCircle} />
-          )
-        }
-        {directionsResponse && (
-          <DirectionsRenderer directions={directionsResponse} />
-        )}
+    <BaseGoogleMap
+      center={center}
+      zoom={zoom}
+      mapContainerStyle={containerStyle}
+      options={{
+        zoomControl: false,
+        streetViewControl: false,
+        mapTypeControl: false,
+        fullscreenControl: false,
+        draggableCursor: 'pointer',
+      }}
+      onLoad={(map) => onLoadSetMap(map)}
+    >
+      {
+        // 現在地のメソッドが呼ばれたらサークルを作る
+        isVisibleAroundOriginPointCircle && (
+          <Circle center={pos} radius={200000} onClick={onClickCircle} />
+        )
+      }
+      {calculatedRoute && <DirectionsRenderer directions={calculatedRoute} />}
 
-        {/* 現在地のマーカー情報 */}
+      {/* 現在地のマーカー情報 */}
+      {originPoint && (
         <Marker
-          position={originMarker.position}
+          position={originPoint.position}
           icon={'https://maps.google.com/mapfiles/ms/icons/yellow-dot.png'}
         />
+      )}
 
-        {/* クリックした箇所のマーカー情報 */}
-        <Marker
-          position={destinationsCenterMarker.position}
-          icon={destinationsCenterMarker.icon}
-        >
-          {destinationsSearchAction && (
-            <InfoWindow>
-              <div>
-                <Button onClick={destinationSearch}>
-                  この地点をを中心に探す
-                </Button>
-              </div>
-            </InfoWindow>
-          )}
-        </Marker>
+      {/* クリックした箇所のマーカー情報 */}
+      <Marker
+        position={destinationCenterPosition.position}
+        icon={destinationCenterPosition.icon}
+      >
+        {isVisibleDestinationSearchButton && (
+          <InfoWindow>
+            <div>
+              <Button onClick={destinationSearch}>
+                この地点をを中心に探す
+              </Button>
+            </div>
+          </InfoWindow>
+        )}
+      </Marker>
 
-        {/* 半径50km以内の観光地のマーカー情報 */}
-        {markedPlaceList.length &&
-          markedPlaceList.map((marker) => (
-            <Marker
-              key={marker.placeId}
-              position={marker.position}
-              onMouseOver={() => setMouseOveredMarkerPlaceId(marker.placeId)}
-            >
-              {mouseOveredMarkerPlaceId === marker.placeId && (
-                <InfoWindow
-                  onCloseClick={() => setMouseOveredMarkerPlaceId(undefined)}
-                  onLoad={() =>
-                    setDestinationsLatLng({
-                      lat: marker.position.lat,
-                      lng: marker.position.lng,
-                    })
-                  }
-                >
-                  <Box sx={{ textAlign: 'center' }}>
-                    <Box>
-                      {<img src={marker.photo} width={200} hight={300} />}
-                    </Box>
-                    <Box>{marker.name}</Box>
-                    <Button
-                      onClick={calculateRoute}
-                      color="success"
-                      variant="outlined"
-                    >
-                      目的地に設定
-                    </Button>
+      {/* 半径50km以内の観光地のマーカー情報 */}
+      {aroundDestinationPointList.length &&
+        aroundDestinationPointList.map((marker) => (
+          <Marker
+            key={marker.placeId}
+            position={marker.position}
+            onMouseOver={() => setMouseOveredDestinationPlaceId(marker.placeId)}
+          >
+            {mouseOveredDestinationPlaceId === marker.placeId && (
+              <InfoWindow
+                onCloseClick={() => setMouseOveredDestinationPlaceId(undefined)}
+                onLoad={() =>
+                  setDestinationPoint({
+                    lat: marker.position.lat,
+                    lng: marker.position.lng,
+                  })
+                }
+              >
+                <Box sx={{ textAlign: 'center' }}>
+                  <Box>
+                    <img src={marker.photo} width={200} hight={300} />
                   </Box>
-                </InfoWindow>
-              )}
-            </Marker>
-          ))}
-      </BaseGoogleMap>
-    </>
+                  <Box>{marker.name}</Box>
+                  <Button
+                    onClick={calculateRoute}
+                    color="success"
+                    variant="outlined"
+                  >
+                    目的地に設定
+                  </Button>
+                </Box>
+              </InfoWindow>
+            )}
+          </Marker>
+        ))}
+    </BaseGoogleMap>
   )
 }
