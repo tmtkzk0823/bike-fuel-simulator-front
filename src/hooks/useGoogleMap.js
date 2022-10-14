@@ -1,61 +1,36 @@
-import { useRef, useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { useJsApiLoader } from '@react-google-maps/api'
 
 export const useGoogleMap = () => {
-  // hooks
-  const [map, setMap] = useState(null)
-  const [currentLocation, setCurrentLocation] = useState(false)
-  const [directionsResponse, setDirectionsResponse] = useState(null)
-  const [distance, setDistance] = useState('') // 出発地点のstate
-  const [duration, setDuration] = useState('') // 到着地点のstate
-  const [originMarker, setOriginMarker] = useState({})
-  const [destinationsCenterMarker, setDestinationsCenterMarker] = useState({}) //目的地を探す際の半径の中心となる緯度経度
-  const [markedPlaceList, setMarkedPlaceList] = useState([])
-  const [zoom, setZoom] = useState(6) //mapのzoom
-  const [destinationsSearchAction, setDestinationsSearchAction] =
-    useState(false)
-  const originRef = useRef() //出発地点
-  const destinationRef = useRef() // 行き先
-
   // isLoadedにapiKey等オブジェクトを格納
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
     libraries: ['places'],
   })
-
-  //ルート計算
-  const calculateRoute = useCallback(async () => {
-    if (originRef.current.value === '' || destinationRef.current.value === '') {
-      return // 出発地点か到着地点が空文字だったら return する
-    }
-    // eslint-disable-next-line no-undef
-    const directionsService = new google.maps.DirectionsService()
-
-    const results = await directionsService.route({
-      origin: originRef.current.value, // 出発地点に入力された値を取ってくる
-      destination: destinationRef.current.value, // 到着地点に入力された値を取ってくる
-      travelMode: google.maps.TravelMode.DRIVING,
-    })
-
-    setDirectionsResponse(results)
-    setDistance(results.routes[0].legs[0].distance.text)
-    setDuration(results.routes[0].legs[0].duration.text)
-  }, [originRef, destinationRef])
-
-  // stateを初期化する処理
-  const clearRoute = useCallback(() => {
-    setDirectionsResponse(null)
-    setDistance('')
-    setDuration('')
-    originRef.current.value = ''
-    destinationRef.current.value = ''
-  }, [])
+  const [map, setMap] = useState(null)
+  const [zoom, setZoom] = useState(6) //mapのzoom
+  const [originPoint, setOriginPoint] = useState(null) // 現在地の緯度経度を保持するstate
+  const [destinationPoint, setDestinationPoint] = useState(null) // 目的地の緯度経度
+  const [calculatedRoute, setCalculatedRoute] = useState(null)
+  const [destinationCenterPosition, setDestinationCenterPosition] = useState({}) //目的地を探す際の半径の中心となる緯度経度
+  const [mouseOveredDestinationPlaceId, setMouseOveredDestinationPlaceId] =
+    useState(undefined) // 目的地オブジェクトに格納してある一意のIDを保持
+  const [aroundDestinationPointList, setAroundDestinationPointList] = useState(
+    []
+  ) // APIのレスポンスで返ってきた値をカスタムして配列で保持する
+  const [
+    isVisibleAroundOriginPointCircle,
+    setIsVisibleAroundOriginPointCircle,
+  ] = useState(false) // 現在地から行ける範囲を示すサークルを表示するFlag
+  const [
+    isVisibleDestinationSearchButton,
+    setIsVisibleDestinationSearchButton,
+  ] = useState(false) // ルート検索ボタンをInfoWindowの中に表示させる時に使うFlag
 
   const onLoadSetMap = useCallback((data) => setMap(data), [])
 
-  const getCurrentLocation = useCallback(() => {
-    // const infoWindow = new google.maps.InfoWindow()
-
+  // 現在地を取得後サークルを表示
+  const getOriginPoint = useCallback(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -63,16 +38,16 @@ export const useGoogleMap = () => {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           }
-          setOriginMarker({
+          setOriginPoint({
             position: {
               lat: pos.lat,
               lng: pos.lng,
             },
           })
           window.pos = pos
+          setIsVisibleAroundOriginPointCircle(true)
           setZoom(9)
-          !originMarker && map.setCenter(pos)
-          setCurrentLocation(true)
+          !originPoint && map.setCenter(pos)
         }
 
         // TODO: この箇所は現時点で挙動が未定(関数が存在しないため)なので、今後確認する
@@ -89,30 +64,100 @@ export const useGoogleMap = () => {
     }
   }, [map, navigator])
 
-  const decideDestinationCircleCenter = (event) => {
-    setDestinationsSearchAction(true)
+  // 現在地と目的地のルートを計算する
+  const calculateRoute = () => {
+    if (originPoint.position === {} || destinationPoint === {}) {
+      return
+    }
+
+    const waypointsLatLng = {
+      lat: (originPoint.position.lat + destinationPoint.lat) / 2,
+      lng: (originPoint.position.lng + destinationPoint.lng) / 2,
+    }
+
+    // 中間地点の半径3km以内のコンビニを取得するパラメータ
+    const waypointRequest = {
+      location: waypointsLatLng,
+      radius: '30000',
+      type: ['convenience_store'],
+    }
+
+    // 中間地点の半径3km以内のコンビニを取得
+    const waypointService = new google.maps.places.PlacesService(map)
+    waypointService.nearbySearch(waypointRequest, async (results, status) => {
+      if (status !== google.maps.places.PlacesServiceStatus.OK) return
+
+      const waypointResults = results.map((result) => {
+        return {
+          placeId: result.place_id,
+          formattedAddress: result.formatted_address,
+          position: {
+            lat: result.geometry.location.lat(),
+            lng: result.geometry.location.lng(),
+          },
+          name: result.name,
+          photo: result.photos ? result.photos[0].getUrl() : '',
+        }
+      })
+
+      // 複数の中継地点からランダムで一つだけを抽出
+      const randomWaypointPosition =
+        waypointResults[Math.floor(Math.random() * waypointResults.length)]
+          .position
+
+      // 中継地点を経路した、現在地と目的地のルートを計算
+      const directionsService = new google.maps.DirectionsService()
+      const rootResults = await directionsService.route({
+        origin: {
+          lat: originPoint.position.lat,
+          lng: originPoint.position.lng,
+        },
+        // 現在地のマーカーがある場所の緯度経度を取得
+        destination: {
+          lat: destinationPoint.lat,
+          lng: destinationPoint.lng,
+        },
+        // 到着地点に入力された値を取ってくる
+        travelMode: google.maps.TravelMode.DRIVING,
+        avoidHighways: true, // 高速道路除外
+        waypoints: [
+          {
+            location: randomWaypointPosition,
+          },
+        ],
+      })
+
+      setCalculatedRoute(rootResults)
+      setMouseOveredDestinationPlaceId(undefined)
+      setOriginPoint({})
+      setDestinationCenterPosition({})
+      setAroundDestinationPointList([])
+    })
+  }
+
+  ////目的地を探す半径の中心を決める処理
+  const searchAroundDestinationPoint = (event) => {
+    setIsVisibleDestinationSearchButton(true)
     //クリックした位置の座標を取得
-    setDestinationsCenterMarker({
+    setDestinationCenterPosition({
       position: {
         lat: event.latLng.lat(),
         lng: event.latLng.lng(),
       },
       icon: 'https://maps.google.com/mapfiles/ms/icons/green-dot.png',
     })
-    let destinationsCenterMarkerLatLng = {
+    let destinationCenterPositionLatLng = {
       lat: event.latLng.lat(),
       lng: event.latLng.lng(),
     }
-    setCurrentLocation(false)
-
-    map.panTo(destinationsCenterMarkerLatLng)
-    setZoom(10)
+    map.panTo(destinationCenterPositionLatLng)
+    setZoom(9)
   }
 
-  // クリックしたマーカーをクリックした時に半径50km以内のマーカー情報を取得するメソッド
+  // Buttonをクリックした時に半径50km以内のマーカー情報を取得するメソッド
   const destinationSearch = () => {
-    setDestinationsSearchAction(false)
-    const searchCenter = destinationsCenterMarker.position
+    setIsVisibleDestinationSearchButton(false)
+    const searchCenter = destinationCenterPosition.position
     const request = {
       location: searchCenter,
       radius: '50000',
@@ -134,35 +179,46 @@ export const useGoogleMap = () => {
             lng: result.geometry.location.lng(),
           },
           name: result.name,
-          photo: result.photos[0].getUrl(),
+          photo: result.photos ? result.photos[0].getUrl() : '',
         }
       })
-      console.log(results) // オブジェクト確認用（最後に消す）
-      setMarkedPlaceList(formatResult)
+      setAroundDestinationPointList(formatResult)
+      setIsVisibleAroundOriginPointCircle(false)
     })
   }
 
+  // stateを初期化する処理
+  const clearRoute = useCallback(() => {
+    setCalculatedRoute(null)
+  }, [])
+
+  const calculatedRouteDistance = calculatedRoute
+    ? calculatedRoute.routes[0].legs[0].distance.text
+    : null
+  const calculatedRouteDuration = calculatedRoute
+    ? calculatedRoute.routes[0].legs[0].duration.text
+    : null
+
   return {
+    zoom,
     isLoaded,
-    setCurrentLocation,
-    currentLocation,
-    directionsResponse,
-    originRef,
-    destinationRef,
+    onLoadSetMap,
+    calculatedRoute,
+    originPoint,
+    getOriginPoint,
     calculateRoute,
     clearRoute,
-    getCurrentLocation,
-    duration,
-    distance,
-    onLoadSetMap,
-    decideDestinationCircleCenter,
-    originMarker,
-    destinationsCenterMarker,
+    destinationCenterPosition,
+    setDestinationCenterPosition,
     destinationSearch,
-    markedPlaceList,
-    zoom,
-    destinationSearch,
-    setDestinationsCenterMarker,
-    destinationsSearchAction,
+    searchAroundDestinationPoint,
+    aroundDestinationPointList,
+    mouseOveredDestinationPlaceId,
+    setMouseOveredDestinationPlaceId,
+    setDestinationPoint,
+    calculatedRouteDistance,
+    calculatedRouteDuration,
+    isVisibleAroundOriginPointCircle,
+    isVisibleDestinationSearchButton,
   }
 }

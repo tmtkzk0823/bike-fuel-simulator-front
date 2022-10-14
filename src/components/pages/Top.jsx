@@ -11,30 +11,28 @@ import {
 
 // components
 import { useGoogleMap } from '@/hooks/useGoogleMap'
-import { RouteSearchButton } from '@/components/elements/Buttons'
-import { RouteSearchInput } from '@/components/elements/Inputs'
 
 export const Top = () => {
   const {
     isLoaded,
-    setCurrentLocation,
-    currentLocation,
-    directionsResponse,
-    originRef,
-    destinationRef,
+    calculatedRoute,
     calculateRoute,
     clearRoute,
-    getCurrentLocation,
-    duration,
-    distance,
+    getOriginPoint,
     onLoadSetMap,
-    decideDestinationCircleCenter,
-    originMarker,
-    destinationsCenterMarker,
+    searchAroundDestinationPoint,
+    originPoint,
+    destinationCenterPosition,
     destinationSearch,
-    markedPlaceList,
+    aroundDestinationPointList,
     zoom,
-    destinationsSearchAction,
+    isVisibleDestinationSearchButton,
+    mouseOveredDestinationPlaceId,
+    setMouseOveredDestinationPlaceId,
+    setDestinationPoint,
+    calculatedRouteDistance,
+    calculatedRouteDuration,
+    isVisibleAroundOriginPointCircle,
   } = useGoogleMap()
 
   if (!isLoaded) {
@@ -64,76 +62,46 @@ export const Top = () => {
           top: 0,
           height: '100vh',
           width: '100%',
+          zIndex: 0,
         }}
       >
         <GoogleMap
           pos={window.pos}
           onLoadSetMap={onLoadSetMap}
-          pearSetCurrentLocation={() => setCurrentLocation(false)}
-          currentLocation={currentLocation}
-          directionsResponse={directionsResponse}
-          onClickCircle={decideDestinationCircleCenter}
-          originMarker={originMarker}
-          destinationsCenterMarker={destinationsCenterMarker}
-          destinationSearch={destinationSearch}
-          markedPlaceList={markedPlaceList}
+          calculatedRoute={calculatedRoute}
+          onClickCircle={searchAroundDestinationPoint}
+          originPoint={originPoint}
+          destinationCenterPosition={destinationCenterPosition}
+          isVisibleAroundOriginPointCircle={isVisibleAroundOriginPointCircle}
+          aroundDestinationPointList={aroundDestinationPointList}
           zoom={zoom}
-          destinationsSearchAction={destinationsSearchAction}
+          isVisibleDestinationSearchButton={isVisibleDestinationSearchButton}
+          mouseOveredDestinationPlaceId={mouseOveredDestinationPlaceId}
+          setMouseOveredDestinationPlaceId={setMouseOveredDestinationPlaceId}
+          setDestinationPoint={setDestinationPoint}
+          calculateRoute={calculateRoute}
+          destinationSearch={destinationSearch}
         />
       </Box>
 
       <Box
         sx={{
-          boxShadow: 1,
           p: 4,
           borderRadius: 'lg',
-          bgcolor: 'text.primary',
           width: '50%',
           zIndex: 1,
+          position: 'absolute',
         }}
       >
-        <Stack direction="row" spacing={2} justifyContent="space-between">
-          <Box sx={{ flexGrow: 1 }}>
-            <RouteSearchInput
-              type={'text'}
-              placeholder={'出発地点'}
-              inputRef={originRef}
-            />
-          </Box>
-
-          <Box sx={{ flexGrow: 1 }}>
-            <RouteSearchInput
-              type={'text'}
-              placeholder={'目的地'}
-              inputRef={destinationRef}
-            />
-          </Box>
-
-          <Box>
-            <ButtonGroup>
-              <RouteSearchButton
-                color={'primary'}
-                type={'submit'}
-                onClick={calculateRoute}
-                buttonName={'ルート検索'}
-              />
-              <br />
-              <Button aria-label="center back" onClick={clearRoute}>
-                ルート削除
-              </Button>
-              <Button onClick={getCurrentLocation}>現在地を取得する</Button>
-            </ButtonGroup>
-          </Box>
-        </Stack>
-
-        <Stack
-          direction="row"
-          spacing={4}
-          mt={4}
-          justifyContent="space-between"
-        >
-          <Typography> Distance: {distance} </Typography>;
-          <Typography> Duration: {duration} </Typography>;
+        <Stack direction="row" spacing={2}>
+          <ButtonGroup>
+            <Button aria-label="center back" onClick={clearRoute}>
+              ルート削除
+            </Button>
+            <Button onClick={getOriginPoint}>現在地を取得する</Button>
+          </ButtonGroup>
+          <Typography>Distance: {calculatedRouteDistance}</Typography>
+          <Typography> Duration: {calculatedRouteDuration} </Typography>
         </Stack>
       </Box>
     </Box>
