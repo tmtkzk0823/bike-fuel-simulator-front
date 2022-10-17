@@ -13,7 +13,8 @@ import {
 
 // components
 import { useGoogleMap } from '@/hooks/useGoogleMap'
-import { CenterFocusStrong } from '@mui/icons-material'
+import { Header } from '../elements/layouts/Header'
+import { Footer } from '../elements/layouts/Footer'
 
 export const Top = () => {
   const {
@@ -50,6 +51,7 @@ export const Top = () => {
 
   return (
     <>
+      <Header />
       <Box
         sx={{
           display: 'flex',
@@ -65,32 +67,32 @@ export const Top = () => {
 
         <Box
           sx={{
-            height: '100vh',
+            height: '100%',
             width: '60vw',
           }}
         >
           <Box
             sx={{
-              p: 4,
-              zIndex: 1,
-              bgcolor: 'white',
+              p: 2,
+              bgcolor: '#ffffdd',
               textAlign: 'center',
             }}
           >
-            <Stack direction="row" spacing={2}>
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="center"
+              spacing={2}
+            >
               <Button variant="outlined" onClick={getOriginPoint}>
                 現在地を取得する
               </Button>
-              <Button
-                aria-label="center back"
-                variant="outlined"
-                onClick={clearRoute}
-              >
+              <Button variant="outlined" onClick={clearRoute}>
                 ルート削除
               </Button>
 
-              <Typography>Distance: {calculatedRouteDistance}</Typography>
-              <Typography> Duration: {calculatedRouteDuration} </Typography>
+              <Typography>走行距離: {calculatedRouteDistance}</Typography>
+              <Typography>時間: {calculatedRouteDuration} </Typography>
             </Stack>
           </Box>
 
@@ -113,6 +115,7 @@ export const Top = () => {
           />
         </Box>
       </Box>
+      <Footer />
     </>
   )
 }

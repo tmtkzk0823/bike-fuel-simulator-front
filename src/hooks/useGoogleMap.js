@@ -8,7 +8,7 @@ export const useGoogleMap = () => {
     libraries: ['places'],
   })
   const [map, setMap] = useState(null)
-  const [zoom, setZoom] = useState(5) //mapのzoom
+  const [zoom, setZoom] = useState(5.5) //mapのzoom
   const [originPoint, setOriginPoint] = useState(null) // 現在地の緯度経度を保持するstate
   const [destinationPoint, setDestinationPoint] = useState(null) // 目的地の緯度経度
   const [calculatedRoute, setCalculatedRoute] = useState(null)
