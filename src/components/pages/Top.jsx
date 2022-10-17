@@ -1,4 +1,5 @@
 import { GoogleMap } from '@/components/elements/google'
+import { BikePicture } from '@/components/elements/bikes'
 // MUI
 import {
   Skeleton,
@@ -7,10 +8,13 @@ import {
   ButtonGroup,
   Button,
   Typography,
+  Grid,
 } from '@mui/material'
 
 // components
 import { useGoogleMap } from '@/hooks/useGoogleMap'
+import { Header } from '../elements/layouts/Header'
+import { Footer } from '../elements/layouts/Footer'
 
 export const Top = () => {
   const {
@@ -46,64 +50,72 @@ export const Top = () => {
   }
 
   return (
-    <Box
-      sx={{
-        position: 'relative',
-        flexDirection: 'column',
-        alignItems: 'center',
-        height: '100vh',
-        width: '100vw',
-      }}
-    >
+    <>
+      <Header />
       <Box
         sx={{
-          position: 'absolute',
-          left: 0,
-          top: 0,
-          height: '100vh',
-          width: '100%',
-          zIndex: 0,
+          display: 'flex',
         }}
       >
-        <GoogleMap
-          pos={window.pos}
-          onLoadSetMap={onLoadSetMap}
-          calculatedRoute={calculatedRoute}
-          onClickCircle={searchAroundDestinationPoint}
-          originPoint={originPoint}
-          destinationCenterPosition={destinationCenterPosition}
-          isVisibleAroundOriginPointCircle={isVisibleAroundOriginPointCircle}
-          aroundDestinationPointList={aroundDestinationPointList}
-          zoom={zoom}
-          isVisibleDestinationSearchButton={isVisibleDestinationSearchButton}
-          mouseOveredDestinationPlaceId={mouseOveredDestinationPlaceId}
-          setMouseOveredDestinationPlaceId={setMouseOveredDestinationPlaceId}
-          setDestinationPoint={setDestinationPoint}
-          calculateRoute={calculateRoute}
-          destinationSearch={destinationSearch}
-        />
-      </Box>
+        <Box
+          sx={{
+            width: '40vw',
+          }}
+        >
+          <BikePicture />
+        </Box>
 
-      <Box
-        sx={{
-          p: 4,
-          borderRadius: 'lg',
-          width: '50%',
-          zIndex: 1,
-          position: 'absolute',
-        }}
-      >
-        <Stack direction="row" spacing={2}>
-          <ButtonGroup>
-            <Button aria-label="center back" onClick={clearRoute}>
-              ルート削除
-            </Button>
-            <Button onClick={getOriginPoint}>現在地を取得する</Button>
-          </ButtonGroup>
-          <Typography>Distance: {calculatedRouteDistance}</Typography>
-          <Typography> Duration: {calculatedRouteDuration} </Typography>
-        </Stack>
+        <Box
+          sx={{
+            height: '100%',
+            width: '60vw',
+          }}
+        >
+          <Box
+            sx={{
+              p: 2,
+              bgcolor: '#ffffdd',
+              textAlign: 'center',
+            }}
+          >
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="center"
+              spacing={2}
+            >
+              <Button variant="outlined" onClick={getOriginPoint}>
+                現在地を取得する
+              </Button>
+              <Button variant="outlined" onClick={clearRoute}>
+                ルート削除
+              </Button>
+
+              <Typography>走行距離: {calculatedRouteDistance}</Typography>
+              <Typography>時間: {calculatedRouteDuration} </Typography>
+            </Stack>
+          </Box>
+
+          <GoogleMap
+            pos={window.pos}
+            onLoadSetMap={onLoadSetMap}
+            calculatedRoute={calculatedRoute}
+            onClickCircle={searchAroundDestinationPoint}
+            originPoint={originPoint}
+            destinationCenterPosition={destinationCenterPosition}
+            isVisibleAroundOriginPointCircle={isVisibleAroundOriginPointCircle}
+            aroundDestinationPointList={aroundDestinationPointList}
+            zoom={zoom}
+            isVisibleDestinationSearchButton={isVisibleDestinationSearchButton}
+            mouseOveredDestinationPlaceId={mouseOveredDestinationPlaceId}
+            setMouseOveredDestinationPlaceId={setMouseOveredDestinationPlaceId}
+            setDestinationPoint={setDestinationPoint}
+            calculateRoute={calculateRoute}
+            destinationSearch={destinationSearch}
+          />
+        </Box>
       </Box>
-    </Box>
+      <Footer />
+    </>
   )
 }

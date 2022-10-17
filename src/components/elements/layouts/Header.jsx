@@ -37,6 +37,6 @@ const STitle = styled('p')`
 
 const SToolBar = styled(Toolbar)`
   padding: 16px;
-  background-color: #ffffdd;
+  background-color: #f0e68c;
   color: #444444;
 `
