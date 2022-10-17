@@ -10,13 +10,13 @@ import {
 } from '@react-google-maps/api'
 
 const center = {
-  lat: 36.3515406,
-  lng: 140.1850139,
+  lat: 35.689614,
+  lng: 139.691585,
 }
 
 const containerStyle = {
-  width: '100%',
-  height: '100%',
+  width: '60vw',
+  height: '100vh',
 }
 
 export const GoogleMap = (props) => {
