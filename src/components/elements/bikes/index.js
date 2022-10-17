@@ -1,1 +1,0 @@
-export { BikePicture } from './BikePicture'
