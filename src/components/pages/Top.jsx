@@ -1,5 +1,9 @@
 import { GoogleMap, GoogleMapOperationArea } from '@/components/elements/google'
-import { BikePicture, BikeName } from '@/components/elements/bikes'
+import {
+  BikePicture,
+  BikeName,
+  BikeCruisingDistanceArea,
+} from '@/components/elements/bikes'
 // MUI
 import { Skeleton, Box } from '@mui/material'
 
@@ -56,6 +60,7 @@ export const Top = () => {
         >
           <BikeName />
           <BikePicture />
+          <BikeCruisingDistanceArea />
         </Box>
 
         <Box
