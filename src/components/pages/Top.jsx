@@ -1,15 +1,7 @@
 import { GoogleMap } from '@/components/elements/google'
-import { BikePicture } from '@/components/elements/bikes'
+import { BikePicture, BikeName } from '@/components/elements/bikes'
 // MUI
-import {
-  Skeleton,
-  Box,
-  Stack,
-  ButtonGroup,
-  Button,
-  Typography,
-  Grid,
-} from '@mui/material'
+import { Skeleton, Box, Stack, Button, Typography } from '@mui/material'
 
 // components
 import { useGoogleMap } from '@/hooks/useGoogleMap'
@@ -62,6 +54,7 @@ export const Top = () => {
             width: '40vw',
           }}
         >
+          <BikeName />
           <BikePicture />
         </Box>
 
