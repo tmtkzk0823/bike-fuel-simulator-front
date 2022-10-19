@@ -1,15 +1,7 @@
-import { GoogleMap } from '@/components/elements/google'
-import { BikePicture } from '@/components/elements/bikes'
+import { GoogleMap, GoogleMapOperationArea } from '@/components/elements/google'
+import { BikePicture, BikeName } from '@/components/elements/bikes'
 // MUI
-import {
-  Skeleton,
-  Box,
-  Stack,
-  ButtonGroup,
-  Button,
-  Typography,
-  Grid,
-} from '@mui/material'
+import { Skeleton, Box } from '@mui/material'
 
 // components
 import { useGoogleMap } from '@/hooks/useGoogleMap'
@@ -62,6 +54,7 @@ export const Top = () => {
             width: '40vw',
           }}
         >
+          <BikeName />
           <BikePicture />
         </Box>
 
@@ -71,30 +64,12 @@ export const Top = () => {
             width: '60vw',
           }}
         >
-          <Box
-            sx={{
-              p: 2,
-              bgcolor: '#ffffdd',
-              textAlign: 'center',
-            }}
-          >
-            <Stack
-              direction="row"
-              alignItems="center"
-              justifyContent="center"
-              spacing={2}
-            >
-              <Button variant="outlined" onClick={getOriginPoint}>
-                現在地を取得する
-              </Button>
-              <Button variant="outlined" onClick={clearRoute}>
-                ルート削除
-              </Button>
-
-              <Typography>走行距離: {calculatedRouteDistance}</Typography>
-              <Typography>時間: {calculatedRouteDuration} </Typography>
-            </Stack>
-          </Box>
+          <GoogleMapOperationArea
+            getOriginPoint={getOriginPoint}
+            clearRoute={clearRoute}
+            calculatedRouteDistance={calculatedRouteDistance}
+            calculatedRouteDuration={calculatedRouteDuration}
+          />
 
           <GoogleMap
             pos={window.pos}
