@@ -3,6 +3,7 @@ import {
   BikePicture,
   BikeName,
   BikeCruisingDistanceArea,
+  BikeSelectArea,
 } from '@/components/elements/bikes'
 // MUI
 import { Skeleton, Box } from '@mui/material'
@@ -58,6 +59,7 @@ export const Top = () => {
             width: '40vw',
           }}
         >
+          <BikeSelectArea />
           <BikeName />
           <BikePicture />
           <BikeCruisingDistanceArea />
