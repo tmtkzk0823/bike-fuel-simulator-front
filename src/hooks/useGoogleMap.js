@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback } from 'react'
 import { useJsApiLoader } from '@react-google-maps/api'
 
 export const useGoogleMap = () => {
