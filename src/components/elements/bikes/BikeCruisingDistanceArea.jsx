@@ -13,7 +13,7 @@ export const BikeCruisingDistanceArea = () => {
         fontSize: 20,
       }}
     >
-      370km
+      航続距離 : 370km
     </Box>
   )
 }
