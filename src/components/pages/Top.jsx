@@ -10,6 +10,7 @@ import { Skeleton, Box } from '@mui/material'
 
 // components
 import { useGoogleMap } from '@/hooks/useGoogleMap'
+import { useBikeSelect } from '@/hooks/useBikeSelect'
 import { Header } from '../elements/layouts/Header'
 import { Footer } from '../elements/layouts/Footer'
 
@@ -36,6 +37,15 @@ export const Top = () => {
     isVisibleAroundOriginPointCircle,
   } = useGoogleMap()
 
+  const {
+    selectBike,
+    setSelectBike,
+    changSelectBike,
+    sampleBikeArray,
+    isVisibleBikeSelectModal,
+    setIsVisibleBikeSelectModal,
+  } = useBikeSelect()
+
   if (!isLoaded) {
     return (
       <Box sx={{ width: 300 }}>
@@ -59,7 +69,14 @@ export const Top = () => {
             width: '40vw',
           }}
         >
-          <BikeSelectArea />
+          <BikeSelectArea
+            selectBike={selectBike}
+            setSelectBike={setSelectBike}
+            changSelectBike={changSelectBike}
+            sampleBikeArray={sampleBikeArray}
+            isVisibleBikeSelectModal={isVisibleBikeSelectModal}
+            setIsVisibleBikeSelectModal={setIsVisibleBikeSelectModal}
+          />
           <BikeName />
           <BikePicture />
           <BikeCruisingDistanceArea />
