@@ -1,1 +1,2 @@
-export { BikeSelectDialog } from './BikeSelectDialog'
+export { SelectBikeMakerDialog } from './SelectBikeMakerDialog'
+export { MakersBikeList } from './MakersBikeList'
