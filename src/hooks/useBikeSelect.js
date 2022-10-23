@@ -12,12 +12,12 @@ export const useBikeSelect = () => {
 
   const sampleBikeArray = ['YZF-R1', 'YZF-R7', 'YZF-R6']
 
-  return (
+  return {
     selectBike,
     setSelectBike,
     changeSelectBike,
     sampleBikeArray,
     isVisibleBikeSelectModal,
-    setIsVisibleBikeSelectModal
-  )
+    setIsVisibleBikeSelectModal,
+  }
 }

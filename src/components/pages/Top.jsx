@@ -40,7 +40,7 @@ export const Top = () => {
   const {
     selectBike,
     setSelectBike,
-    changSelectBike,
+    changeSelectBike,
     sampleBikeArray,
     isVisibleBikeSelectModal,
     setIsVisibleBikeSelectModal,
@@ -72,7 +72,7 @@ export const Top = () => {
           <BikeSelectArea
             selectBike={selectBike}
             setSelectBike={setSelectBike}
-            changSelectBike={changSelectBike}
+            changeSelectBike={changeSelectBike}
             sampleBikeArray={sampleBikeArray}
             isVisibleBikeSelectModal={isVisibleBikeSelectModal}
             setIsVisibleBikeSelectModal={setIsVisibleBikeSelectModal}

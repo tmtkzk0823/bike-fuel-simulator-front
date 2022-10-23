@@ -1,5 +1,5 @@
 // components
-import { BikeSelectDialog } from '@/components/elements/dialogs/BikeSelectDialog'
+import { SelectBikeMakerDialog } from '../dialogs'
 //MUI
 import { Box, Button } from '@mui/material'
 
@@ -7,7 +7,7 @@ export const BikeSelectArea = (props) => {
   const {
     selectBike,
     setSelectBike,
-    changSelectBike,
+    changeSelectBike,
     sampleBikeArray,
     setIsVisibleBikeSelectModal,
     isVisibleBikeSelectModal,
@@ -29,10 +29,10 @@ export const BikeSelectArea = (props) => {
       <Button onClick={() => setIsVisibleBikeSelectModal(true)}>
         バイクを選択する
       </Button>
-      <BikeSelectDialog
+      <SelectBikeMakerDialog
         selectBike={selectBike}
         setSelectBike={setSelectBike}
-        changSelectBike={changSelectBike}
+        changSelectBike={changeSelectBike}
         sampleBikeArray={sampleBikeArray}
         isVisibleBikeSelectModal={isVisibleBikeSelectModal}
         setIsVisibleBikeSelectModal={setIsVisibleBikeSelectModal}
