@@ -1,10 +1,19 @@
 // MUI
-import { Dialog, DialogContent, DialogTitle } from '@mui/material'
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+} from '@mui/material'
 
-// component
-import { MakersBikeList } from './MakersBikeList'
+//hooks
+import { memo, useEffect, useState } from 'react'
 
-export const SelectBikeMakerDialog = (props) => {
+export const SelectBikeMakerDialog = memo((props) => {
   const {
     selectBike,
     setSelectBike,
@@ -12,7 +21,25 @@ export const SelectBikeMakerDialog = (props) => {
     sampleBikeArray,
     isVisibleBikeSelectModal,
     setIsVisibleBikeSelectModal,
+    getManufacturersIndex,
+    manufacturersIndexData,
+    setManufacturersIndexData,
   } = props
+
+  const [manufacturersApiCall, setManufacturersApiCall] = useState(false)
+
+  useEffect(() => {
+    getManufacturersIndex().then((data) => {
+      const manufacturers = data.manufacturers.map((manufacturer) => {
+        return {
+          manufacturer_id: manufacturer.id,
+          name: manufacturer.name,
+        }
+      })
+      setManufacturersIndexData(manufacturers)
+      setManufacturersApiCall(true)
+    })
+  }, [])
 
   return (
     <Dialog
@@ -32,35 +59,40 @@ export const SelectBikeMakerDialog = (props) => {
           display: 'flex',
         }}
       >
-        <MakersBikeList
-          bikeMaker={'HONDA'}
-          selectBike={selectBike}
-          setSelectBike={setSelectBike}
-          changeSelectBike={changeSelectBike}
-          sampleBikeArray={sampleBikeArray}
-        />
-        <MakersBikeList
-          bikeMaker={'YAMAHA'}
-          selectBike={selectBike}
-          setSelectBike={setSelectBike}
-          changeSelectBike={changeSelectBike}
-          sampleBikeArray={sampleBikeArray}
-        />
-        <MakersBikeList
-          bikeMaker={'SUZUKI'}
-          selectBike={selectBike}
-          setSelectBike={setSelectBike}
-          changeSelectBike={changeSelectBike}
-          sampleBikeArray={sampleBikeArray}
-        />
-        <MakersBikeList
-          bikeMaker={'KAWASAKI'}
-          selectBike={selectBike}
-          setSelectBike={setSelectBike}
-          changeSelectBike={changeSelectBike}
-          sampleBikeArray={sampleBikeArray}
-        />
+        {manufacturersApiCall ? (
+          manufacturersIndexData.map((manufacturersIndex) => (
+            <Box
+              sx={{ minWidth: 120, mr: 2 }}
+              key={manufacturersIndex.manufacturer_id}
+            >
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">
+                  {manufacturersIndex.name}
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={selectBike}
+                  label="BIKE"
+                  onChange={changeSelectBike}
+                >
+                  {sampleBikeArray.map((bikeName, index) => (
+                    <MenuItem
+                      onClick={() => setSelectBike(bikeName)}
+                      value={bikeName}
+                      key={index}
+                    >
+                      {bikeName}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+          ))
+        ) : (
+          <p>ロード中</p>
+        )}
       </DialogContent>
     </Dialog>
   )
-}
+})

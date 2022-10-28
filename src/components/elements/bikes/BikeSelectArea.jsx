@@ -11,6 +11,9 @@ export const BikeSelectArea = (props) => {
     sampleBikeArray,
     setIsVisibleBikeSelectModal,
     isVisibleBikeSelectModal,
+    getManufacturersIndex,
+    setManufacturersIndexData,
+    manufacturersIndexData,
   } = props
 
   return (
@@ -36,6 +39,9 @@ export const BikeSelectArea = (props) => {
         sampleBikeArray={sampleBikeArray}
         isVisibleBikeSelectModal={isVisibleBikeSelectModal}
         setIsVisibleBikeSelectModal={setIsVisibleBikeSelectModal}
+        getManufacturersIndex={getManufacturersIndex}
+        manufacturersIndexData={manufacturersIndexData}
+        setManufacturersIndexData={setManufacturersIndexData}
       />
     </Box>
   )

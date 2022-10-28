@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react'
+
 import { GoogleMap, GoogleMapOperationArea } from '@/components/elements/google'
 import {
   BikePicture,
@@ -7,6 +9,9 @@ import {
 } from '@/components/elements/bikes'
 // MUI
 import { Skeleton, Box } from '@mui/material'
+
+//api
+import { getManufacturersIndex } from '@/apis/getManufacturers'
 
 // components
 import { useGoogleMap } from '@/hooks/useGoogleMap'
@@ -44,6 +49,8 @@ export const Top = () => {
     sampleBikeArray,
     isVisibleBikeSelectModal,
     setIsVisibleBikeSelectModal,
+    manufacturersIndexData,
+    setManufacturersIndexData,
   } = useBikeSelect()
 
   if (!isLoaded) {
@@ -76,6 +83,9 @@ export const Top = () => {
             sampleBikeArray={sampleBikeArray}
             isVisibleBikeSelectModal={isVisibleBikeSelectModal}
             setIsVisibleBikeSelectModal={setIsVisibleBikeSelectModal}
+            getManufacturersIndex={getManufacturersIndex}
+            manufacturersIndexData={manufacturersIndexData}
+            setManufacturersIndexData={setManufacturersIndexData}
           />
           <BikeName />
           <BikePicture />
