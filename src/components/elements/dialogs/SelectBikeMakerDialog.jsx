@@ -14,6 +14,14 @@ export const SelectBikeMakerDialog = memo((props) => {
   } = props
 
   const [manufacturersApiCall, setManufacturersApiCall] = useState(false)
+  const [isVisibleManufacturersBikeList, setIsVisibleManufacturersBikeList] =
+    useState(false)
+  const [stateManufacturerId, setStateManufacturerId] = useState('')
+
+  const getManufacturersBikeList = (manufacturerId) => {
+    setIsVisibleManufacturersBikeList(true)
+    setStateManufacturerId(manufacturerId)
+  }
 
   useEffect(() => {
     getManufacturersIndex().then((data) => {
@@ -53,12 +61,24 @@ export const SelectBikeMakerDialog = memo((props) => {
       >
         {manufacturersApiCall ? (
           manufacturersIndexData.map((manufacturersIndex) => (
-            <Button key={manufacturersIndex.manufacturer_id} variant="outlined">
+            <Button
+              key={manufacturersIndex.manufacturer_id}
+              onClick={() =>
+                getManufacturersBikeList(manufacturersIndex.manufacturer_id)
+              }
+              variant="outlined"
+            >
               {manufacturersIndex.name}
             </Button>
           ))
         ) : (
           <p>ロード中</p>
+        )}
+
+        {isVisibleManufacturersBikeList ? (
+          stateManufacturerId
+        ) : (
+          <p>バイクのメーカーを選択してください</p>
         )}
       </DialogContent>
     </Dialog>
