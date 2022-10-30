@@ -43,10 +43,6 @@ export const Top = () => {
   } = useGoogleMap()
 
   const {
-    selectBike,
-    setSelectBike,
-    changeSelectBike,
-    sampleBikeArray,
     isVisibleBikeSelectModal,
     setIsVisibleBikeSelectModal,
     manufacturersIndexData,
@@ -77,10 +73,6 @@ export const Top = () => {
           }}
         >
           <BikeSelectArea
-            selectBike={selectBike}
-            setSelectBike={setSelectBike}
-            changeSelectBike={changeSelectBike}
-            sampleBikeArray={sampleBikeArray}
             isVisibleBikeSelectModal={isVisibleBikeSelectModal}
             setIsVisibleBikeSelectModal={setIsVisibleBikeSelectModal}
             getManufacturersIndex={getManufacturersIndex}

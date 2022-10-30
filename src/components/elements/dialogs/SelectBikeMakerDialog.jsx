@@ -1,24 +1,11 @@
 // MUI
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Box,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-} from '@mui/material'
+import { Dialog, DialogContent, DialogTitle, Box, Button } from '@mui/material'
 
 //hooks
 import { memo, useEffect, useState } from 'react'
 
 export const SelectBikeMakerDialog = memo((props) => {
   const {
-    selectBike,
-    setSelectBike,
-    changeSelectBike,
-    sampleBikeArray,
     isVisibleBikeSelectModal,
     setIsVisibleBikeSelectModal,
     getManufacturersIndex,
@@ -44,6 +31,8 @@ export const SelectBikeMakerDialog = memo((props) => {
   return (
     <Dialog
       open={isVisibleBikeSelectModal}
+      maxWidth={'lg'}
+      fullWidth={true}
       onClose={() => setIsVisibleBikeSelectModal(false)}
     >
       <DialogTitle
@@ -57,37 +46,16 @@ export const SelectBikeMakerDialog = memo((props) => {
       <DialogContent
         sx={{
           display: 'flex',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(4, 1fr)',
+          gap: 3,
         }}
       >
         {manufacturersApiCall ? (
           manufacturersIndexData.map((manufacturersIndex) => (
-            <Box
-              sx={{ minWidth: 120, mr: 2 }}
-              key={manufacturersIndex.manufacturer_id}
-            >
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">
-                  {manufacturersIndex.name}
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={selectBike}
-                  label="BIKE"
-                  onChange={changeSelectBike}
-                >
-                  {sampleBikeArray.map((bikeName, index) => (
-                    <MenuItem
-                      onClick={() => setSelectBike(bikeName)}
-                      value={bikeName}
-                      key={index}
-                    >
-                      {bikeName}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Box>
+            <Button key={manufacturersIndex.manufacturer_id} variant="outlined">
+              {manufacturersIndex.name}
+            </Button>
           ))
         ) : (
           <p>ロード中</p>

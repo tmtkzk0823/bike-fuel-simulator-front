@@ -5,10 +5,6 @@ import { Box, Button } from '@mui/material'
 
 export const BikeSelectArea = (props) => {
   const {
-    selectBike,
-    setSelectBike,
-    changeSelectBike,
-    sampleBikeArray,
     setIsVisibleBikeSelectModal,
     isVisibleBikeSelectModal,
     getManufacturersIndex,
@@ -33,10 +29,6 @@ export const BikeSelectArea = (props) => {
         バイクを選択する
       </Button>
       <SelectBikeMakerDialog
-        selectBike={selectBike}
-        setSelectBike={setSelectBike}
-        changSelectBike={changeSelectBike}
-        sampleBikeArray={sampleBikeArray}
         isVisibleBikeSelectModal={isVisibleBikeSelectModal}
         setIsVisibleBikeSelectModal={setIsVisibleBikeSelectModal}
         getManufacturersIndex={getManufacturersIndex}
