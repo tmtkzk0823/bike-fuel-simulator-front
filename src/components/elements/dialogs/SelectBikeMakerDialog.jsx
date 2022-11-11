@@ -1,5 +1,5 @@
 // MUI
-import { Dialog, DialogContent, DialogTitle, Box, Button } from '@mui/material'
+import { Dialog, DialogContent, DialogTitle, Button } from '@mui/material'
 
 //hooks
 import { memo, useEffect, useState } from 'react'
