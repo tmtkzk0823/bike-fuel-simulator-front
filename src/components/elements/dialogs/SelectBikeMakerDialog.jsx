@@ -14,7 +14,6 @@ export const SelectBikeMakerDialog = memo((props) => {
     manufacturersApiCall,
     setManufacturersApiCall,
     isVisibleManufacturersBikeList,
-    stateManufacturerId,
     getManufacturersBikeList,
   } = props
 
@@ -70,7 +69,7 @@ export const SelectBikeMakerDialog = memo((props) => {
         )}
 
         {isVisibleManufacturersBikeList ? (
-          stateManufacturerId
+          '文字列'
         ) : (
           <p>バイクのメーカーを選択してください</p>
         )}

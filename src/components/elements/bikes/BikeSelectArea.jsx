@@ -13,7 +13,6 @@ export const BikeSelectArea = (props) => {
     manufacturersApiCall,
     setManufacturersApiCall,
     isVisibleManufacturersBikeList,
-    stateManufacturerId,
     getManufacturersBikeList,
   } = props
 
@@ -42,7 +41,6 @@ export const BikeSelectArea = (props) => {
         manufacturersApiCall={manufacturersApiCall}
         setManufacturersApiCall={setManufacturersApiCall}
         isVisibleManufacturersBikeList={isVisibleManufacturersBikeList}
-        stateManufacturerId={stateManufacturerId}
         getManufacturersBikeList={getManufacturersBikeList}
       />
     </Box>

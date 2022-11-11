@@ -50,7 +50,6 @@ export const Top = () => {
     manufacturersApiCall,
     setManufacturersApiCall,
     isVisibleManufacturersBikeList,
-    stateManufacturerId,
     getManufacturersBikeList,
   } = useBikeSelect()
 
@@ -86,7 +85,6 @@ export const Top = () => {
             manufacturersApiCall={manufacturersApiCall}
             setManufacturersApiCall={setManufacturersApiCall}
             isVisibleManufacturersBikeList={isVisibleManufacturersBikeList}
-            stateManufacturerId={stateManufacturerId}
             getManufacturersBikeList={getManufacturersBikeList}
           />
           <BikeName />
