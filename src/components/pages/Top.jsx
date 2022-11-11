@@ -47,6 +47,11 @@ export const Top = () => {
     setIsVisibleBikeSelectModal,
     manufacturersIndexData,
     setManufacturersIndexData,
+    manufacturersApiCall,
+    setManufacturersApiCall,
+    isVisibleManufacturersBikeList,
+    stateManufacturerId,
+    getManufacturersBikeList,
   } = useBikeSelect()
 
   if (!isLoaded) {
@@ -78,6 +83,11 @@ export const Top = () => {
             getManufacturersIndex={getManufacturersIndex}
             manufacturersIndexData={manufacturersIndexData}
             setManufacturersIndexData={setManufacturersIndexData}
+            manufacturersApiCall={manufacturersApiCall}
+            setManufacturersApiCall={setManufacturersApiCall}
+            isVisibleManufacturersBikeList={isVisibleManufacturersBikeList}
+            stateManufacturerId={stateManufacturerId}
+            getManufacturersBikeList={getManufacturersBikeList}
           />
           <BikeName />
           <BikePicture />

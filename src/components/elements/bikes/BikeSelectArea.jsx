@@ -10,6 +10,11 @@ export const BikeSelectArea = (props) => {
     getManufacturersIndex,
     setManufacturersIndexData,
     manufacturersIndexData,
+    manufacturersApiCall,
+    setManufacturersApiCall,
+    isVisibleManufacturersBikeList,
+    stateManufacturerId,
+    getManufacturersBikeList,
   } = props
 
   return (
@@ -34,6 +39,11 @@ export const BikeSelectArea = (props) => {
         getManufacturersIndex={getManufacturersIndex}
         manufacturersIndexData={manufacturersIndexData}
         setManufacturersIndexData={setManufacturersIndexData}
+        manufacturersApiCall={manufacturersApiCall}
+        setManufacturersApiCall={setManufacturersApiCall}
+        isVisibleManufacturersBikeList={isVisibleManufacturersBikeList}
+        stateManufacturerId={stateManufacturerId}
+        getManufacturersBikeList={getManufacturersBikeList}
       />
     </Box>
   )

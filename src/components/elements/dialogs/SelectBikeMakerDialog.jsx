@@ -2,7 +2,7 @@
 import { Dialog, DialogContent, DialogTitle, Button } from '@mui/material'
 
 //hooks
-import { memo, useEffect, useState } from 'react'
+import { memo, useEffect } from 'react'
 
 export const SelectBikeMakerDialog = memo((props) => {
   const {
@@ -11,17 +11,12 @@ export const SelectBikeMakerDialog = memo((props) => {
     getManufacturersIndex,
     manufacturersIndexData,
     setManufacturersIndexData,
+    manufacturersApiCall,
+    setManufacturersApiCall,
+    isVisibleManufacturersBikeList,
+    stateManufacturerId,
+    getManufacturersBikeList,
   } = props
-
-  const [manufacturersApiCall, setManufacturersApiCall] = useState(false)
-  const [isVisibleManufacturersBikeList, setIsVisibleManufacturersBikeList] =
-    useState(false)
-  const [stateManufacturerId, setStateManufacturerId] = useState('')
-
-  const getManufacturersBikeList = (manufacturerId) => {
-    setIsVisibleManufacturersBikeList(true)
-    setStateManufacturerId(manufacturerId)
-  }
 
   useEffect(() => {
     getManufacturersIndex().then((data) => {
@@ -53,7 +48,6 @@ export const SelectBikeMakerDialog = memo((props) => {
       </DialogTitle>
       <DialogContent
         sx={{
-          display: 'flex',
           display: 'grid',
           gridTemplateColumns: 'repeat(4, 1fr)',
           gap: 3,
