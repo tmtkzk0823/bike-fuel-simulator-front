@@ -1,5 +1,7 @@
 // hooks
 import { useState } from 'react'
+// api
+import { getBikesIndex } from '@/apis/getBikesIndex'
 
 export const useBikeSelect = () => {
   const [manufacturersIndexData, setManufacturersIndexData] = useState([])
@@ -16,7 +18,7 @@ export const useBikeSelect = () => {
 
   const getManufacturersBikeList = (manufacturerId) => {
     setIsVisibleManufacturersBikeList(true)
-    setStateManufacturerId(manufacturerId)
+    getBikesIndex(manufacturerId).then((data) => console.log(data))
   }
 
   return {
@@ -27,7 +29,6 @@ export const useBikeSelect = () => {
     manufacturersApiCall,
     setManufacturersApiCall,
     isVisibleManufacturersBikeList,
-    stateManufacturerId,
     getManufacturersBikeList,
   }
 }
