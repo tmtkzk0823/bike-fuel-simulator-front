@@ -1,5 +1,5 @@
 // MUI
-import { Dialog, DialogContent, DialogTitle, Button } from '@mui/material'
+import { Dialog, DialogContent, DialogTitle, Button, Box } from '@mui/material'
 
 //hooks
 import { memo, useEffect } from 'react'
@@ -15,6 +15,12 @@ export const SelectBikeMakerDialog = memo((props) => {
     setManufacturersApiCall,
     isVisibleManufacturersBikeList,
     getManufacturersBikeList,
+    bikeListDisplacement0To50,
+    bikeListDisplacement51To125,
+    bikeListDisplacement126To250,
+    bikeListDisplacement126To400,
+    bikeListDisplacement401To750,
+    bikeListDisplacementOver750,
   } = props
 
   useEffect(() => {
@@ -69,7 +75,11 @@ export const SelectBikeMakerDialog = memo((props) => {
         )}
 
         {isVisibleManufacturersBikeList ? (
-          '文字列'
+          <Box>
+            {bikeListDisplacement0To50.map((bike) => (
+              <img src={bike.image} />
+            ))}
+          </Box>
         ) : (
           <p>バイクのメーカーを選択してください</p>
         )}

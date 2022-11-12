@@ -51,6 +51,12 @@ export const Top = () => {
     setManufacturersApiCall,
     isVisibleManufacturersBikeList,
     getManufacturersBikeList,
+    bikeListDisplacement0To50,
+    bikeListDisplacement51To125,
+    bikeListDisplacement126To250,
+    bikeListDisplacement126To400,
+    bikeListDisplacement401To750,
+    bikeListDisplacementOver750,
   } = useBikeSelect()
 
   if (!isLoaded) {
@@ -86,6 +92,12 @@ export const Top = () => {
             setManufacturersApiCall={setManufacturersApiCall}
             isVisibleManufacturersBikeList={isVisibleManufacturersBikeList}
             getManufacturersBikeList={getManufacturersBikeList}
+            bikeListDisplacement0To50={bikeListDisplacement0To50}
+            bikeListDisplacement51To125={bikeListDisplacement51To125}
+            bikeListDisplacement126To250={bikeListDisplacement126To250}
+            bikeListDisplacement126To400={bikeListDisplacement126To400}
+            bikeListDisplacement401To750={bikeListDisplacement401To750}
+            bikeListDisplacementOver750={bikeListDisplacementOver750}
           />
           <BikeName />
           <BikePicture />

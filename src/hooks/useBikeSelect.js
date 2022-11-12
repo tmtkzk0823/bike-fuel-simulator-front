@@ -14,11 +14,32 @@ export const useBikeSelect = () => {
   const [isVisibleManufacturersBikeList, setIsVisibleManufacturersBikeList] =
     useState(false)
 
-  const [stateManufacturerId, setStateManufacturerId] = useState('')
+  const [bikeListDisplacement0To50, setBikeListDisplacement0To50] = useState([])
+
+  const [bikeListDisplacement51To125, setBikeListDisplacement51To125] =
+    useState([])
+
+  const [bikeListDisplacement126To250, setBikeListDisplacement126To250] =
+    useState([])
+  const [bikeListDisplacement126To400, setBikeListDisplacement126To400] =
+    useState([])
+  const [bikeListDisplacement401To750, setBikeListDisplacement401To750] =
+    useState([])
+  const [bikeListDisplacementOver750, setBikeListDisplacementOver750] =
+    useState([])
 
   const getManufacturersBikeList = (manufacturerId) => {
     setIsVisibleManufacturersBikeList(true)
-    getBikesIndex(manufacturerId).then((data) => console.log(data))
+    getBikesIndex(manufacturerId).then(
+      (data) => (
+        setBikeListDisplacement0To50(data.bike_lists_displacement_0_50),
+        setBikeListDisplacement51To125(data.bike_lists_displacement_51_125),
+        setBikeListDisplacement126To250(data.bike_lists_displacement_126_250),
+        setBikeListDisplacement126To400(data.bike_lists_displacement_251_400),
+        setBikeListDisplacement401To750(data.bike_lists_displacement_401_750),
+        setBikeListDisplacementOver750(data.bike_lists_displacement_over750)
+      )
+    )
   }
 
   return {
@@ -30,5 +51,11 @@ export const useBikeSelect = () => {
     setManufacturersApiCall,
     isVisibleManufacturersBikeList,
     getManufacturersBikeList,
+    bikeListDisplacement0To50,
+    bikeListDisplacement51To125,
+    bikeListDisplacement126To250,
+    bikeListDisplacement126To400,
+    bikeListDisplacement401To750,
+    bikeListDisplacementOver750,
   }
 }
