@@ -55,6 +55,7 @@ export const SelectBikeMakerDialog = memo((props) => {
         sx={{
           fontSize: '30px',
           textAlign: 'center',
+          pb: '0',
         }}
       >
         メーカー
@@ -164,7 +165,12 @@ export const SelectBikeMakerDialog = memo((props) => {
               }}
             >
               {bikeListDisplacement251To400.map((bike) => (
-                <Card>
+                <Card
+                  sx={{
+                    alignItems: 'center',
+                    textAlign: 'center',
+                  }}
+                >
                   <img src={bike.image} width="200" />
                   <DialogTitle>{bike.name}</DialogTitle>
                 </Card>
