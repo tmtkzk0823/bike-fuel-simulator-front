@@ -54,7 +54,7 @@ export const Top = () => {
     bikeListDisplacement0To50,
     bikeListDisplacement51To125,
     bikeListDisplacement126To250,
-    bikeListDisplacement126To400,
+    bikeListDisplacement251To400,
     bikeListDisplacement401To750,
     bikeListDisplacementOver750,
   } = useBikeSelect()
@@ -95,7 +95,7 @@ export const Top = () => {
             bikeListDisplacement0To50={bikeListDisplacement0To50}
             bikeListDisplacement51To125={bikeListDisplacement51To125}
             bikeListDisplacement126To250={bikeListDisplacement126To250}
-            bikeListDisplacement126To400={bikeListDisplacement126To400}
+            bikeListDisplacement251To400={bikeListDisplacement251To400}
             bikeListDisplacement401To750={bikeListDisplacement401To750}
             bikeListDisplacementOver750={bikeListDisplacementOver750}
           />

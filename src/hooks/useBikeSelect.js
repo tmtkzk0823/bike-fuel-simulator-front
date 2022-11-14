@@ -21,7 +21,7 @@ export const useBikeSelect = () => {
 
   const [bikeListDisplacement126To250, setBikeListDisplacement126To250] =
     useState([])
-  const [bikeListDisplacement126To400, setBikeListDisplacement126To400] =
+  const [bikeListDisplacement251To400, setBikeListDisplacement251To400] =
     useState([])
   const [bikeListDisplacement401To750, setBikeListDisplacement401To750] =
     useState([])
@@ -35,7 +35,7 @@ export const useBikeSelect = () => {
         setBikeListDisplacement0To50(data.bike_lists_displacement_0_50),
         setBikeListDisplacement51To125(data.bike_lists_displacement_51_125),
         setBikeListDisplacement126To250(data.bike_lists_displacement_126_250),
-        setBikeListDisplacement126To400(data.bike_lists_displacement_251_400),
+        setBikeListDisplacement251To400(data.bike_lists_displacement_251_400),
         setBikeListDisplacement401To750(data.bike_lists_displacement_401_750),
         setBikeListDisplacementOver750(data.bike_lists_displacement_over750)
       )
@@ -54,7 +54,7 @@ export const useBikeSelect = () => {
     bikeListDisplacement0To50,
     bikeListDisplacement51To125,
     bikeListDisplacement126To250,
-    bikeListDisplacement126To400,
+    bikeListDisplacement251To400,
     bikeListDisplacement401To750,
     bikeListDisplacementOver750,
   }
