@@ -1,5 +1,13 @@
 // MUI
-import { Dialog, DialogContent, DialogTitle, Button, Box } from '@mui/material'
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogContentText,
+  Button,
+  Box,
+  Card,
+} from '@mui/material'
 
 //hooks
 import { memo, useEffect } from 'react'
@@ -18,7 +26,7 @@ export const SelectBikeMakerDialog = memo((props) => {
     bikeListDisplacement0To50,
     bikeListDisplacement51To125,
     bikeListDisplacement126To250,
-    bikeListDisplacement126To400,
+    bikeListDisplacement251To400,
     bikeListDisplacement401To750,
     bikeListDisplacementOver750,
   } = props
@@ -51,35 +59,160 @@ export const SelectBikeMakerDialog = memo((props) => {
       >
         メーカー
       </DialogTitle>
-      <DialogContent
-        sx={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: 3,
-        }}
-      >
-        {manufacturersApiCall ? (
-          manufacturersIndexData.map((manufacturersIndex) => (
-            <Button
-              key={manufacturersIndex.manufacturer_id}
-              onClick={() =>
-                getManufacturersBikeList(manufacturersIndex.manufacturer_id)
-              }
-              variant="outlined"
-            >
-              {manufacturersIndex.name}
-            </Button>
-          ))
-        ) : (
-          <p>ロード中</p>
-        )}
-
+      <Box>
+        <DialogContent
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(4, 1fr)',
+            gap: 3,
+          }}
+        >
+          {manufacturersApiCall ? (
+            manufacturersIndexData.map((manufacturersIndex) => (
+              <Button
+                key={manufacturersIndex.manufacturer_id}
+                onClick={() =>
+                  getManufacturersBikeList(manufacturersIndex.manufacturer_id)
+                }
+                variant="outlined"
+              >
+                {manufacturersIndex.name}
+              </Button>
+            ))
+          ) : (
+            <p>ロード中</p>
+          )}
+        </DialogContent>
+      </Box>
+      <DialogContent>
         {isVisibleManufacturersBikeList ? (
-          <Box>
-            {bikeListDisplacement0To50.map((bike) => (
-              <img src={bike.image} />
-            ))}
-          </Box>
+          <>
+            <DialogContentText>~50cc</DialogContentText>
+            <Box
+              sx={{
+                width: 'auto',
+                display: 'grid',
+                gridTemplateColumns: 'repeat(3, 1fr)',
+                gap: 3,
+              }}
+            >
+              {bikeListDisplacement0To50.length === 0 ? (
+                <p>該当するバイクはありません</p>
+              ) : (
+                bikeListDisplacement0To50.map((bike) => (
+                  <Card
+                    sx={{
+                      alignItems: 'center',
+                      textAlign: 'center',
+                    }}
+                  >
+                    <img src={bike.image} width="200" />
+                    <DialogTitle>{bike.name}</DialogTitle>
+                  </Card>
+                ))
+              )}
+            </Box>
+            <DialogContentText>51cc~125cc</DialogContentText>
+            <Box
+              sx={{
+                width: 'auto',
+                display: 'grid',
+                gridTemplateColumns: 'repeat(3, 1fr)',
+                gap: 3,
+              }}
+            >
+              {bikeListDisplacement51To125.map((bike) => (
+                <Card
+                  sx={{
+                    alignItems: 'center',
+                    textAlign: 'center',
+                  }}
+                >
+                  <img src={bike.image} width="200" />
+                  <DialogTitle>{bike.name}</DialogTitle>
+                </Card>
+              ))}
+            </Box>
+            <DialogContentText>126cc~250cc</DialogContentText>
+            <Box
+              sx={{
+                width: 'auto',
+                display: 'grid',
+                gridTemplateColumns: 'repeat(3, 1fr)',
+                gap: 3,
+              }}
+            >
+              {bikeListDisplacement126To250.map((bike) => (
+                <Card
+                  sx={{
+                    alignItems: 'center',
+                    textAlign: 'center',
+                  }}
+                >
+                  <img src={bike.image} width="200" />
+                  <DialogTitle>{bike.name}</DialogTitle>
+                </Card>
+              ))}
+            </Box>
+            <DialogContentText>251cc~400cc</DialogContentText>
+            <Box
+              sx={{
+                width: 'auto',
+                display: 'grid',
+                gridTemplateColumns: 'repeat(3, 1fr)',
+                gap: 3,
+              }}
+            >
+              {bikeListDisplacement251To400.map((bike) => (
+                <Card>
+                  <img src={bike.image} width="200" />
+                  <DialogTitle>{bike.name}</DialogTitle>
+                </Card>
+              ))}
+            </Box>
+            <DialogContentText>401cc~750cc</DialogContentText>
+            <Box
+              sx={{
+                width: 'auto',
+                display: 'grid',
+                gridTemplateColumns: 'repeat(3, 1fr)',
+                gap: 3,
+              }}
+            >
+              {bikeListDisplacement401To750.map((bike) => (
+                <Card
+                  sx={{
+                    alignItems: 'center',
+                    textAlign: 'center',
+                  }}
+                >
+                  <img src={bike.image} width="200" />
+                  <DialogTitle>{bike.name}</DialogTitle>
+                </Card>
+              ))}
+            </Box>
+            <DialogContentText>750cc~</DialogContentText>
+            <Box
+              sx={{
+                width: 'auto',
+                display: 'grid',
+                gridTemplateColumns: 'repeat(3, 1fr)',
+                gap: 3,
+              }}
+            >
+              {bikeListDisplacementOver750.map((bike) => (
+                <Card
+                  sx={{
+                    alignItems: 'center',
+                    textAlign: 'center',
+                  }}
+                >
+                  <img src={bike.image} width="200" />
+                  <DialogTitle>{bike.name}</DialogTitle>
+                </Card>
+              ))}
+            </Box>
+          </>
         ) : (
           <p>バイクのメーカーを選択してください</p>
         )}
