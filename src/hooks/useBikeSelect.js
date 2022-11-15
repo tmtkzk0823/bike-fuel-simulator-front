@@ -14,11 +14,10 @@ export const useBikeSelect = () => {
   const [isVisibleManufacturersBikeList, setIsVisibleManufacturersBikeList] =
     useState(false)
 
+  // 排気量ごとにバイクの配列を受け取るstate
   const [bikeListDisplacement0To50, setBikeListDisplacement0To50] = useState([])
-
   const [bikeListDisplacement51To125, setBikeListDisplacement51To125] =
     useState([])
-
   const [bikeListDisplacement126To250, setBikeListDisplacement126To250] =
     useState([])
   const [bikeListDisplacement251To400, setBikeListDisplacement251To400] =
