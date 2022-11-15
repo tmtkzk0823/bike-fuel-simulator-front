@@ -57,6 +57,7 @@ export const Top = () => {
     bikeListDisplacement251To400,
     bikeListDisplacement401To750,
     bikeListDisplacementOver750,
+    bikeCardClickAction,
   } = useBikeSelect()
 
   if (!isLoaded) {
@@ -98,6 +99,7 @@ export const Top = () => {
             bikeListDisplacement251To400={bikeListDisplacement251To400}
             bikeListDisplacement401To750={bikeListDisplacement401To750}
             bikeListDisplacementOver750={bikeListDisplacementOver750}
+            bikeCardClickAction={bikeCardClickAction}
           />
           <BikeName />
           <BikePicture />

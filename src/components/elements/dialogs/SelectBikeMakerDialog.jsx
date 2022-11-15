@@ -12,8 +12,6 @@ import {
 
 //hooks
 import { memo, useEffect } from 'react'
-import { useAtom } from 'jotai'
-import { bikeDataAtom } from '@/jotai/atoms'
 
 export const SelectBikeMakerDialog = memo((props) => {
   const {
@@ -32,6 +30,7 @@ export const SelectBikeMakerDialog = memo((props) => {
     bikeListDisplacement251To400,
     bikeListDisplacement401To750,
     bikeListDisplacementOver750,
+    bikeCardClickAction,
   } = props
 
   useEffect(() => {
@@ -46,8 +45,6 @@ export const SelectBikeMakerDialog = memo((props) => {
       setManufacturersApiCall(true)
     })
   }, [])
-
-  const [, setBakeData] = useAtom(bikeDataAtom)
 
   return (
     <Dialog
@@ -113,17 +110,7 @@ export const SelectBikeMakerDialog = memo((props) => {
                       textAlign: 'center',
                     }}
                   >
-                    <CardActionArea
-                      onClick={() => (
-                        setBakeData({
-                          name: bike.name,
-                          image: bike.image,
-                          cruisingDistance: bike.cruising_distance,
-                          displacement: bike.displacement,
-                        }),
-                        setIsVisibleBikeSelectModal(false)
-                      )}
-                    >
+                    <CardActionArea onClick={() => bikeCardClickAction(bike)}>
                       <img src={bike.image} width="200" />
                       <DialogTitle>{bike.name}</DialogTitle>
                     </CardActionArea>
@@ -148,9 +135,7 @@ export const SelectBikeMakerDialog = memo((props) => {
                     textAlign: 'center',
                   }}
                 >
-                  <CardActionArea
-                    onClick={() => setIsVisibleBikeSelectModal(false)}
-                  >
+                  <CardActionArea onClick={() => bikeCardClickAction(bike)}>
                     <img src={bike.image} width="200" />
                     <DialogTitle>{bike.name}</DialogTitle>
                   </CardActionArea>
@@ -174,9 +159,7 @@ export const SelectBikeMakerDialog = memo((props) => {
                     textAlign: 'center',
                   }}
                 >
-                  <CardActionArea
-                    onClick={() => setIsVisibleBikeSelectModal(false)}
-                  >
+                  <CardActionArea onClick={() => bikeCardClickAction(bike)}>
                     <img src={bike.image} width="200" />
                     <DialogTitle>{bike.name}</DialogTitle>
                   </CardActionArea>
@@ -200,9 +183,7 @@ export const SelectBikeMakerDialog = memo((props) => {
                     textAlign: 'center',
                   }}
                 >
-                  <CardActionArea
-                    onClick={() => setIsVisibleBikeSelectModal(false)}
-                  >
+                  <CardActionArea onClick={() => bikeCardClickAction(bike)}>
                     <img src={bike.image} width="200" />
                     <DialogTitle>{bike.name}</DialogTitle>
                   </CardActionArea>
@@ -226,9 +207,7 @@ export const SelectBikeMakerDialog = memo((props) => {
                     textAlign: 'center',
                   }}
                 >
-                  <CardActionArea
-                    onClick={() => setIsVisibleBikeSelectModal(false)}
-                  >
+                  <CardActionArea onClick={() => bikeCardClickAction(bike)}>
                     <img src={bike.image} width="200" />
                     <DialogTitle>{bike.name}</DialogTitle>
                   </CardActionArea>
@@ -252,9 +231,7 @@ export const SelectBikeMakerDialog = memo((props) => {
                     textAlign: 'center',
                   }}
                 >
-                  <CardActionArea
-                    onClick={() => setIsVisibleBikeSelectModal(false)}
-                  >
+                  <CardActionArea onClick={() => bikeCardClickAction(bike)}>
                     <img src={bike.image} width="200" />
                     <DialogTitle>{bike.name}</DialogTitle>
                   </CardActionArea>
