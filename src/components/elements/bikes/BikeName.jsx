@@ -1,6 +1,9 @@
 import { Box } from '@mui/material'
+import { bikeDataAtom } from '@/jotai/atoms'
+import { useAtom } from 'jotai'
 
 export const BikeName = () => {
+  const [bikeData] = useAtom(bikeDataAtom)
   return (
     <Box
       sx={{
@@ -13,7 +16,7 @@ export const BikeName = () => {
         fontSize: 20,
       }}
     >
-      YZF-R7
+      {bikeData.name}
     </Box>
   )
 }
