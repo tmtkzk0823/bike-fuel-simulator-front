@@ -12,6 +12,8 @@ import {
 
 //hooks
 import { memo, useEffect } from 'react'
+import { useAtom } from 'jotai'
+import { bikeDataAtom } from '@/jotai/atoms'
 
 export const SelectBikeMakerDialog = memo((props) => {
   const {
@@ -44,6 +46,8 @@ export const SelectBikeMakerDialog = memo((props) => {
       setManufacturersApiCall(true)
     })
   }, [])
+
+  const [, setBakeData] = useAtom(bikeDataAtom)
 
   return (
     <Dialog
@@ -110,7 +114,15 @@ export const SelectBikeMakerDialog = memo((props) => {
                     }}
                   >
                     <CardActionArea
-                      onClick={() => setIsVisibleBikeSelectModal(false)}
+                      onClick={() => (
+                        setBakeData({
+                          name: bike.name,
+                          image: bike.image,
+                          cruisingDistance: bike.cruising_distance,
+                          displacement: bike.displacement,
+                        }),
+                        setIsVisibleBikeSelectModal(false)
+                      )}
                     >
                       <img src={bike.image} width="200" />
                       <DialogTitle>{bike.name}</DialogTitle>
