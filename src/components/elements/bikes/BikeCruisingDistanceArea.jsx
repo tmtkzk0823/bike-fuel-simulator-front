@@ -1,6 +1,10 @@
 import { Box } from '@mui/material'
+// グローバルstate
+import { bikeDataAtom } from '@/jotai/atoms'
+import { useAtom } from 'jotai'
 
 export const BikeCruisingDistanceArea = () => {
+  const [bikeData] = useAtom(bikeDataAtom)
   return (
     <Box
       sx={{
@@ -13,7 +17,7 @@ export const BikeCruisingDistanceArea = () => {
         fontSize: 20,
       }}
     >
-      航続距離 : 370km
+      航続距離 {bikeData.cruisingDistance}km
     </Box>
   )
 }

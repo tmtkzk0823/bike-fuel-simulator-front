@@ -20,6 +20,7 @@ export const BikeSelectArea = (props) => {
     bikeListDisplacement251To400,
     bikeListDisplacement401To750,
     bikeListDisplacementOver750,
+    bikeCardClickAction,
   } = props
 
   return (
@@ -48,6 +49,7 @@ export const BikeSelectArea = (props) => {
         setManufacturersApiCall={setManufacturersApiCall}
         isVisibleManufacturersBikeList={isVisibleManufacturersBikeList}
         getManufacturersBikeList={getManufacturersBikeList}
+        bikeCardClickAction={bikeCardClickAction}
         bikeListDisplacement0To50={bikeListDisplacement0To50}
         bikeListDisplacement51To125={bikeListDisplacement51To125}
         bikeListDisplacement126To250={bikeListDisplacement126To250}

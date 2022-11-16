@@ -7,6 +7,7 @@ import {
   Button,
   Box,
   Card,
+  CardActionArea,
 } from '@mui/material'
 
 //hooks
@@ -29,6 +30,7 @@ export const SelectBikeMakerDialog = memo((props) => {
     bikeListDisplacement251To400,
     bikeListDisplacement401To750,
     bikeListDisplacementOver750,
+    bikeCardClickAction,
   } = props
 
   useEffect(() => {
@@ -102,13 +104,16 @@ export const SelectBikeMakerDialog = memo((props) => {
               ) : (
                 bikeListDisplacement0To50.map((bike) => (
                   <Card
+                    key={bike.id}
                     sx={{
                       alignItems: 'center',
                       textAlign: 'center',
                     }}
                   >
-                    <img src={bike.image} width="200" />
-                    <DialogTitle>{bike.name}</DialogTitle>
+                    <CardActionArea onClick={() => bikeCardClickAction(bike)}>
+                      <img src={bike.image} width="200" />
+                      <DialogTitle>{bike.name}</DialogTitle>
+                    </CardActionArea>
                   </Card>
                 ))
               )}
@@ -124,13 +129,16 @@ export const SelectBikeMakerDialog = memo((props) => {
             >
               {bikeListDisplacement51To125.map((bike) => (
                 <Card
+                  key={bike.id}
                   sx={{
                     alignItems: 'center',
                     textAlign: 'center',
                   }}
                 >
-                  <img src={bike.image} width="200" />
-                  <DialogTitle>{bike.name}</DialogTitle>
+                  <CardActionArea onClick={() => bikeCardClickAction(bike)}>
+                    <img src={bike.image} width="200" />
+                    <DialogTitle>{bike.name}</DialogTitle>
+                  </CardActionArea>
                 </Card>
               ))}
             </Box>
@@ -145,13 +153,16 @@ export const SelectBikeMakerDialog = memo((props) => {
             >
               {bikeListDisplacement126To250.map((bike) => (
                 <Card
+                  key={bike.id}
                   sx={{
                     alignItems: 'center',
                     textAlign: 'center',
                   }}
                 >
-                  <img src={bike.image} width="200" />
-                  <DialogTitle>{bike.name}</DialogTitle>
+                  <CardActionArea onClick={() => bikeCardClickAction(bike)}>
+                    <img src={bike.image} width="200" />
+                    <DialogTitle>{bike.name}</DialogTitle>
+                  </CardActionArea>
                 </Card>
               ))}
             </Box>
@@ -166,13 +177,16 @@ export const SelectBikeMakerDialog = memo((props) => {
             >
               {bikeListDisplacement251To400.map((bike) => (
                 <Card
+                  key={bike.id}
                   sx={{
                     alignItems: 'center',
                     textAlign: 'center',
                   }}
                 >
-                  <img src={bike.image} width="200" />
-                  <DialogTitle>{bike.name}</DialogTitle>
+                  <CardActionArea onClick={() => bikeCardClickAction(bike)}>
+                    <img src={bike.image} width="200" />
+                    <DialogTitle>{bike.name}</DialogTitle>
+                  </CardActionArea>
                 </Card>
               ))}
             </Box>
@@ -187,13 +201,16 @@ export const SelectBikeMakerDialog = memo((props) => {
             >
               {bikeListDisplacement401To750.map((bike) => (
                 <Card
+                  key={bike.id}
                   sx={{
                     alignItems: 'center',
                     textAlign: 'center',
                   }}
                 >
-                  <img src={bike.image} width="200" />
-                  <DialogTitle>{bike.name}</DialogTitle>
+                  <CardActionArea onClick={() => bikeCardClickAction(bike)}>
+                    <img src={bike.image} width="200" />
+                    <DialogTitle>{bike.name}</DialogTitle>
+                  </CardActionArea>
                 </Card>
               ))}
             </Box>
@@ -208,13 +225,16 @@ export const SelectBikeMakerDialog = memo((props) => {
             >
               {bikeListDisplacementOver750.map((bike) => (
                 <Card
+                  key={bike.id}
                   sx={{
                     alignItems: 'center',
                     textAlign: 'center',
                   }}
                 >
-                  <img src={bike.image} width="200" />
-                  <DialogTitle>{bike.name}</DialogTitle>
+                  <CardActionArea onClick={() => bikeCardClickAction(bike)}>
+                    <img src={bike.image} width="200" />
+                    <DialogTitle>{bike.name}</DialogTitle>
+                  </CardActionArea>
                 </Card>
               ))}
             </Box>

@@ -2,6 +2,9 @@
 import { useState } from 'react'
 // api
 import { getBikesIndex } from '@/apis/getBikesIndex'
+// jotai
+import { useAtom } from 'jotai'
+import { bikeDataAtom } from '@/jotai/atoms'
 
 export const useBikeSelect = () => {
   const [manufacturersIndexData, setManufacturersIndexData] = useState([])
@@ -14,11 +17,23 @@ export const useBikeSelect = () => {
   const [isVisibleManufacturersBikeList, setIsVisibleManufacturersBikeList] =
     useState(false)
 
-  const [bikeListDisplacement0To50, setBikeListDisplacement0To50] = useState([])
+  // setterだけ使う
+  const [bikeData, setBakeData] = useAtom(bikeDataAtom)
 
+  const bikeCardClickAction = (bike) => {
+    setBakeData({
+      name: bike.name,
+      image: bike.image,
+      cruisingDistance: bike.cruising_distance,
+      displacement: bike.displacement,
+    }),
+      setIsVisibleBikeSelectModal(false)
+  }
+
+  // 排気量ごとにバイクの配列を受け取るstate
+  const [bikeListDisplacement0To50, setBikeListDisplacement0To50] = useState([])
   const [bikeListDisplacement51To125, setBikeListDisplacement51To125] =
     useState([])
-
   const [bikeListDisplacement126To250, setBikeListDisplacement126To250] =
     useState([])
   const [bikeListDisplacement251To400, setBikeListDisplacement251To400] =
@@ -42,6 +57,9 @@ export const useBikeSelect = () => {
     )
   }
 
+  const selectBikeCruisingDistance =
+    (bikeData.cruisingDistance * 1000) / 2 - 100000
+
   return {
     isVisibleBikeSelectModal,
     setIsVisibleBikeSelectModal,
@@ -57,5 +75,7 @@ export const useBikeSelect = () => {
     bikeListDisplacement251To400,
     bikeListDisplacement401To750,
     bikeListDisplacementOver750,
+    bikeCardClickAction,
+    selectBikeCruisingDistance,
   }
 }

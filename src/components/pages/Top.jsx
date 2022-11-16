@@ -57,6 +57,8 @@ export const Top = () => {
     bikeListDisplacement251To400,
     bikeListDisplacement401To750,
     bikeListDisplacementOver750,
+    bikeCardClickAction,
+    selectBikeCruisingDistance,
   } = useBikeSelect()
 
   if (!isLoaded) {
@@ -98,6 +100,7 @@ export const Top = () => {
             bikeListDisplacement251To400={bikeListDisplacement251To400}
             bikeListDisplacement401To750={bikeListDisplacement401To750}
             bikeListDisplacementOver750={bikeListDisplacementOver750}
+            bikeCardClickAction={bikeCardClickAction}
           />
           <BikeName />
           <BikePicture />
@@ -133,6 +136,7 @@ export const Top = () => {
             setDestinationPoint={setDestinationPoint}
             calculateRoute={calculateRoute}
             destinationSearch={destinationSearch}
+            selectBikeCruisingDistance={selectBikeCruisingDistance}
           />
         </Box>
       </Box>
