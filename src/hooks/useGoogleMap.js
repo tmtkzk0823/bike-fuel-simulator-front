@@ -1,4 +1,6 @@
+// hooks
 import { useState, useCallback } from 'react'
+// api
 import { useJsApiLoader } from '@react-google-maps/api'
 
 export const useGoogleMap = () => {
@@ -193,10 +195,29 @@ export const useGoogleMap = () => {
   }, [])
 
   const calculatedRouteDistance = calculatedRoute
-    ? calculatedRoute.routes[0].legs[0].distance.text
+    ? `${
+        Math.round(
+          (Math.floor(
+            calculatedRoute.routes[0].legs[0].distance.value +
+              calculatedRoute.routes[0].legs[1].distance.value
+          ) *
+            10) /
+            1000
+        ) / 10
+      }km`
     : null
+
   const calculatedRouteDuration = calculatedRoute
-    ? calculatedRoute.routes[0].legs[0].duration.text
+    ? `${Math.floor(
+        (calculatedRoute.routes[0].legs[0].duration.value +
+          calculatedRoute.routes[0].legs[1].duration.value) /
+          3600
+      )}時間 ${Math.floor(
+        ((calculatedRoute.routes[0].legs[0].duration.value +
+          calculatedRoute.routes[0].legs[1].duration.value) %
+          3600) /
+          60
+      )}分`
     : null
 
   return {
