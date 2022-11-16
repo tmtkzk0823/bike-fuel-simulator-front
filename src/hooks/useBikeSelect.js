@@ -18,7 +18,7 @@ export const useBikeSelect = () => {
     useState(false)
 
   // setterだけ使う
-  const [, setBakeData] = useAtom(bikeDataAtom)
+  const [bikeData, setBakeData] = useAtom(bikeDataAtom)
 
   const bikeCardClickAction = (bike) => {
     setBakeData({
@@ -57,6 +57,9 @@ export const useBikeSelect = () => {
     )
   }
 
+  const selectBikeCruisingDistance =
+    (bikeData.cruisingDistance * 1000) / 2 - 100000
+
   return {
     isVisibleBikeSelectModal,
     setIsVisibleBikeSelectModal,
@@ -73,5 +76,6 @@ export const useBikeSelect = () => {
     bikeListDisplacement401To750,
     bikeListDisplacementOver750,
     bikeCardClickAction,
+    selectBikeCruisingDistance,
   }
 }
