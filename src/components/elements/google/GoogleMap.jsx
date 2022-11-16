@@ -36,6 +36,7 @@ export const GoogleMap = (props) => {
     setDestinationPoint,
     calculateRoute,
     isVisibleAroundOriginPointCircle,
+    selectBikeCruisingDistance,
   } = props
 
   return (
@@ -55,7 +56,11 @@ export const GoogleMap = (props) => {
       {
         // 現在地のメソッドが呼ばれたらサークルを作る
         isVisibleAroundOriginPointCircle && (
-          <Circle center={pos} radius={200000} onClick={onClickCircle} />
+          <Circle
+            center={pos}
+            radius={selectBikeCruisingDistance}
+            onClick={onClickCircle}
+          />
         )
       }
       {calculatedRoute && <DirectionsRenderer directions={calculatedRoute} />}

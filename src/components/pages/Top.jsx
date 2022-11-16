@@ -58,6 +58,7 @@ export const Top = () => {
     bikeListDisplacement401To750,
     bikeListDisplacementOver750,
     bikeCardClickAction,
+    selectBikeCruisingDistance,
   } = useBikeSelect()
 
   if (!isLoaded) {
@@ -135,6 +136,7 @@ export const Top = () => {
             setDestinationPoint={setDestinationPoint}
             calculateRoute={calculateRoute}
             destinationSearch={destinationSearch}
+            selectBikeCruisingDistance={selectBikeCruisingDistance}
           />
         </Box>
       </Box>
