@@ -102,8 +102,12 @@ export const GoogleMap = (props) => {
                 onCloseClick={() => setMouseOveredDestinationPlaceId(undefined)}
                 onLoad={() =>
                   setDestinationPoint({
-                    lat: marker.position.lat,
-                    lng: marker.position.lng,
+                    name: marker.name,
+                    position: {
+                      lat: marker.position.lat,
+                      lng: marker.position.lng,
+                    },
+                    photo: marker.photo,
                   })
                 }
               >

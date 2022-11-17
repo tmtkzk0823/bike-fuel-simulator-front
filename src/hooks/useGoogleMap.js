@@ -73,8 +73,8 @@ export const useGoogleMap = () => {
     }
 
     const waypointsLatLng = {
-      lat: (originPoint.position.lat + destinationPoint.lat) / 2,
-      lng: (originPoint.position.lng + destinationPoint.lng) / 2,
+      lat: (originPoint.position.lat + destinationPoint.position.lat) / 2,
+      lng: (originPoint.position.lng + destinationPoint.position.lng) / 2,
     }
 
     // 中間地点の半径3km以内のコンビニを取得するパラメータ
@@ -105,7 +105,6 @@ export const useGoogleMap = () => {
       // 複数の中継地点からランダムで一つだけを抽出
       const randomWaypointPosition =
         waypointResults[Math.floor(Math.random() * waypointResults.length)]
-          .position
 
       // 中継地点を経路した、現在地と目的地のルートを計算
       const directionsService = new google.maps.DirectionsService()
@@ -116,19 +115,18 @@ export const useGoogleMap = () => {
         },
         // 現在地のマーカーがある場所の緯度経度を取得
         destination: {
-          lat: destinationPoint.lat,
-          lng: destinationPoint.lng,
+          lat: destinationPoint.position.lat,
+          lng: destinationPoint.position.lng,
         },
         // 到着地点に入力された値を取ってくる
         travelMode: google.maps.TravelMode.DRIVING,
         avoidHighways: true, // 高速道路除外
         waypoints: [
           {
-            location: randomWaypointPosition,
+            location: randomWaypointPosition.position,
           },
         ],
       })
-
       setCalculatedRoute(rootResults)
       setMouseOveredDestinationPlaceId(undefined)
       setOriginPoint({})
