@@ -37,6 +37,7 @@ export const GoogleMap = (props) => {
     calculateRoute,
     isVisibleAroundOriginPointCircle,
     selectBikeCruisingDistance,
+    calculatedRouteSetPoints,
   } = props
 
   return (
@@ -64,7 +65,6 @@ export const GoogleMap = (props) => {
         )
       }
       {calculatedRoute && <DirectionsRenderer directions={calculatedRoute} />}
-
       {/* 現在地のマーカー情報 */}
       {originPoint && (
         <Marker
@@ -72,7 +72,6 @@ export const GoogleMap = (props) => {
           icon={'https://maps.google.com/mapfiles/ms/icons/yellow-dot.png'}
         />
       )}
-
       {/* クリックした箇所のマーカー情報 */}
       <Marker
         position={destinationCenterPosition.position}
@@ -88,7 +87,6 @@ export const GoogleMap = (props) => {
           </InfoWindow>
         )}
       </Marker>
-
       {/* 半径50km以内の観光地のマーカー情報 */}
       {aroundDestinationPointList.length &&
         aroundDestinationPointList.map((marker) => (
@@ -102,14 +100,18 @@ export const GoogleMap = (props) => {
                 onCloseClick={() => setMouseOveredDestinationPlaceId(undefined)}
                 onLoad={() =>
                   setDestinationPoint({
-                    lat: marker.position.lat,
-                    lng: marker.position.lng,
+                    name: marker.name,
+                    position: {
+                      lat: marker.position.lat,
+                      lng: marker.position.lng,
+                    },
+                    photo: marker.photo,
                   })
                 }
               >
                 <Box sx={{ textAlign: 'center' }}>
                   <Box>
-                    <img src={marker.photo} width={200} hight={300} />
+                    <img src={marker.photo} width={200} hight={200} />
                   </Box>
                   <Box>{marker.name}</Box>
                   <Button
@@ -122,6 +124,24 @@ export const GoogleMap = (props) => {
                 </Box>
               </InfoWindow>
             )}
+          </Marker>
+        ))}
+
+      {calculatedRoute &&
+        calculatedRouteSetPoints.map((point) => (
+          <Marker key={point.placeId} position={point.position} zIndex={100}>
+            <InfoWindow position={point.position}>
+              <Box
+                sx={{
+                  textAlign: 'center',
+                }}
+              >
+                {point.photo ? (
+                  <img src={point.photo} width={200} hight={300} />
+                ) : null}
+                <p>{point.name}</p>
+              </Box>
+            </InfoWindow>
           </Marker>
         ))}
     </BaseGoogleMap>

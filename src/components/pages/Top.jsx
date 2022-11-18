@@ -1,5 +1,3 @@
-import { useState, useEffect } from 'react'
-
 import { GoogleMap, GoogleMapOperationArea } from '@/components/elements/google'
 import {
   BikePicture,
@@ -40,6 +38,8 @@ export const Top = () => {
     calculatedRouteDistance,
     calculatedRouteDuration,
     isVisibleAroundOriginPointCircle,
+    calculatedRouteSetPoints,
+    isVisibleGetOriginPointButton,
   } = useGoogleMap()
 
   const {
@@ -118,6 +118,8 @@ export const Top = () => {
             clearRoute={clearRoute}
             calculatedRouteDistance={calculatedRouteDistance}
             calculatedRouteDuration={calculatedRouteDuration}
+            isVisibleGetOriginPointButton={isVisibleGetOriginPointButton}
+            isVisibleAroundOriginPointCircle={isVisibleAroundOriginPointCircle}
           />
 
           <GoogleMap
@@ -137,6 +139,7 @@ export const Top = () => {
             calculateRoute={calculateRoute}
             destinationSearch={destinationSearch}
             selectBikeCruisingDistance={selectBikeCruisingDistance}
+            calculatedRouteSetPoints={calculatedRouteSetPoints}
           />
         </Box>
       </Box>
