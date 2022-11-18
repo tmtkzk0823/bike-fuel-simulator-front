@@ -6,6 +6,8 @@ export const GoogleMapOperationArea = (props) => {
     clearRoute,
     calculatedRouteDistance,
     calculatedRouteDuration,
+    isVisibleGetOriginPointButton,
+    isVisibleAroundOriginPointCircle,
   } = props
   return (
     <Box
@@ -21,12 +23,22 @@ export const GoogleMapOperationArea = (props) => {
         justifyContent="center"
         spacing={2}
       >
-        <Button variant="outlined" onClick={getOriginPoint}>
-          現在地を取得する
-        </Button>
-        <Button variant="outlined" onClick={clearRoute}>
-          ルート削除
-        </Button>
+        {isVisibleGetOriginPointButton ? (
+          <Button variant="outlined" onClick={getOriginPoint}>
+            現在地を取得する
+          </Button>
+        ) : (
+          <>
+            {isVisibleAroundOriginPointCircle ? (
+              <p>円の中をクリックしてください</p>
+            ) : (
+              ''
+            )}
+            <Button variant="outlined" onClick={clearRoute}>
+              もう一度検索
+            </Button>
+          </>
+        )}
 
         <Typography>走行距離: {calculatedRouteDistance}</Typography>
         <Typography>時間: {calculatedRouteDuration} </Typography>

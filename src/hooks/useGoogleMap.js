@@ -13,6 +13,11 @@ export const useGoogleMap = () => {
   const [zoom, setZoom] = useState(5.5) //mapのzoom
   const [originPoint, setOriginPoint] = useState(null) // 現在地の緯度経度を保持するstate
   const [destinationPoint, setDestinationPoint] = useState(null) // 目的地の緯度経度
+  const [wayPointInfo, setWaypointInfo] = useState(null)
+  const [
+    calculatedRouteInfoWindowOriginPointData,
+    setCalculatedRouteInfoWindowOriginPointData,
+  ] = useState(null) // ルート表示した後、場所の情報を持ったInfoWindowを表示するために定義
   const [calculatedRoute, setCalculatedRoute] = useState(null)
   const [destinationCenterPosition, setDestinationCenterPosition] = useState({}) //目的地を探す際の半径の中心となる緯度経度
   const [mouseOveredDestinationPlaceId, setMouseOveredDestinationPlaceId] =
@@ -29,6 +34,9 @@ export const useGoogleMap = () => {
     setIsVisibleDestinationSearchButton,
   ] = useState(false) // ルート検索ボタンをInfoWindowの中に表示させる時に使うFlag
 
+  const [isVisibleGetOriginPointButton, setIsVisibleGetOriginPointButton] =
+    useState(true)
+
   const onLoadSetMap = useCallback((data) => setMap(data), [])
 
   // 現在地を取得後サークルを表示
@@ -41,15 +49,17 @@ export const useGoogleMap = () => {
             lng: position.coords.longitude,
           }
           setOriginPoint({
+            name: '出発地点',
             position: {
               lat: pos.lat,
               lng: pos.lng,
             },
+            placeId: position.timestamp,
           })
           window.pos = pos
           setIsVisibleAroundOriginPointCircle(true)
           setZoom(8.3)
-          !originPoint && map.setCenter(pos)
+          setIsVisibleGetOriginPointButton(false)
         }
 
         // TODO: この箇所は現時点で挙動が未定(関数が存在しないため)なので、今後確認する
@@ -97,13 +107,13 @@ export const useGoogleMap = () => {
             lat: result.geometry.location.lat(),
             lng: result.geometry.location.lng(),
           },
-          name: result.name,
+          name: `{休憩地点} ${result.name}`,
           photo: result.photos ? result.photos[0].getUrl() : '',
         }
       })
 
       // 複数の中継地点からランダムで一つだけを抽出
-      const randomWaypointPosition =
+      const randomWaypointInfo =
         waypointResults[Math.floor(Math.random() * waypointResults.length)]
 
       // 中継地点を経路した、現在地と目的地のルートを計算
@@ -123,10 +133,13 @@ export const useGoogleMap = () => {
         avoidHighways: true, // 高速道路除外
         waypoints: [
           {
-            location: randomWaypointPosition.position,
+            location: randomWaypointInfo.position,
           },
         ],
       })
+
+      setCalculatedRouteInfoWindowOriginPointData(originPoint)
+      setWaypointInfo(randomWaypointInfo)
       setCalculatedRoute(rootResults)
       setMouseOveredDestinationPlaceId(undefined)
       setOriginPoint({})
@@ -188,9 +201,16 @@ export const useGoogleMap = () => {
   }
 
   // stateを初期化する処理
-  const clearRoute = useCallback(() => {
-    setCalculatedRoute(null)
-  }, [])
+  const clearRoute = useCallback(
+    () => (
+      setCalculatedRoute(null),
+      setIsVisibleDestinationSearchButton(false),
+      setDestinationCenterPosition({}),
+      setAroundDestinationPointList([]),
+      getOriginPoint()
+    ),
+    []
+  )
 
   const calculatedRouteDistance = calculatedRoute
     ? `${
@@ -218,6 +238,10 @@ export const useGoogleMap = () => {
       )}分`
     : null
 
+  const calculatedRouteSetPoints = calculatedRoute
+    ? [calculatedRouteInfoWindowOriginPointData, wayPointInfo, destinationPoint]
+    : null
+
   return {
     zoom,
     isLoaded,
@@ -239,5 +263,7 @@ export const useGoogleMap = () => {
     calculatedRouteDuration,
     isVisibleAroundOriginPointCircle,
     isVisibleDestinationSearchButton,
+    calculatedRouteSetPoints,
+    isVisibleGetOriginPointButton,
   }
 }
