@@ -3,11 +3,13 @@ import { useState, useCallback } from 'react'
 // api
 import { useJsApiLoader } from '@react-google-maps/api'
 
+const apiLoaderLibrariesArray = ['places'] // コンポーネント外部に記述する警告が出たため
+
 export const useGoogleMap = () => {
   // isLoadedにapiKey等オブジェクトを格納
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
-    libraries: ['places'],
+    libraries: apiLoaderLibrariesArray,
   })
   const [map, setMap] = useState(null)
   const [zoom, setZoom] = useState(5.5) //mapのzoom
