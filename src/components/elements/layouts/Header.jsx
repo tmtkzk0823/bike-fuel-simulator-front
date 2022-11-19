@@ -10,24 +10,29 @@ export const Header = () => {
       sx={{
         color: '#444444',
         backgroundColor: '#d3d3d3',
-        p: '12px',
+        p: 2,
       }}
     >
       <Toolbar>
-        <IconButton
+        {/* <IconButton
           size="large"
           edge="start"
           color="inherit"
           aria-label="menu"
           sx={{ mr: 2, ml: 3 }}
-        >
-          {/* <MenuIcon /> 後ほど作成 */}
-        </IconButton>
+        > */}
+        {/* <MenuIcon /> 後ほど作成 */}
+        {/* </IconButton> */}
         <Typography
           variant="h5"
           component="div"
           align="center"
-          sx={{ flexGrow: 1, fontWeight: 'bold', fontStyle: 'italic' }}
+          sx={{
+            flexGrow: 1,
+            fontWeight: 'bold',
+            fontStyle: 'italic',
+            fontSize: 30,
+          }}
         >
           バイク航続距離シュミレーター
         </Typography>

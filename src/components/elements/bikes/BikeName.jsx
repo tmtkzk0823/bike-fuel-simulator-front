@@ -9,11 +9,12 @@ export const BikeName = () => {
       sx={{
         p: 2,
         bgcolor: 'white',
-        border: 3,
+        borderLeft: 3,
+        borderRight: 3,
         borderColor: 'grey.500',
         textAlign: 'center',
         fontWeight: 'bold',
-        fontSize: 20,
+        fontSize: 30,
       }}
     >
       {bikeData.name}

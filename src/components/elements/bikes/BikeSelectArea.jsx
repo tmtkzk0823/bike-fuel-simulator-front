@@ -28,7 +28,9 @@ export const BikeSelectArea = (props) => {
       sx={{
         p: 2,
         bgcolor: 'white',
-        border: 3,
+        borderTop: 3,
+        borderLeft: 3,
+        borderBottom: 3,
         borderColor: 'grey.500',
         fontWeight: 'bold',
         fontSize: 20,
@@ -36,7 +38,10 @@ export const BikeSelectArea = (props) => {
         alignItems: 'center',
       }}
     >
-      <Button onClick={() => setIsVisibleBikeSelectModal(true)}>
+      <Button
+        variant="contained"
+        onClick={() => setIsVisibleBikeSelectModal(true)}
+      >
         バイクを選択する
       </Button>
       <SelectBikeMakerDialog
