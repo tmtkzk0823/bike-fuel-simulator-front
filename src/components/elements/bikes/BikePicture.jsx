@@ -1,8 +1,11 @@
-import { bikeDataAtom } from '@/jotai/atoms'
+import { memo } from 'react'
+// mui
 import { Box } from '@mui/material'
+// jotai
+import { bikeDataAtom } from '@/jotai/atoms'
 import { useAtom } from 'jotai'
 
-export const BikePicture = () => {
+export const BikePicture = memo(() => {
   const [bikeData] = useAtom(bikeDataAtom)
   return (
     <Box
@@ -18,4 +21,4 @@ export const BikePicture = () => {
       <img src={bikeData.image} width="95%" />
     </Box>
   )
-}
+})

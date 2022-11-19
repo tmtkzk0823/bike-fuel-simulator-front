@@ -1,9 +1,11 @@
+import { memo } from 'react'
+// mui
 import { Box } from '@mui/material'
 // グローバルstate
 import { bikeDataAtom } from '@/jotai/atoms'
 import { useAtom } from 'jotai'
 
-export const BikeCruisingDistanceArea = () => {
+export const BikeCruisingDistanceArea = memo(() => {
   const [bikeData] = useAtom(bikeDataAtom)
   return (
     <Box
@@ -22,4 +24,4 @@ export const BikeCruisingDistanceArea = () => {
       航続距離 {bikeData.cruisingDistance}km
     </Box>
   )
-}
+})

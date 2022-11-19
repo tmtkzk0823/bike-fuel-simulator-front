@@ -1,3 +1,4 @@
+import { memo } from 'react'
 // MUI
 import { Button, Box } from '@mui/material'
 // ライブラリ
@@ -19,7 +20,7 @@ const containerStyle = {
   height: '100vh',
 }
 
-export const GoogleMap = (props) => {
+export const GoogleMap = memo((props) => {
   const {
     pos,
     onLoadSetMap,
@@ -129,7 +130,11 @@ export const GoogleMap = (props) => {
 
       {calculatedRoute &&
         calculatedRouteSetPoints.map((point) => (
-          <Marker key={point.placeId} position={point.position} zIndex={100}>
+          <Marker
+            key={point.position.lat}
+            position={point.position}
+            zIndex={100}
+          >
             <InfoWindow position={point.position}>
               <Box
                 sx={{
@@ -146,4 +151,4 @@ export const GoogleMap = (props) => {
         ))}
     </BaseGoogleMap>
   )
-}
+})

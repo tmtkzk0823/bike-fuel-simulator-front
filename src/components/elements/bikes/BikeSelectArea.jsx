@@ -1,9 +1,10 @@
+import { memo } from 'react'
 // components
 import { SelectBikeMakerDialog } from '../dialogs'
 //MUI
 import { Box, Button } from '@mui/material'
 
-export const BikeSelectArea = (props) => {
+export const BikeSelectArea = memo((props) => {
   const {
     setIsVisibleBikeSelectModal,
     isVisibleBikeSelectModal,
@@ -64,4 +65,4 @@ export const BikeSelectArea = (props) => {
       />
     </Box>
   )
-}
+})

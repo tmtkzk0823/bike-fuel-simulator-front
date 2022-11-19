@@ -1,6 +1,7 @@
+import { memo } from 'react'
 import { Box } from '@mui/material'
 
-export const Footer = () => {
+export const Footer = memo(() => {
   return (
     <Box
       sx={{
@@ -21,4 +22,4 @@ export const Footer = () => {
     リンク(開発者twitter)を作成*/}
     </Box>
   )
-}
+})

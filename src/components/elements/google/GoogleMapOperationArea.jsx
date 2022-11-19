@@ -1,6 +1,8 @@
+import { memo } from 'react'
+
 import { Box, Stack, Button, Typography } from '@mui/material'
 
-export const GoogleMapOperationArea = (props) => {
+export const GoogleMapOperationArea = memo((props) => {
   const {
     getOriginPoint,
     clearRoute,
@@ -47,4 +49,4 @@ export const GoogleMapOperationArea = (props) => {
       </Stack>
     </Box>
   )
-}
+})

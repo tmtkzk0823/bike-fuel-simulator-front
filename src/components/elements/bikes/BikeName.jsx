@@ -1,8 +1,11 @@
+import { memo } from 'react'
+//mui
 import { Box } from '@mui/material'
+//jotai
 import { bikeDataAtom } from '@/jotai/atoms'
 import { useAtom } from 'jotai'
 
-export const BikeName = () => {
+export const BikeName = memo(() => {
   const [bikeData] = useAtom(bikeDataAtom)
   return (
     <Box
@@ -20,4 +23,4 @@ export const BikeName = () => {
       {bikeData.name}
     </Box>
   )
-}
+})
