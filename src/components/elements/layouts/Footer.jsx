@@ -1,22 +1,25 @@
-import { styled } from '@mui/material/styles'
+import { memo } from 'react'
+import { Box } from '@mui/material'
 
-export const Footer = () => {
+export const Footer = memo(() => {
   return (
-    <SFooter>
+    <Box
+      sx={{
+        backgroundColor: '#d3d3d3',
+        color: '#ffffee',
+        p: 2,
+        b: 0,
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'space-evenly',
+      }}
+    >
       <p>&copy;バイク航続距離シュミレーター</p>
       <p>プライバシーポリシー</p> {/*後にリンク(モーダル表示のイベント)を作成*/}
       <p>利用規約</p> {/*後にリンク(モーダル表示のイベント)を作成*/}
-      <p>twitter</p> {/*後にリンク(開発者twitter)を作成*/}
-    </SFooter>
+      <p>twitter</p>{' '}
+      {/*後に
+    リンク(開発者twitter)を作成*/}
+    </Box>
   )
-}
-
-const SFooter = styled('div')`
-  background-color: #ffffdd;
-  color: #444444;
-  padding: 4px 0;
-  bottom: 0;
-  width: 100%;
-  display: flex;
-  justify-content: space-evenly;
-`
+})

@@ -1,6 +1,8 @@
+import { memo } from 'react'
+
 import { Box, Stack, Button, Typography } from '@mui/material'
 
-export const GoogleMapOperationArea = (props) => {
+export const GoogleMapOperationArea = memo((props) => {
   const {
     getOriginPoint,
     clearRoute,
@@ -13,7 +15,9 @@ export const GoogleMapOperationArea = (props) => {
     <Box
       sx={{
         p: 2,
-        bgcolor: '#ffffdd',
+        bgcolor: 'white',
+        border: 3,
+        borderColor: 'grey.500',
         textAlign: 'center',
       }}
     >
@@ -24,19 +28,19 @@ export const GoogleMapOperationArea = (props) => {
         spacing={2}
       >
         {isVisibleGetOriginPointButton ? (
-          <Button variant="outlined" onClick={getOriginPoint}>
+          <Button variant="contained" onClick={getOriginPoint}>
             現在地を取得する
           </Button>
         ) : (
           <>
+            <Button variant="contained" onClick={clearRoute}>
+              もう一度検索
+            </Button>
             {isVisibleAroundOriginPointCircle ? (
-              <p>円の中をクリックしてください</p>
+              <Box>円の中をクリックしてください</Box>
             ) : (
               ''
             )}
-            <Button variant="outlined" onClick={clearRoute}>
-              もう一度検索
-            </Button>
           </>
         )}
 
@@ -45,4 +49,4 @@ export const GoogleMapOperationArea = (props) => {
       </Stack>
     </Box>
   )
-}
+})
