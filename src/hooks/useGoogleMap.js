@@ -13,6 +13,10 @@ export const useGoogleMap = () => {
   })
   const [map, setMap] = useState(null)
   const [zoom, setZoom] = useState(5.5) //mapのzoom
+  const [googleMapsCenter, setGoogleMapsCenter] = useState({
+    lat: 35.689614,
+    lng: 139.691585,
+  })
   const [originPoint, setOriginPoint] = useState(null) // 現在地の緯度経度を保持するstate
   const [destinationPoint, setDestinationPoint] = useState(null) // 目的地の緯度経度
   const [wayPointInfo, setWaypointInfo] = useState(null)
@@ -60,7 +64,8 @@ export const useGoogleMap = () => {
           })
           window.pos = pos
           setIsVisibleAroundOriginPointCircle(true)
-          setZoom(8.3)
+          setGoogleMapsCenter(pos)
+          setZoom(8)
           setIsVisibleGetOriginPointButton(false)
         }
 
@@ -144,6 +149,7 @@ export const useGoogleMap = () => {
       setWaypointInfo(randomWaypointInfo)
       setCalculatedRoute(rootResults)
       setMouseOveredDestinationPlaceId(undefined)
+      setGoogleMapsCenter(randomWaypointInfo.position)
       setOriginPoint({})
       setDestinationCenterPosition({})
       setAroundDestinationPointList([])
@@ -166,7 +172,7 @@ export const useGoogleMap = () => {
       lng: event.latLng.lng(),
     }
     map.panTo(destinationCenterPositionLatLng)
-    setZoom(10.3)
+    setZoom(8.6)
   }
 
   // Buttonをクリックした時に半径50km以内のマーカー情報を取得するメソッド
@@ -245,6 +251,7 @@ export const useGoogleMap = () => {
     : null
 
   return {
+    googleMapsCenter,
     zoom,
     isLoaded,
     onLoadSetMap,

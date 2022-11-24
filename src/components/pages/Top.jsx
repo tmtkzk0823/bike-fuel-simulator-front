@@ -19,6 +19,7 @@ import { Footer } from '../elements/layouts/Footer'
 
 export const Top = () => {
   const {
+    googleMapsCenter,
     isLoaded,
     calculatedRoute,
     calculateRoute,
@@ -123,6 +124,7 @@ export const Top = () => {
           />
 
           <GoogleMap
+            googleMapsCenter={googleMapsCenter}
             pos={window.pos}
             onLoadSetMap={onLoadSetMap}
             calculatedRoute={calculatedRoute}

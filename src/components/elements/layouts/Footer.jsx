@@ -9,7 +9,6 @@ export const Footer = memo(() => {
         color: '#ffffee',
         p: 2,
         b: 0,
-        width: '100%',
         display: 'flex',
         justifyContent: 'space-evenly',
       }}
