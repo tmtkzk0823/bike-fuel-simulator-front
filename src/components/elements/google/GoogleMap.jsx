@@ -82,9 +82,7 @@ export const GoogleMap = memo((props) => {
         {isVisibleDestinationSearchButton && (
           <InfoWindow>
             <div>
-              <Button onClick={destinationSearch}>
-                この地点をを中心に探す
-              </Button>
+              <Button onClick={destinationSearch}>この地点を中心に探す</Button>
             </div>
           </InfoWindow>
         )}
