@@ -36,7 +36,7 @@ export const Header = memo(() => {
             fontSize: 30,
           }}
         >
-          バイク航続距離シュミレーター
+          バイク航続距離シミュレーター
         </Typography>
       </Toolbar>
     </Box>
