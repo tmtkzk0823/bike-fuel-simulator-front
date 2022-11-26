@@ -1,6 +1,5 @@
-const DEFAULT_API_LOCALHOST = import.meta.env.VITE_LOCAL_DEFAULT_API_URL
+const DEFAULT_API_URL = import.meta.env.VITE_DEFAULT_API_URL
 
-// export const manufacturersIndex = `${DEFAULT_API_LOCALHOST}/manufacturers`
-export const manufacturersIndex = `${DEFAULT_API_LOCALHOST}/manufacturers`
+export const manufacturersIndex = `${DEFAULT_API_URL}/manufacturers`
 export const bikesIndex = (manufacturersId) =>
-  `${DEFAULT_API_LOCALHOST}/manufacturers/${manufacturersId}/bikes`
+  `${DEFAULT_API_URL}/manufacturers/${manufacturersId}/bikes`

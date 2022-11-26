@@ -10,10 +10,10 @@ import {
   InfoWindow,
 } from '@react-google-maps/api'
 
-const center = {
-  lat: 35.689614,
-  lng: 139.691585,
-}
+// const center = {
+//   lat: 35.689614,
+//   lng: 139.691585,
+// }
 
 const containerStyle = {
   width: '60vw',
@@ -22,6 +22,7 @@ const containerStyle = {
 
 export const GoogleMap = memo((props) => {
   const {
+    googleMapsCenter,
     pos,
     onLoadSetMap,
     calculatedRoute,
@@ -43,7 +44,7 @@ export const GoogleMap = memo((props) => {
 
   return (
     <BaseGoogleMap
-      center={center}
+      center={googleMapsCenter}
       zoom={zoom}
       mapContainerStyle={containerStyle}
       options={{
@@ -81,9 +82,7 @@ export const GoogleMap = memo((props) => {
         {isVisibleDestinationSearchButton && (
           <InfoWindow>
             <div>
-              <Button onClick={destinationSearch}>
-                この地点をを中心に探す
-              </Button>
+              <Button onClick={destinationSearch}>この地点を中心に探す</Button>
             </div>
           </InfoWindow>
         )}
