@@ -4,6 +4,7 @@ import {
   BikeName,
   BikeCruisingDistanceArea,
   BikeSelectArea,
+  BikeAnimationArea,
 } from '@/components/elements/bikes'
 // MUI
 import { Skeleton, Box } from '@mui/material'
@@ -106,6 +107,7 @@ export const Top = () => {
           <BikeName />
           <BikePicture />
           <BikeCruisingDistanceArea />
+          <BikeAnimationArea />
         </Box>
 
         <Box
