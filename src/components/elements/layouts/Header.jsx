@@ -1,4 +1,4 @@
-import { memo } from 'react'
+import { memo, useState } from 'react'
 // mui
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
@@ -7,6 +7,7 @@ import IconButton from '@mui/material/IconButton'
 import MenuIcon from '@mui/icons-material/Menu'
 
 export const Header = memo(() => {
+  const [sideBarOpenFlag, setSideBarOpenFlag] = useState(false)
   return (
     <Box
       sx={{
@@ -16,15 +17,15 @@ export const Header = memo(() => {
       }}
     >
       <Toolbar>
-        {/* <IconButton
+        <IconButton
           size="large"
           edge="start"
           color="inherit"
           aria-label="menu"
-          sx={{ mr: 2, ml: 3 }}
-        > */}
-        {/* <MenuIcon /> 後ほど作成 */}
-        {/* </IconButton> */}
+          sx={{ ml: 1 }}
+        >
+          <MenuIcon />
+        </IconButton>
         <Typography
           variant="h5"
           component="div"
