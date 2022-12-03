@@ -16,10 +16,12 @@ import MenuIcon from '@mui/icons-material/Menu'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 
 //react-router-dom
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 export const Header = memo(() => {
   const [sideBarOpenFlag, setSideBarOpenFlag] = useState(false)
+
+  const topNavigation = useNavigate()
 
   return (
     <>
@@ -104,16 +106,19 @@ export const Header = memo(() => {
           >
             <MenuIcon />
           </IconButton>
+
           <Typography
-            variant="h5"
-            component="div"
             align="center"
             sx={{
               flexGrow: 1,
               fontWeight: 'bold',
               fontStyle: 'italic',
               fontSize: 30,
+              '&:hover': {
+                cursor: 'default',
+              },
             }}
+            onClick={() => topNavigation('/')}
           >
             バイク航続距離シミュレーター
           </Typography>
