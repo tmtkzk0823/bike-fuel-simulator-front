@@ -104,15 +104,16 @@ export const Top = () => {
             bikeListDisplacementOver750={bikeListDisplacementOver750}
             bikeCardClickAction={bikeCardClickAction}
           />
-          <BikeName />
-          <BikePicture />
-          <BikeCruisingDistanceArea />
-          <BikeAnimationArea />
+          <Box>
+            <BikeName />
+            <BikePicture />
+            <BikeCruisingDistanceArea />
+            <BikeAnimationArea />
+          </Box>
         </Box>
 
         <Box
           sx={{
-            height: '100%',
             width: '60vw',
           }}
         >
