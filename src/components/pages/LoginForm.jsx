@@ -1,3 +1,16 @@
+import { Header } from '../elements/layouts/Header'
+import { Footer } from '../elements/layouts/Footer'
+import { Box } from '@mui/material'
+
 export const LoginForm = () => {
-  return <h1>LoginForm</h1>
+  return (
+    <>
+      <Header />
+      <Box>
+        <h1>LOGIN FORM</h1>
+      </Box>
+
+      <Footer />
+    </>
+  )
 }
