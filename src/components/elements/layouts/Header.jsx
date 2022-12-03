@@ -10,8 +10,13 @@ import {
   ListItem,
   ListItemButton,
 } from '@mui/material'
+
+// MUI Icon
 import MenuIcon from '@mui/icons-material/Menu'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+
+//react-router-dom
+import { Link } from 'react-router-dom'
 
 export const Header = memo(() => {
   const [sideBarOpenFlag, setSideBarOpenFlag] = useState(false)
@@ -26,20 +31,25 @@ export const Header = memo(() => {
         <Box
           sx={{
             width: 250,
+            mt: 5,
           }}
         >
           <List>
             <ListItem
               sx={{
                 color: 'primary.main',
+                fontSize: 20,
               }}
             >
               <AccountCircleIcon />
-              <ListItemButton>Login</ListItemButton>
+              <ListItemButton component={Link} to="/login">
+                Login
+              </ListItemButton>
             </ListItem>
             <ListItem
               sx={{
                 color: 'primary.main',
+                fontSize: 20,
               }}
             >
               <ListItemButton>マイページ</ListItemButton>
@@ -47,6 +57,7 @@ export const Header = memo(() => {
             <ListItem
               sx={{
                 color: 'primary.main',
+                fontSize: 20,
               }}
             >
               <ListItemButton>プライバシーポリシー</ListItemButton>
@@ -54,6 +65,7 @@ export const Header = memo(() => {
             <ListItem
               sx={{
                 color: 'primary.main',
+                fontSize: 20,
               }}
             >
               <ListItemButton>利用規約</ListItemButton>
@@ -61,6 +73,7 @@ export const Header = memo(() => {
             <ListItem
               sx={{
                 color: 'primary.main',
+                fontSize: 20,
               }}
             >
               <ListItemButton>
