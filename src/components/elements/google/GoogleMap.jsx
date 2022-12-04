@@ -10,11 +10,6 @@ import {
   InfoWindow,
 } from '@react-google-maps/api'
 
-// const center = {
-//   lat: 35.689614,
-//   lng: 139.691585,
-// }
-
 const containerStyle = {
   width: '60vw',
   height: '100vh',
