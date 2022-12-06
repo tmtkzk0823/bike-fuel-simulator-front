@@ -1,10 +1,11 @@
 import { memo } from 'react'
+
 // component
 import { Header } from '../elements/layouts/Header'
 import { Footer } from '../elements/layouts/Footer'
 // MUI
 import { Box, Card, Button, Divider, TextField, Link } from '@mui/material'
-import TwitterIcon from '@mui/icons-material/Twitter'
+import TwitterIcon from '@mui/icons-material/Twitter' // twitter用アイコン
 
 export const LoginForm = memo(() => {
   return (
@@ -33,7 +34,8 @@ export const LoginForm = memo(() => {
           >
             <h2>ログイン</h2>
 
-            <Button
+            {/* twitterログインは後に実装 */}
+            {/* <Button
               variant="contained"
               sx={{
                 mb: 2,
@@ -43,8 +45,8 @@ export const LoginForm = memo(() => {
             >
               <TwitterIcon />
               Twitter ログイン
-            </Button>
-            <Divider variant="middle">または</Divider>
+            </Button>s
+            <Divider variant="middle">または</Divider> */}
 
             <Box
               component="form"
@@ -64,6 +66,7 @@ export const LoginForm = memo(() => {
                 name="email"
                 autoComplete="email"
                 focused
+                placeholder="xxx@example.com"
               />
 
               <TextField
@@ -87,7 +90,7 @@ export const LoginForm = memo(() => {
                 ログイン
               </Button>
 
-              <Link href="/">新規登録</Link>
+              <Link href="/sign_up">新規登録</Link>
               <Link
                 href="/"
                 sx={{
