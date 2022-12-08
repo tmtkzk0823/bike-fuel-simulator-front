@@ -13,6 +13,7 @@ export const SignUpForm = () => {
     handleSubmit,
     control,
     formState: { errors },
+    getValues,
   } = useForm()
 
   // フォーム送信時の処理
@@ -118,7 +119,9 @@ export const SignUpForm = () => {
                         type="password"
                       />
                     )}
-                    rules={{ required: 'パスワードは必須項目です' }}
+                    rules={{
+                      required: 'パスワードは必須項目です',
+                    }}
                   />
                   <Controller
                     name="passwordConfirmation"
@@ -138,7 +141,14 @@ export const SignUpForm = () => {
                         type="password"
                       />
                     )}
-                    rules={{ required: 'パスワード（確認）は必須項目です' }}
+                    rules={{
+                      required: 'パスワード（確認）は必須項目です',
+                      validate: (value) => {
+                        if (value !== getValues('password')) {
+                          return 'メールアドレスが一致しません'
+                        }
+                      },
+                    }}
                   />
                 </Stack>
 
