@@ -9,12 +9,7 @@ import { useForm, Controller } from 'react-hook-form'
 import { Box, Button, Card, Stack, TextField, Typography } from '@mui/material'
 
 export const SignUpForm = () => {
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-    getValues,
-  } = useForm()
+  const { handleSubmit, control, getValues } = useForm()
 
   // フォーム送信時の処理
   const onSubmit = (data) => {
@@ -62,27 +57,6 @@ export const SignUpForm = () => {
               <form onSubmit={handleSubmit(onSubmit)}>
                 <Stack spacing={3}>
                   <Controller
-                    name="email"
-                    control={control}
-                    defaultValue=""
-                    render={({
-                      field: { onChange, value },
-                      fieldState: { error },
-                    }) => (
-                      <TextField
-                        label="メールアドレス"
-                        variant="filled"
-                        value={value}
-                        onChange={onChange}
-                        error={!!error}
-                        helperText={error ? error.message : null}
-                        type="email"
-                      />
-                    )}
-                    rules={{ required: 'メールアドレスは必須項目です' }}
-                  />
-
-                  <Controller
                     name="name"
                     control={control}
                     defaultValue=""
@@ -100,6 +74,33 @@ export const SignUpForm = () => {
                       />
                     )}
                     rules={{ required: '名前を入力してください' }}
+                  />
+                  <Controller
+                    name="email"
+                    control={control}
+                    defaultValue=""
+                    render={({
+                      field: { onChange, value },
+                      fieldState: { error },
+                    }) => (
+                      <TextField
+                        label="メールアドレス"
+                        variant="filled"
+                        value={value}
+                        onChange={onChange}
+                        error={!!error}
+                        helperText={error ? error.message : null}
+                        type="email"
+                        placeholder="xxx@example.com"
+                      />
+                    )}
+                    rules={{
+                      required: 'メールアドレスは必須項目です',
+                      pattern: {
+                        value: /^[\w\-._]+@[\w\-._]+\.[A-Za-z]+/,
+                        message: '入力形式がメールアドレスではありません。',
+                      },
+                    }}
                   />
                   <Controller
                     name="password"
