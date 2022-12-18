@@ -1,6 +1,11 @@
+import { useNavigate } from 'react-router-dom'
+
 // component
 import { Header } from '../elements/layouts/Header'
 import { Footer } from '../elements/layouts/Footer'
+
+// hooks
+import { signUp } from '@/apis/auth'
 
 // react-hook-form
 import { useForm, Controller } from 'react-hook-form'
@@ -10,11 +15,21 @@ import { Box, Button, Card, Stack, TextField, Typography } from '@mui/material'
 
 export const SignUpForm = () => {
   const { handleSubmit, control, getValues } = useForm()
+  const afterSignUpNavigation = useNavigate()
 
   // フォーム送信時の処理
   const onSubmit = (data) => {
-    // バリデーションチェックOK！なときに行う処理を追加
-    console.log(data)
+    // バリデーションチェックOKなときに行う処理を追加
+    const res = signUp(data)
+
+    try {
+      if (res.status === 200) {
+        afterSignUpNavigation('/')
+      }
+    } catch (err) {
+      console.log(err)
+    }
+    // console.log(data)
   }
 
   return (
@@ -125,7 +140,7 @@ export const SignUpForm = () => {
                     }}
                   />
                   <Controller
-                    name="passwordConfirmation"
+                    name="password_confirmation"
                     control={control}
                     defaultValue=""
                     render={({
