@@ -18,18 +18,19 @@ export const SignUpForm = () => {
   const afterSignUpNavigation = useNavigate()
 
   // フォーム送信時の処理
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     // バリデーションチェックOKなときに行う処理を追加
-    const res = signUp(data)
-
     try {
-      if (res.status === 200) {
-        afterSignUpNavigation('/')
+      const res = await signUp(data)
+      console.log(res)
+      if (res.status === 'success') {
+        afterSignUpNavigation('/login')
+      } else {
+        ;(e) => console.log(e)
       }
     } catch (err) {
       console.log(err)
     }
-    // console.log(data)
   }
 
   return (
