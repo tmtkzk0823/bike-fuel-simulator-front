@@ -7,7 +7,7 @@ import axios from 'axios'
 // Cookie
 import Cookies from 'js-cookie'
 // URL
-import { signUpUrl } from '@/urls/index'
+import { signUpUrl, signInUrl } from '@/urls/index'
 
 // アカウント作成
 export const signUp = (info) => {
@@ -15,6 +15,15 @@ export const signUp = (info) => {
     .post(signUpUrl, info)
     .then((response) => {
       return response.data
+    })
+    .catch((e) => console.log(e))
+}
+
+export const signIn = (userData) => {
+  return axios
+    .post(signInUrl, userData)
+    .then((res) => {
+      return console.log(res)
     })
     .catch((e) => console.log(e))
 }

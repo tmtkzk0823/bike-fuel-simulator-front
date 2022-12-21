@@ -4,10 +4,30 @@ import { memo } from 'react'
 import { Header } from '../elements/layouts/Header'
 import { Footer } from '../elements/layouts/Footer'
 // MUI
-import { Box, Card, Button, Divider, TextField, Link } from '@mui/material'
+import {
+  Box,
+  Card,
+  Button,
+  Divider,
+  TextField,
+  Link,
+  Stack,
+} from '@mui/material'
 import TwitterIcon from '@mui/icons-material/Twitter' // twitter用アイコン
 
+// hooks
+import { signIn } from '@/apis/auth'
+
+// react-hook-form
+import { useForm, Controller } from 'react-hook-form'
+
 export const LoginForm = memo(() => {
+  const { handleSubmit, control, getValues } = useForm()
+
+  const onSubmit = (formData) => {
+    // signIn(formData)
+    console.log(formData)
+  }
   return (
     <>
       <Header />
@@ -49,7 +69,6 @@ export const LoginForm = memo(() => {
             <Divider variant="middle">または</Divider> */}
 
             <Box
-              component="form"
               sx={{
                 mt: 2,
                 display: 'flex',
@@ -57,38 +76,68 @@ export const LoginForm = memo(() => {
                 alignItems: 'center',
               }}
             >
-              <TextField
-                size="small"
-                margin="normal"
-                required
-                id="email"
-                label="メールアドレス"
-                name="email"
-                autoComplete="email"
-                focused
-                placeholder="xxx@example.com"
-              />
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <Stack spacing={3}>
+                  <Controller
+                    name="email"
+                    control={control}
+                    defaultValue=""
+                    render={({
+                      field: { onChange, value },
+                      fieldState: { error },
+                    }) => (
+                      <TextField
+                        label="メールアドレス"
+                        variant="filled"
+                        value={value}
+                        onChange={onChange}
+                        error={!!error}
+                        helperText={error ? error.message : null}
+                        type="email"
+                        placeholder="xxx@example.com"
+                      />
+                    )}
+                    rules={{
+                      required: 'メールアドレスは必須項目です',
+                      pattern: {
+                        value: /^[\w\-._]+@[\w\-._]+\.[A-Za-z]+/,
+                        message: '入力形式がメールアドレスではありません。',
+                      },
+                    }}
+                  />
+                  <Controller
+                    name="password"
+                    control={control}
+                    defaultValue=""
+                    render={({
+                      field: { onChange, value },
+                      fieldState: { error },
+                    }) => (
+                      <TextField
+                        label="パスワード"
+                        variant="filled"
+                        value={value}
+                        onChange={onChange}
+                        error={!!error}
+                        helperText={error ? error.message : null}
+                        type="password"
+                      />
+                    )}
+                    rules={{
+                      required: 'パスワードは必須項目です',
+                    }}
+                  />
+                </Stack>
 
-              <TextField
-                size="small"
-                margin="normal"
-                required
-                name="password"
-                label="パスワード"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                focused
-              />
-
-              <Button
-                type="submit"
-                variant="contained"
-                color="inherit"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                ログイン
-              </Button>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="inherit"
+                  sx={{ mt: 3, mb: 2 }}
+                >
+                  ログイン
+                </Button>
+              </form>
 
               <Link href="/sign_up">新規登録</Link>
               <Link
