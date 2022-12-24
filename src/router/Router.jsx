@@ -15,11 +15,9 @@ export const Router = (props) => {
 
   // 認証していなかった場合にルーティングを修正
   const Private = (props) => {
-    const { children } = props
-
     if (!loading) {
       if (isSignedIn) {
-        return children
+        return props.component
       } else {
         return <Navigate to="/login" />
       }
