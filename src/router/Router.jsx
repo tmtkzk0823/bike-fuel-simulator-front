@@ -8,7 +8,7 @@ export const Router = (props) => {
     loading,
     setLoading,
     isSignedIn,
-    setIsSignIn,
+    setIsSignedIn,
     currentUser,
     setCurrentUser,
   } = props
@@ -27,12 +27,13 @@ export const Router = (props) => {
   }
 
   return (
+    // 後にjotaを使ってリファクタリングできるか試す
     <AuthContext.Provider
       value={{
         loading,
         setLoading,
         isSignedIn,
-        setIsSignIn,
+        setIsSignedIn,
         currentUser,
         setCurrentUser,
       }}
