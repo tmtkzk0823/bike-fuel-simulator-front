@@ -28,7 +28,7 @@ export const signIn = (userData) => {
   return axios
     .post(signInUrl, userData)
     .then((res) => {
-      return console.log(res)
+      return res
     })
     .catch((e) => console.log(e))
 }

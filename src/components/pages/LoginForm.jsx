@@ -1,8 +1,20 @@
-import { memo } from 'react'
+import { memo, useContext, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+// react-hook-form
+import { useForm, Controller } from 'react-hook-form'
 
 // component
 import { Header } from '../elements/layouts/Header'
 import { Footer } from '../elements/layouts/Footer'
+// hooks
+import { signIn } from '@/apis/auth'
+
+// Cookies
+import Cookies from 'js-cookie'
+// グローバルstate
+import { AuthContext } from '@/App'
+
 // MUI
 import {
   Box,
@@ -15,19 +27,39 @@ import {
 } from '@mui/material'
 import TwitterIcon from '@mui/icons-material/Twitter' // twitter用アイコン
 
-// hooks
-import { signIn } from '@/apis/auth'
-
-// react-hook-form
-import { useForm, Controller } from 'react-hook-form'
-
 export const LoginForm = memo(() => {
-  const { handleSubmit, control, getValues } = useForm()
+  const { setIsSignedIn, setCurrentUser } = useContext(AuthContext)
 
-  const onSubmit = (formData) => {
-    // signIn(formData)
+  const { handleSubmit, control, getValues } = useForm()
+  const afterSignInNavigation = useNavigate()
+
+  const handleOnSignInSubmit = async (formData) => {
     console.log(formData)
+
+    try {
+      const res = await signIn(formData)
+      console.log(res)
+
+      if (res.status === 200) {
+        // 成功した場合はCookieに各値を格納
+        Cookies.set('_access_token', res.headers['access-token'])
+        Cookies.set('_client', res.headers['client'])
+        Cookies.set('_uid', res.headers['uid'])
+
+        setIsSignedIn(true)
+        setCurrentUser(res.data.data)
+
+        afterSignInNavigation('/mypage')
+
+        console.log('Signed in successfully!')
+      } else {
+        console.log('ログイン失敗')
+      }
+    } catch (err) {
+      console.log(err)
+    }
   }
+
   return (
     <>
       <Header />
@@ -76,7 +108,7 @@ export const LoginForm = memo(() => {
                 alignItems: 'center',
               }}
             >
-              <form onSubmit={handleSubmit(onSubmit)}>
+              <form onSubmit={handleSubmit(handleOnSignInSubmit)}>
                 <Stack spacing={3}>
                   <Controller
                     name="email"
