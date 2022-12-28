@@ -4,6 +4,7 @@ import {
   BikeName,
   BikeCruisingDistanceArea,
   BikeSelectArea,
+  BikeAnimationArea,
 } from '@/components/elements/bikes'
 // MUI
 import { Skeleton, Box } from '@mui/material'
@@ -103,14 +104,16 @@ export const Top = () => {
             bikeListDisplacementOver750={bikeListDisplacementOver750}
             bikeCardClickAction={bikeCardClickAction}
           />
-          <BikeName />
-          <BikePicture />
-          <BikeCruisingDistanceArea />
+          <Box>
+            <BikeName />
+            <BikePicture />
+            <BikeCruisingDistanceArea />
+            <BikeAnimationArea />
+          </Box>
         </Box>
 
         <Box
           sx={{
-            height: '100%',
             width: '60vw',
           }}
         >
