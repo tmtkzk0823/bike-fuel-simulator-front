@@ -1,4 +1,14 @@
-import { memo, useState } from 'react'
+import { memo, useContext, useState } from 'react'
+
+// react-router-dom
+import { Link, useNavigate } from 'react-router-dom'
+
+// hooks
+import { signOut } from '@/apis/auth'
+
+// Cookies
+import Cookies from 'js-cookie'
+
 // mui
 import {
   Box,
@@ -9,19 +19,46 @@ import {
   List,
   ListItem,
   ListItemButton,
+  Button,
 } from '@mui/material'
 
 // MUI Icon
 import MenuIcon from '@mui/icons-material/Menu'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import LogoutIcon from '@mui/icons-material/Logout'
 
-//react-router-dom
-import { Link, useNavigate } from 'react-router-dom'
+// グローバルstate
+import { AuthContext } from '@/App'
 
 export const Header = memo(() => {
   const [sideBarOpenFlag, setSideBarOpenFlag] = useState(false)
 
+  const { loading, isSignedIn, setIsSignedIn } = useContext(AuthContext)
+
   const topNavigation = useNavigate()
+  const afterSignOutNavigation = useNavigate()
+
+  const handleSignOut = async (e) => {
+    try {
+      const res = await signOut()
+
+      if (res.data.success === true) {
+        // サインアウト時には各Cookieを削除
+        Cookies.remove('_access_token')
+        Cookies.remove('_client')
+        Cookies.remove('_uid')
+
+        setIsSignedIn(false)
+        afterSignOutNavigation('/login')
+
+        console.log('ログアウトしました')
+      } else {
+        console.log('ログアウト失敗')
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   return (
     <>
@@ -46,6 +83,20 @@ export const Header = memo(() => {
               <AccountCircleIcon />
               <ListItemButton component={Link} to="/login">
                 Login
+              </ListItemButton>
+            </ListItem>
+            <ListItem
+              sx={{
+                color: 'primary.main',
+                fontSize: 20,
+              }}
+            >
+              <LogoutIcon />
+              <ListItemButton
+                component={Button}
+                onClick={() => handleSignOut()}
+              >
+                LogOut
               </ListItemButton>
             </ListItem>
             <ListItem
