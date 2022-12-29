@@ -58,7 +58,7 @@ export const SignUpForm = () => {
           >
             <Typography
               align="center"
-              variant="h4"
+              variant="h3"
               sx={{
                 mb: 3,
               }}
