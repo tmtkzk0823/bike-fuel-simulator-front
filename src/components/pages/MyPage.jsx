@@ -4,7 +4,7 @@ import { Header } from '@/components/elements/layouts/Header'
 import { Footer } from '@/components/elements/layouts/Footer'
 
 // MUI
-import { Box, Card } from '@mui/material'
+import { Box, Card, Typography } from '@mui/material'
 
 //グローバルstate
 import { AuthContext } from '@/App'
@@ -17,6 +17,7 @@ export const MyPage = () => {
       <Box
         sx={{
           minHeight: '90vh',
+          textAlign: 'center',
         }}
       >
         <Box
@@ -30,18 +31,57 @@ export const MyPage = () => {
           <Card
             sx={{
               mt: 0,
-              width: '25%',
+              pb: 5,
+              width: '40%',
               textAlign: 'center',
               borderRadius: 10,
             }}
           >
-            <h1>MyPage</h1>
+            <Typography
+              variant={'h3'}
+              sx={{
+                py: 5,
+              }}
+            >
+              MyPage
+            </Typography>
 
-            {isSignedIn && currentUser
-              ? console.log(currentUser.name)
-              : console.log('ユーザーなし')}
+            {isSignedIn && currentUser ? (
+              <>
+                <img src={currentUser.img} alt={'userImage'} />
+                <Typography
+                  variant={'h6'}
+                  sx={{
+                    my: 2,
+                  }}
+                >
+                  ユーザー名: {currentUser.name}
+                </Typography>
+                <Typography variant={'h6'}>Myバイク: 自分のバイク</Typography>
+              </>
+            ) : (
+              <></>
+            )}
           </Card>
         </Box>
+
+        {/* <Card
+          sx={{
+            mt: 0,
+            pb: 5,
+            width: '40%',
+            borderRadius: 10,
+          }}
+        > */}
+        <Typography
+          variant="h3"
+          sx={{
+            mt: 5,
+          }}
+        >
+          履歴
+        </Typography>
+        {/* </Card> */}
       </Box>
 
       <Footer />
