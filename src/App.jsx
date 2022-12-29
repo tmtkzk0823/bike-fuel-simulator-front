@@ -21,14 +21,13 @@ export const App = () => {
       if (res?.status === 200) {
         // ?.(オプショナルチェーン) nullかundefinedの場合undefinedが返される
         setIsSignedIn(true)
-        setCurrentUser(res?.data.currentUser)
+        setCurrentUser(res?.data.current_user)
       } else {
         console.log('No current user')
       }
     } catch (err) {
       console.log(err)
     }
-
     setLoading(false)
   }
 
