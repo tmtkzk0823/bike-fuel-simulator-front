@@ -85,7 +85,9 @@ export const Header = memo(() => {
                 fontSize: 20,
               }}
             >
-              <ListItemButton>マイページ</ListItemButton>
+              <ListItemButton component={Link} to="/mypage">
+                マイページ
+              </ListItemButton>
             </ListItem>
           </>
         )
