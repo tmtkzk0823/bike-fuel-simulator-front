@@ -48,7 +48,15 @@ export const MyPage = () => {
 
             {isSignedIn && currentUser ? (
               <>
-                <img src={currentUser.img} alt={'userImage'} />
+                <img
+                  src={
+                    currentUser.image
+                      ? currentUser.image
+                      : 'public/images/myPageImageSample.jpg'
+                  }
+                  width="90%"
+                  alt={'userImage'}
+                />
                 <Typography
                   variant={'h6'}
                   sx={{
