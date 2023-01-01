@@ -111,7 +111,7 @@ export const SelectBikeMakerDialog = memo((props) => {
                     }}
                   >
                     <CardActionArea onClick={() => bikeCardClickAction(bike)}>
-                      <img src={bike.image} />
+                      <img src={bike.image} width="90%" />
                       <DialogTitle>{bike.name}</DialogTitle>
                     </CardActionArea>
                   </Card>
@@ -136,7 +136,7 @@ export const SelectBikeMakerDialog = memo((props) => {
                   }}
                 >
                   <CardActionArea onClick={() => bikeCardClickAction(bike)}>
-                    <img src={bike.image} width="200" />
+                    <img src={bike.image} width="90%" />
                     <DialogTitle>{bike.name}</DialogTitle>
                   </CardActionArea>
                 </Card>
@@ -160,7 +160,7 @@ export const SelectBikeMakerDialog = memo((props) => {
                   }}
                 >
                   <CardActionArea onClick={() => bikeCardClickAction(bike)}>
-                    <img src={bike.image} width="200" />
+                    <img src={bike.image} width="90%" />
                     <DialogTitle>{bike.name}</DialogTitle>
                   </CardActionArea>
                 </Card>
@@ -184,7 +184,7 @@ export const SelectBikeMakerDialog = memo((props) => {
                   }}
                 >
                   <CardActionArea onClick={() => bikeCardClickAction(bike)}>
-                    <img src={bike.image} width="200" />
+                    <img src={bike.image} width="90%" />
                     <DialogTitle>{bike.name}</DialogTitle>
                   </CardActionArea>
                 </Card>
@@ -208,7 +208,7 @@ export const SelectBikeMakerDialog = memo((props) => {
                   }}
                 >
                   <CardActionArea onClick={() => bikeCardClickAction(bike)}>
-                    <img src={bike.image} width="200" />
+                    <img src={bike.image} width="90%" />
                     <DialogTitle>{bike.name}</DialogTitle>
                   </CardActionArea>
                 </Card>
@@ -232,7 +232,7 @@ export const SelectBikeMakerDialog = memo((props) => {
                   }}
                 >
                   <CardActionArea onClick={() => bikeCardClickAction(bike)}>
-                    <img src={bike.image} width="200" />
+                    <img src={bike.image} width="90%" />
                     <DialogTitle>{bike.name}</DialogTitle>
                   </CardActionArea>
                 </Card>
