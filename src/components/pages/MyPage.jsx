@@ -1,16 +1,20 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 
+// components
 import { Header } from '@/components/elements/layouts/Header'
 import { Footer } from '@/components/elements/layouts/Footer'
+import { UserEdit } from '@/components/elements/user'
 
 // MUI
-import { Box, Card, Typography } from '@mui/material'
+import { Box, Card, Typography, Button } from '@mui/material'
 
 //グローバルstate
 import { AuthContext } from '@/App'
 
 export const MyPage = () => {
   const { currentUser, isSignedIn } = useContext(AuthContext)
+
+  const [editMyPageFlag, setEditMyPageFlag] = useState(false)
   return (
     <>
       <Header />
@@ -37,35 +41,51 @@ export const MyPage = () => {
               borderRadius: 10,
             }}
           >
-            <Typography
-              variant={'h3'}
-              sx={{
-                py: 5,
-              }}
-            >
-              MyPage
-            </Typography>
+            <Box>
+              <Typography
+                variant={'h3'}
+                sx={{
+                  pt: 5,
+                }}
+              >
+                MyPage
+              </Typography>
+              {!editMyPageFlag && (
+                <Button onClick={() => setEditMyPageFlag(true)}>編集</Button>
+              )}
+            </Box>
 
             {isSignedIn && currentUser ? (
               <>
-                <img
-                  src={
-                    currentUser.image
-                      ? currentUser.image
-                      : 'public/images/myPageImageSample.jpg'
-                  }
-                  width="90%"
-                  alt={'userImage'}
-                />
-                <Typography
-                  variant={'h6'}
-                  sx={{
-                    my: 2,
-                  }}
-                >
-                  ユーザー名: {currentUser.name}
-                </Typography>
-                <Typography variant={'h6'}>Myバイク: 自分のバイク</Typography>
+                {!editMyPageFlag ? (
+                  <>
+                    <img
+                      src={
+                        currentUser.image
+                          ? currentUser.image
+                          : 'public/images/myPageImageSample.jpg'
+                      }
+                      width="90%"
+                      alt={'userImage'}
+                    />
+                    <Typography
+                      variant={'h6'}
+                      sx={{
+                        my: 2,
+                      }}
+                    >
+                      ユーザー名: {currentUser.name}
+                    </Typography>
+                    <Typography variant={'h6'}>
+                      Myバイク: 自分のバイク
+                    </Typography>
+                  </>
+                ) : (
+                  <UserEdit
+                    currentUser={currentUser}
+                    setEditMyPageFlag={setEditMyPageFlag}
+                  />
+                )}
               </>
             ) : (
               <></>
@@ -73,14 +93,6 @@ export const MyPage = () => {
           </Card>
         </Box>
 
-        {/* <Card
-          sx={{
-            mt: 0,
-            pb: 5,
-            width: '40%',
-            borderRadius: 10,
-          }}
-        > */}
         <Typography
           variant="h3"
           sx={{
@@ -89,9 +101,7 @@ export const MyPage = () => {
         >
           履歴
         </Typography>
-        {/* </Card> */}
       </Box>
-
       <Footer />
     </>
   )
