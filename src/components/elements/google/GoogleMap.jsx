@@ -11,8 +11,7 @@ import {
 } from '@react-google-maps/api'
 
 const containerStyle = {
-  width: '60vw',
-  height: '100vh',
+  height: '90vh',
 }
 
 export const GoogleMap = memo((props) => {
