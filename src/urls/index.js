@@ -5,6 +5,7 @@ export const bikesIndex = (manufacturersId) =>
   `${DEFAULT_API_URL}/manufacturers/${manufacturersId}/bikes`
 
 export const signUpUrl = `${DEFAULT_API_URL}/auth`
+export const userUpdateUrl = `${DEFAULT_API_URL}/auth`
 export const signInUrl = `${DEFAULT_API_URL}/auth/sign_in`
 export const signOutUrl = `${DEFAULT_API_URL}/auth/sign_out`
 export const getCurrentUserUrl = `${DEFAULT_API_URL}/auth/sessions`

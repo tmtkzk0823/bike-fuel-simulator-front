@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 
 // components
 import { Header } from '@/components/elements/layouts/Header'
@@ -12,9 +12,15 @@ import { Box, Card, Typography, Button } from '@mui/material'
 import { AuthContext } from '@/App'
 
 export const MyPage = () => {
-  const { currentUser, isSignedIn } = useContext(AuthContext)
+  const { currentUser, isSignedIn, setCurrentUser } = useContext(AuthContext)
 
   const [editMyPageFlag, setEditMyPageFlag] = useState(false)
+  const [userBikes, setUserBikes] = useState([])
+
+  useEffect(() => {
+    console.log(currentUser.id, 'userBikesテーブルから情報を取ってくる処理')
+  })
+
   return (
     <>
       <Header />
@@ -71,19 +77,28 @@ export const MyPage = () => {
                     <Typography
                       variant={'h6'}
                       sx={{
-                        my: 2,
+                        mt: 2,
                       }}
                     >
-                      ユーザー名: {currentUser.name}
+                      ユーザー名
                     </Typography>
-                    <Typography variant={'h6'}>
-                      Myバイク: 自分のバイク
+                    {currentUser.name}
+                    <Typography
+                      variant={'h6'}
+                      sx={{
+                        mt: 2,
+                      }}
+                    >
+                      Myバイク
                     </Typography>
+                    userBikesをmapで回す
                   </>
                 ) : (
                   <UserEdit
                     currentUser={currentUser}
+                    setCurrentUser={setCurrentUser}
                     setEditMyPageFlag={setEditMyPageFlag}
+                    setUserBikes={setUserBikes}
                   />
                 )}
               </>
