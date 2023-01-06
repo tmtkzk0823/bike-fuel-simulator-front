@@ -1,21 +1,30 @@
-// react-hook-form
-import { Button, Stack, TextField, Box } from '@mui/material'
+import { useState } from 'react'
 
+// mui
+import { Button, Stack, TextField, Box, Dialog } from '@mui/material'
+
+// react-hook-form
 import { useForm, Controller } from 'react-hook-form'
 
+// apis
 import { userUpdate } from '@/apis/auth'
+
+//components
+import { SelectMyBikeDialog } from '@/components/elements/dialogs'
 
 export const UserEdit = (props) => {
   const { currentUser, setEditMyPageFlag, setCurrentUser } = props
 
   const { handleSubmit, control } = useForm()
 
+  const [isVisibleMyBikeSelectModal, setIsVisibleMyBikeSelectModal] =
+    useState(false)
+
   const handleOnSignInSubmit = async (updateData) => {
     try {
       const res = await userUpdate(updateData)
       if (res.status === 200) {
         setCurrentUser(res.data.data)
-
         setEditMyPageFlag(false)
         // ここでコンソールがでエラーが発生しているが、https://github.com/reactwg/react-18/discussions/82 この記事でを参照とりあえず保留
         // 挙動に問題なし
@@ -59,6 +68,16 @@ export const UserEdit = (props) => {
               }}
             />
           </Stack>
+
+          <Button
+            variant="contained"
+            onClick={() => setIsVisibleMyBikeSelectModal(true)}
+            sx={{
+              mt: 5,
+            }}
+          >
+            バイクを選ぶ
+          </Button>
         </Box>
 
         <Button
@@ -70,6 +89,10 @@ export const UserEdit = (props) => {
           編集完了
         </Button>
       </form>
+      <SelectMyBikeDialog
+        isVisibleMyBikeSelectModal={isVisibleMyBikeSelectModal}
+        setIsVisibleMyBikeSelectModal={setIsVisibleMyBikeSelectModal}
+      />
     </>
   )
 }
