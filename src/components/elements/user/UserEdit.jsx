@@ -13,7 +13,13 @@ import { userUpdate } from '@/apis/auth'
 import { SelectMyBikeDialog } from '@/components/elements/dialogs'
 
 export const UserEdit = (props) => {
-  const { currentUser, setEditMyPageFlag, setCurrentUser } = props
+  const {
+    currentUser,
+    setEditMyPageFlag,
+    setCurrentUser,
+    myPageManufacturersApiCall,
+    myPageManufacturersIndexData,
+  } = props
 
   const { handleSubmit, control } = useForm()
 
@@ -92,6 +98,8 @@ export const UserEdit = (props) => {
       <SelectMyBikeDialog
         isVisibleMyBikeSelectModal={isVisibleMyBikeSelectModal}
         setIsVisibleMyBikeSelectModal={setIsVisibleMyBikeSelectModal}
+        myPageManufacturersIndexData={myPageManufacturersIndexData}
+        myPageManufacturersApiCall={myPageManufacturersApiCall}
       />
     </>
   )

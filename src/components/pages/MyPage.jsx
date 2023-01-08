@@ -5,6 +5,9 @@ import { Header } from '@/components/elements/layouts/Header'
 import { Footer } from '@/components/elements/layouts/Footer'
 import { UserEdit } from '@/components/elements/user'
 
+//apis
+import { getManufacturersIndex } from '@/apis/getManufacturers'
+
 // MUI
 import { Box, Card, Typography, Button } from '@mui/material'
 
@@ -16,10 +19,25 @@ export const MyPage = () => {
 
   const [editMyPageFlag, setEditMyPageFlag] = useState(false)
   const [userBikes, setUserBikes] = useState([])
+  const [myPageManufacturersIndexData, setMyPageManufacturersIndexData] =
+    useState([])
+  const [myPageManufacturersApiCall, setMyPageManufacturersApiCall] =
+    useState(false)
 
   useEffect(() => {
     console.log(currentUser.id, 'userBikesテーブルから情報を取ってくる処理')
-  })
+
+    getManufacturersIndex().then((data) => {
+      const manufacturers = data.manufacturers.map((manufacturer) => {
+        return {
+          manufacturer_id: manufacturer.id,
+          name: manufacturer.name,
+        }
+      })
+      setMyPageManufacturersIndexData(manufacturers)
+      setMyPageManufacturersApiCall(true)
+    })
+  }, [])
 
   return (
     <>
@@ -99,6 +117,8 @@ export const MyPage = () => {
                     setCurrentUser={setCurrentUser}
                     setEditMyPageFlag={setEditMyPageFlag}
                     setUserBikes={setUserBikes}
+                    myPageManufacturersIndexData={myPageManufacturersIndexData}
+                    myPageManufacturersApiCall={myPageManufacturersApiCall}
                   />
                 )}
               </>
