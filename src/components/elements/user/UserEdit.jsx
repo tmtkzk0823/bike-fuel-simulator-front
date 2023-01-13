@@ -19,6 +19,14 @@ export const UserEdit = (props) => {
     setCurrentUser,
     myPageManufacturersApiCall,
     myPageManufacturersIndexData,
+    isVisibleManufacturersBikeList,
+    getManufacturersBikeList,
+    bikeListDisplacement0To50,
+    bikeListDisplacement51To125,
+    bikeListDisplacement126To250,
+    bikeListDisplacement251To400,
+    bikeListDisplacement401To750,
+    bikeListDisplacementOver750,
   } = props
 
   const { handleSubmit, control } = useForm()
@@ -26,14 +34,15 @@ export const UserEdit = (props) => {
   const [isVisibleMyBikeSelectModal, setIsVisibleMyBikeSelectModal] =
     useState(false)
 
-  const handleOnSignInSubmit = async (updateData) => {
+  const handleOnSignInSubmit = async (updateData, userBikeData) => {
     try {
-      const res = await userUpdate(updateData)
-      if (res.status === 200) {
-        setCurrentUser(res.data.data)
-        setEditMyPageFlag(false)
+      const updateResponse = await userUpdate(updateData)
+      if (updateResponse.status === 200) {
+        setCurrentUser(updateResponse.data.data)
+
         // ここでコンソールがでエラーが発生しているが、https://github.com/reactwg/react-18/discussions/82 この記事でを参照とりあえず保留
         // 挙動に問題なし
+        setEditMyPageFlag(false)
       } else {
         console.log('編集に失敗しました')
       }
@@ -96,10 +105,19 @@ export const UserEdit = (props) => {
         </Button>
       </form>
       <SelectMyBikeDialog
+        currentUser={currentUser}
         isVisibleMyBikeSelectModal={isVisibleMyBikeSelectModal}
         setIsVisibleMyBikeSelectModal={setIsVisibleMyBikeSelectModal}
         myPageManufacturersIndexData={myPageManufacturersIndexData}
         myPageManufacturersApiCall={myPageManufacturersApiCall}
+        isVisibleManufacturersBikeList={isVisibleManufacturersBikeList}
+        getManufacturersBikeList={getManufacturersBikeList}
+        bikeListDisplacement0To50={bikeListDisplacement0To50}
+        bikeListDisplacement51To125={bikeListDisplacement51To125}
+        bikeListDisplacement126To250={bikeListDisplacement126To250}
+        bikeListDisplacement251To400={bikeListDisplacement251To400}
+        bikeListDisplacement401To750={bikeListDisplacement401To750}
+        bikeListDisplacementOver750={bikeListDisplacementOver750}
       />
     </>
   )
