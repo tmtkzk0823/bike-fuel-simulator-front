@@ -5,17 +5,30 @@ import { Header } from '@/components/elements/layouts/Header'
 import { Footer } from '@/components/elements/layouts/Footer'
 import { UserEdit } from '@/components/elements/user'
 
-//apis
-import { getManufacturersIndex } from '@/apis/getManufacturers'
-
 // MUI
 import { Box, Card, Typography, Button } from '@mui/material'
 
+//apis
+import { getManufacturersIndex } from '@/apis/getManufacturers'
+
 //グローバルstate
 import { AuthContext } from '@/App'
+// hooks
+import { useBikeSelect } from '@/hooks/useBikeSelect'
 
 export const MyPage = () => {
   const { currentUser, isSignedIn, setCurrentUser } = useContext(AuthContext)
+
+  const {
+    getManufacturersBikeList,
+    isVisibleManufacturersBikeList,
+    bikeListDisplacement0To50,
+    bikeListDisplacement51To125,
+    bikeListDisplacement126To250,
+    bikeListDisplacement251To400,
+    bikeListDisplacement401To750,
+    bikeListDisplacementOver750,
+  } = useBikeSelect()
 
   const [editMyPageFlag, setEditMyPageFlag] = useState(false)
   const [userBikes, setUserBikes] = useState([])
@@ -119,6 +132,16 @@ export const MyPage = () => {
                     setUserBikes={setUserBikes}
                     myPageManufacturersIndexData={myPageManufacturersIndexData}
                     myPageManufacturersApiCall={myPageManufacturersApiCall}
+                    getManufacturersBikeList={getManufacturersBikeList}
+                    isVisibleManufacturersBikeList={
+                      isVisibleManufacturersBikeList
+                    }
+                    bikeListDisplacement0To50={bikeListDisplacement0To50}
+                    bikeListDisplacement51To125={bikeListDisplacement51To125}
+                    bikeListDisplacement126To250={bikeListDisplacement126To250}
+                    bikeListDisplacement251To400={bikeListDisplacement251To400}
+                    bikeListDisplacement401To750={bikeListDisplacement401To750}
+                    bikeListDisplacementOver750={bikeListDisplacementOver750}
                   />
                 )}
               </>
