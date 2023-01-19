@@ -13,6 +13,7 @@ import {
 export const SelectMyBikeDialog = (props) => {
   const {
     currentUser,
+    setSelectedMyBikeData,
     setIsVisibleMyBikeSelectModal,
     isVisibleMyBikeSelectModal,
     myPageManufacturersIndexData,
@@ -26,6 +27,11 @@ export const SelectMyBikeDialog = (props) => {
     bikeListDisplacement401To750,
     bikeListDisplacementOver750,
   } = props
+
+  const afterSelectMyBikes = (bike) => {
+    setSelectedMyBikeData({ bike_id: bike.id })
+    setIsVisibleMyBikeSelectModal(false)
+  }
 
   return (
     <Dialog
@@ -91,9 +97,7 @@ export const SelectMyBikeDialog = (props) => {
                       textAlign: 'center',
                     }}
                   >
-                    <CardActionArea
-                      onClick={() => console.log(bike, currentUser.id)}
-                    >
+                    <CardActionArea onClick={() => afterSelectMyBikes(bike)}>
                       <img src={bike.image} width="90%" />
                       <DialogTitle>{bike.name}</DialogTitle>
                     </CardActionArea>
@@ -118,7 +122,7 @@ export const SelectMyBikeDialog = (props) => {
                     textAlign: 'center',
                   }}
                 >
-                  <CardActionArea onClick={() => console.log(bike)}>
+                  <CardActionArea onClick={() => afterSelectMyBikes(bike)}>
                     <img src={bike.image} width="90%" />
                     <DialogTitle>{bike.name}</DialogTitle>
                   </CardActionArea>
@@ -142,7 +146,7 @@ export const SelectMyBikeDialog = (props) => {
                     textAlign: 'center',
                   }}
                 >
-                  <CardActionArea onClick={() => console.log(bike)}>
+                  <CardActionArea onClick={() => afterSelectMyBikes(bike)}>
                     <img src={bike.image} width="90%" />
                     <DialogTitle>{bike.name}</DialogTitle>
                   </CardActionArea>
@@ -166,7 +170,7 @@ export const SelectMyBikeDialog = (props) => {
                     textAlign: 'center',
                   }}
                 >
-                  <CardActionArea onClick={() => console.log(bike)}>
+                  <CardActionArea onClick={() => afterSelectMyBikes(bike)}>
                     <img src={bike.image} width="90%" />
                     <DialogTitle>{bike.name}</DialogTitle>
                   </CardActionArea>
@@ -190,7 +194,7 @@ export const SelectMyBikeDialog = (props) => {
                     textAlign: 'center',
                   }}
                 >
-                  <CardActionArea onClick={() => console.log(bike)}>
+                  <CardActionArea onClick={() => afterSelectMyBikes(bike)}>
                     <img src={bike.image} width="90%" />
                     <DialogTitle>{bike.name}</DialogTitle>
                   </CardActionArea>
@@ -214,7 +218,7 @@ export const SelectMyBikeDialog = (props) => {
                     textAlign: 'center',
                   }}
                 >
-                  <CardActionArea onClick={() => console.log(bike)}>
+                  <CardActionArea onClick={() => afterSelectMyBikes(bike)}>
                     <img src={bike.image} width="90%" />
                     <DialogTitle>{bike.name}</DialogTitle>
                   </CardActionArea>
