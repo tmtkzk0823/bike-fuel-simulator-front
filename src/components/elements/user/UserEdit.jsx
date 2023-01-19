@@ -1,7 +1,16 @@
 import { useState } from 'react'
 
 // mui
-import { Button, Stack, TextField, Box, Dialog } from '@mui/material'
+import {
+  Button,
+  Stack,
+  TextField,
+  Box,
+  Typography,
+  Card,
+  CardContent,
+  CardActionArea,
+} from '@mui/material'
 
 // react-hook-form
 import { useForm, Controller } from 'react-hook-form'
@@ -11,16 +20,22 @@ import { userUpdate } from '@/apis/auth'
 
 //components
 import { SelectMyBikeDialog } from '@/components/elements/dialogs'
+import { bikeDataAtom } from '@/jotai/atoms'
 
 export const UserEdit = (props) => {
   const {
     currentUser,
     setEditMyPageFlag,
     setCurrentUser,
+    userBikes,
+    setUserBikes,
+    selectedMyBikeData,
+    setSelectedMyBikeData,
     myPageManufacturersApiCall,
     myPageManufacturersIndexData,
     isVisibleManufacturersBikeList,
     getManufacturersBikeList,
+    createUserBike,
     bikeListDisplacement0To50,
     bikeListDisplacement51To125,
     bikeListDisplacement126To250,
@@ -29,23 +44,46 @@ export const UserEdit = (props) => {
     bikeListDisplacementOver750,
   } = props
 
+  // hooks
   const { handleSubmit, control } = useForm()
 
   const [isVisibleMyBikeSelectModal, setIsVisibleMyBikeSelectModal] =
     useState(false)
 
-  const handleOnSignInSubmit = async (updateData, userBikeData) => {
-    try {
-      const updateResponse = await userUpdate(updateData)
-      if (updateResponse.status === 200) {
-        setCurrentUser(updateResponse.data.data)
+  // 関数
 
-        // ここでコンソールがでエラーが発生しているが、https://github.com/reactwg/react-18/discussions/82 この記事でを参照とりあえず保留
-        // 挙動に問題なし
-        setEditMyPageFlag(false)
+  const processingUpdateUser = async (userData) => {
+    const updateResponse = await userUpdate(userData)
+
+    if (updateResponse.status === 200) {
+      setCurrentUser(updateResponse.data.data)
+      console.log(updateResponse)
+      // ここでコンソールがでエラーが発生しているが、https://github.com/reactwg/react-18/discussions/82 この記事でを参照とりあえず保留
+      // 挙動に問題なし
+    } else {
+      console.log('user情報の編集を失敗しました')
+    }
+  }
+
+  const updateUserBikes = async (bikeData) => {
+    const responseUserBikes = await createUserBike(bikeData)
+    if (responseUserBikes.status === 200) {
+      setUserBikes(responseUserBikes.data)
+    } else {
+      console.log('API通信失敗')
+    }
+  }
+
+  const handleOnEditSubmit = (updateData) => {
+    try {
+      processingUpdateUser(updateData)
+
+      if (selectedMyBikeData) {
+        updateUserBikes(selectedMyBikeData)
       } else {
-        console.log('編集に失敗しました')
+        return
       }
+      setEditMyPageFlag(false)
     } catch (err) {
       console.log(err)
     }
@@ -53,7 +91,7 @@ export const UserEdit = (props) => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(handleOnSignInSubmit)}>
+      <form onSubmit={handleSubmit(handleOnEditSubmit)}>
         <Box
           sx={{
             p: 5,
@@ -82,6 +120,35 @@ export const UserEdit = (props) => {
                 required: '名前は必須項目です',
               }}
             />
+            <Typography> 選択中のバイク </Typography>
+            <Box
+              sx={{
+                width: 'auto',
+                display: 'grid',
+                gridTemplateColumns: 'repeat(3, 1fr)',
+                gap: 3,
+                px: 2,
+              }}
+            >
+              {userBikes ? (
+                userBikes.map((bike) => (
+                  <Card
+                    key={bike.id}
+                    sx={{
+                      alignItems: 'center',
+                      textAlign: 'center',
+                    }}
+                  >
+                    <CardActionArea>
+                      <img src={bike.image} width="90%" />
+                      <CardContent>{bike.name}</CardContent>
+                    </CardActionArea>
+                  </Card>
+                ))
+              ) : (
+                <Typography>バイクを登録していません</Typography>
+              )}
+            </Box>
           </Stack>
 
           <Button
@@ -91,7 +158,7 @@ export const UserEdit = (props) => {
               mt: 5,
             }}
           >
-            バイクを選ぶ
+            バイクを追加する
           </Button>
         </Box>
 
@@ -106,6 +173,7 @@ export const UserEdit = (props) => {
       </form>
       <SelectMyBikeDialog
         currentUser={currentUser}
+        setSelectedMyBikeData={setSelectedMyBikeData}
         isVisibleMyBikeSelectModal={isVisibleMyBikeSelectModal}
         setIsVisibleMyBikeSelectModal={setIsVisibleMyBikeSelectModal}
         myPageManufacturersIndexData={myPageManufacturersIndexData}
