@@ -5,7 +5,7 @@ import { getUserBikesUrl } from '@/urls/index'
 //Cookies
 import Cookies from 'js-cookie'
 
-export const getUsersBikes = () => {
+export const getUserBikes = () => {
   return axios
     .get(getUserBikesUrl, {
       headers: {
