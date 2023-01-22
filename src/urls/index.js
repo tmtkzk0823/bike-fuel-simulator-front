@@ -13,5 +13,8 @@ export const getCurrentUserUrl = `${DEFAULT_API_URL}/auth/sessions`
 
 // mybike登録
 export const createUserBikeUrl = `${DEFAULT_API_URL}/user_bikes`
+// mybike削除
+export const deleteUserBikesUrl = `${DEFAULT_API_URL}/user_bikes`
+
 // 登録済みのバイクを取ってくる
 export const getUserBikesUrl = `${DEFAULT_API_URL}/user_have_bikes`
