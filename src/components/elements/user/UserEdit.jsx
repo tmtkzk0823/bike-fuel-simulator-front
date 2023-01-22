@@ -17,10 +17,10 @@ import { useForm, Controller } from 'react-hook-form'
 
 // apis
 import { userUpdate } from '@/apis/auth'
+import { deleteUserBikes } from '@/apis/deleteUserBikes'
 
 //components
 import { SelectMyBikeDialog } from '@/components/elements/dialogs'
-import { bikeDataAtom } from '@/jotai/atoms'
 
 export const UserEdit = (props) => {
   const {
@@ -71,6 +71,15 @@ export const UserEdit = (props) => {
       setUserBikes(responseUserBikes.data)
     } else {
       console.log('API通信失敗')
+    }
+  }
+
+  const deleteUserBikesAction = (bikeId) => {
+    try {
+      deleteUserBikes(bikeId)
+      setUserBikes(userBikes.filter((bike) => bike.id !== bikeId))
+    } catch (err) {
+      console.log(err)
     }
   }
 
@@ -143,6 +152,12 @@ export const UserEdit = (props) => {
                       <img src={bike.image} width="90%" />
                       <CardContent>{bike.name}</CardContent>
                     </CardActionArea>
+                    <Button
+                      onClick={() => deleteUserBikesAction(bike.id)}
+                      // onClick={() => console.log(currentUser)}
+                    >
+                      削除
+                    </Button>
                   </Card>
                 ))
               ) : (
