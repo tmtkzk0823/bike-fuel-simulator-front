@@ -18,7 +18,7 @@ import {
 //apis
 import { getManufacturersIndex } from '@/apis/getManufacturers'
 import { createUserBike } from '@/apis/createUserBike'
-import { getUsersBikes } from '@/apis/getUsersBikes'
+import { getUserBikes } from '@/apis/getUserBikes'
 
 //グローバルstate
 import { AuthContext } from '@/App'
@@ -48,9 +48,9 @@ export const MyPage = () => {
     useState(false)
 
   useEffect(() => {
-    console.log(currentUser.id, 'userBikesテーブルから情報を取ってくる処理')
+    console.log(currentUser, 'userBikesテーブルから情報を取ってくる処理')
 
-    getUsersBikes().then((data) => {
+    getUserBikes().then((data) => {
       return setUserBikes(data.data)
     })
 
