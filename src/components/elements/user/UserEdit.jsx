@@ -152,10 +152,7 @@ export const UserEdit = (props) => {
                       <img src={bike.image} width="90%" />
                       <CardContent>{bike.name}</CardContent>
                     </CardActionArea>
-                    <Button
-                      onClick={() => deleteUserBikesAction(bike.id)}
-                      // onClick={() => console.log(currentUser)}
-                    >
+                    <Button onClick={() => deleteUserBikesAction(bike.id)}>
                       削除
                     </Button>
                   </Card>
