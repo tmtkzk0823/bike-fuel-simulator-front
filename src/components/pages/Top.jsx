@@ -1,3 +1,6 @@
+// components
+import { Header } from '../elements/layouts/Header'
+import { Footer } from '../elements/layouts/Footer'
 import { GoogleMap, GoogleMapOperationArea } from '@/components/elements/google'
 import {
   BikePicture,
@@ -12,11 +15,9 @@ import { Skeleton, Box } from '@mui/material'
 //api
 import { getManufacturersIndex } from '@/apis/getManufacturers'
 
-// components
+// hooks
 import { useGoogleMap } from '@/hooks/useGoogleMap'
 import { useBikeSelect } from '@/hooks/useBikeSelect'
-import { Header } from '../elements/layouts/Header'
-import { Footer } from '../elements/layouts/Footer'
 
 export const Top = () => {
   const {

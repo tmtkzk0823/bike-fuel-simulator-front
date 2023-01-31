@@ -60,31 +60,11 @@ export const Header = memo(() => {
     }
   }
 
-  return (
-    <>
-      <Drawer
-        anchor="left"
-        open={sideBarOpenFlag}
-        onClose={() => setSideBarOpenFlag(false)}
-      >
-        <Box
-          sx={{
-            width: 250,
-            mt: 5,
-          }}
-        >
-          <List>
-            <ListItem
-              sx={{
-                color: 'primary.main',
-                fontSize: 20,
-              }}
-            >
-              <AccountCircleIcon />
-              <ListItemButton component={Link} to="/login">
-                Login
-              </ListItemButton>
-            </ListItem>
+  const AuthSideBarLists = () => {
+    if (!loading) {
+      if (isSignedIn) {
+        return (
+          <>
             <ListItem
               sx={{
                 color: 'primary.main',
@@ -105,8 +85,45 @@ export const Header = memo(() => {
                 fontSize: 20,
               }}
             >
-              <ListItemButton>マイページ</ListItemButton>
+              <ListItemButton component={Link} to="/mypage">
+                マイページ
+              </ListItemButton>
             </ListItem>
+          </>
+        )
+      } else {
+        return (
+          <ListItem
+            sx={{
+              color: 'primary.main',
+              fontSize: 20,
+            }}
+          >
+            <AccountCircleIcon />
+            <ListItemButton component={Link} to="/login">
+              Login
+            </ListItemButton>
+          </ListItem>
+        )
+      }
+    }
+  }
+
+  return (
+    <>
+      <Drawer
+        anchor="left"
+        open={sideBarOpenFlag}
+        onClose={() => setSideBarOpenFlag(false)}
+      >
+        <Box
+          sx={{
+            width: 250,
+            mt: 5,
+          }}
+        >
+          <List>
+            <AuthSideBarLists />
             <ListItem
               sx={{
                 color: 'primary.main',
@@ -115,6 +132,7 @@ export const Header = memo(() => {
             >
               <ListItemButton>プライバシーポリシー</ListItemButton>
             </ListItem>
+
             <ListItem
               sx={{
                 color: 'primary.main',

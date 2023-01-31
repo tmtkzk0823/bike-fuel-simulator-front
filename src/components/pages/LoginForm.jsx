@@ -1,4 +1,4 @@
-import { memo, useContext, useState } from 'react'
+import { memo, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 // react-hook-form
@@ -20,10 +20,10 @@ import {
   Box,
   Card,
   Button,
-  Divider,
   TextField,
   Link,
   Stack,
+  Typography,
 } from '@mui/material'
 import TwitterIcon from '@mui/icons-material/Twitter' // twitter用アイコン
 
@@ -79,12 +79,20 @@ export const LoginForm = memo(() => {
           <Card
             sx={{
               mt: 0,
-              width: '25%',
+              width: '40%',
               textAlign: 'center',
               borderRadius: 10,
             }}
           >
-            <h2>ログイン</h2>
+            <Typography
+              align="center"
+              variant="h3"
+              sx={{
+                my: 3,
+              }}
+            >
+              ログイン
+            </Typography>
 
             {/* twitterログインは後に実装 */}
             {/* <Button

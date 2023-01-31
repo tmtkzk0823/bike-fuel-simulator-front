@@ -12,6 +12,7 @@ import {
   signInUrl,
   signOutUrl,
   getCurrentUserUrl,
+  userUpdateUrl,
 } from '@/urls/index'
 
 // アカウント作成
@@ -58,4 +59,19 @@ export const getCurrentUser = () => {
       uid: Cookies.get('_uid'),
     },
   })
+}
+
+export const userUpdate = (updateData) => {
+  return axios
+    .put(userUpdateUrl, updateData, {
+      headers: {
+        'access-token': Cookies.get('_access_token'),
+        client: Cookies.get('_client'),
+        uid: Cookies.get('_uid'),
+      },
+    })
+    .then((res) => {
+      return res
+    })
+    .catch((e) => console.log(e))
 }

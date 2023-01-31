@@ -18,10 +18,10 @@ export const useBikeSelect = () => {
     useState(false)
 
   // setterだけ使う
-  const [bikeData, setBakeData] = useAtom(bikeDataAtom)
+  const [bikeData, setBikeData] = useAtom(bikeDataAtom)
 
   const bikeCardClickAction = (bike) => {
-    setBakeData({
+    setBikeData({
       name: bike.name,
       image: bike.image,
       cruisingDistance: bike.cruising_distance,

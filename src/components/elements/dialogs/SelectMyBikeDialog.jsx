@@ -1,57 +1,44 @@
-// MUI
+//mui
 import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogContentText,
   Button,
-  Box,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
   Card,
   CardActionArea,
+  Box,
 } from '@mui/material'
 
-//hooks
-import { memo, useEffect } from 'react'
-
-export const SelectBikeMakerDialog = memo((props) => {
+export const SelectMyBikeDialog = (props) => {
   const {
-    isVisibleBikeSelectModal,
-    setIsVisibleBikeSelectModal,
-    getManufacturersIndex,
-    manufacturersIndexData,
-    setManufacturersIndexData,
-    manufacturersApiCall,
-    setManufacturersApiCall,
-    isVisibleManufacturersBikeList,
+    currentUser,
+    setSelectedMyBikeData,
+    setIsVisibleMyBikeSelectModal,
+    isVisibleMyBikeSelectModal,
+    myPageManufacturersIndexData,
+    myPageManufacturersApiCall,
     getManufacturersBikeList,
+    isVisibleManufacturersBikeList,
     bikeListDisplacement0To50,
     bikeListDisplacement51To125,
     bikeListDisplacement126To250,
     bikeListDisplacement251To400,
     bikeListDisplacement401To750,
     bikeListDisplacementOver750,
-    bikeCardClickAction,
   } = props
 
-  useEffect(() => {
-    getManufacturersIndex().then((data) => {
-      const manufacturers = data.manufacturers.map((manufacturer) => {
-        return {
-          manufacturer_id: manufacturer.id,
-          name: manufacturer.name,
-        }
-      })
-      setManufacturersIndexData(manufacturers)
-      setManufacturersApiCall(true)
-    })
-  }, [])
+  const afterSelectMyBikes = (bike) => {
+    setSelectedMyBikeData({ bike_id: bike.id })
+    setIsVisibleMyBikeSelectModal(false)
+  }
 
   return (
     <Dialog
-      open={isVisibleBikeSelectModal}
+      open={isVisibleMyBikeSelectModal}
       maxWidth={'lg'}
       fullWidth={true}
-      onClose={() => setIsVisibleBikeSelectModal(false)}
+      onClose={() => setIsVisibleMyBikeSelectModal(false)}
     >
       <DialogTitle
         sx={{
@@ -70,8 +57,8 @@ export const SelectBikeMakerDialog = memo((props) => {
             gap: 3,
           }}
         >
-          {manufacturersApiCall ? (
-            manufacturersIndexData.map((manufacturersIndex) => (
+          {myPageManufacturersApiCall ? (
+            myPageManufacturersIndexData.map((manufacturersIndex) => (
               <Button
                 key={manufacturersIndex.manufacturer_id}
                 onClick={() =>
@@ -110,7 +97,7 @@ export const SelectBikeMakerDialog = memo((props) => {
                       textAlign: 'center',
                     }}
                   >
-                    <CardActionArea onClick={() => bikeCardClickAction(bike)}>
+                    <CardActionArea onClick={() => afterSelectMyBikes(bike)}>
                       <img src={bike.image} width="90%" />
                       <DialogTitle>{bike.name}</DialogTitle>
                     </CardActionArea>
@@ -135,7 +122,7 @@ export const SelectBikeMakerDialog = memo((props) => {
                     textAlign: 'center',
                   }}
                 >
-                  <CardActionArea onClick={() => bikeCardClickAction(bike)}>
+                  <CardActionArea onClick={() => afterSelectMyBikes(bike)}>
                     <img src={bike.image} width="90%" />
                     <DialogTitle>{bike.name}</DialogTitle>
                   </CardActionArea>
@@ -159,7 +146,7 @@ export const SelectBikeMakerDialog = memo((props) => {
                     textAlign: 'center',
                   }}
                 >
-                  <CardActionArea onClick={() => bikeCardClickAction(bike)}>
+                  <CardActionArea onClick={() => afterSelectMyBikes(bike)}>
                     <img src={bike.image} width="90%" />
                     <DialogTitle>{bike.name}</DialogTitle>
                   </CardActionArea>
@@ -183,7 +170,7 @@ export const SelectBikeMakerDialog = memo((props) => {
                     textAlign: 'center',
                   }}
                 >
-                  <CardActionArea onClick={() => bikeCardClickAction(bike)}>
+                  <CardActionArea onClick={() => afterSelectMyBikes(bike)}>
                     <img src={bike.image} width="90%" />
                     <DialogTitle>{bike.name}</DialogTitle>
                   </CardActionArea>
@@ -207,7 +194,7 @@ export const SelectBikeMakerDialog = memo((props) => {
                     textAlign: 'center',
                   }}
                 >
-                  <CardActionArea onClick={() => bikeCardClickAction(bike)}>
+                  <CardActionArea onClick={() => afterSelectMyBikes(bike)}>
                     <img src={bike.image} width="90%" />
                     <DialogTitle>{bike.name}</DialogTitle>
                   </CardActionArea>
@@ -231,7 +218,7 @@ export const SelectBikeMakerDialog = memo((props) => {
                     textAlign: 'center',
                   }}
                 >
-                  <CardActionArea onClick={() => bikeCardClickAction(bike)}>
+                  <CardActionArea onClick={() => afterSelectMyBikes(bike)}>
                     <img src={bike.image} width="90%" />
                     <DialogTitle>{bike.name}</DialogTitle>
                   </CardActionArea>
@@ -243,6 +230,10 @@ export const SelectBikeMakerDialog = memo((props) => {
           <p>バイクのメーカーを選択してください</p>
         )}
       </DialogContent>
+
+      <Button onClick={() => setIsVisibleMyBikeSelectModal(false)}>
+        閉じる
+      </Button>
     </Dialog>
   )
-})
+}
